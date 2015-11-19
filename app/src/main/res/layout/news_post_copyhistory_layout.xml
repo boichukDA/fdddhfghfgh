@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ExpandableTextView="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ru.diaproject.vkplus.news.views.NewsHeaderView
+            android:id="@+id/news_post_copy_history_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"/>
+
+        <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+            android:id="@+id/news_copy_history_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ExpandableTextView:expandText="@string/news_post_full_text"
+            ExpandableTextView:collapseColor="@color/m_indigo"
+            ExpandableTextView:collapseText="@string/news_post_collapse_text"
+            ExpandableTextView:maxLines="10"/>
+
+        <ru.diaproject.vkplus.news.views.NewsPostAttachmentContainer
+            android:id="@+id/news_copy_history_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"/>
+    </LinearLayout>

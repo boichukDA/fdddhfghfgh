@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="progress_text">Загрузка...</string>
+    <string name="already_authorizate">You are already authorizate</string>
+    <string name="need_internet_connection">Need internet connection</string>
+    <string name="news">News</string>
+
+    <string name="all">Лента</string>
+    <string name="recomended">Рекомендации</string>
+    <string name="photo">Фото</string>
+    <string name="video">Видео</string>
+    <string name="friend">Друзья</string>
+    <string name="search">Поиск</string>
+    <string name="audio">Музыка</string>
+    <string name="note">Заметки</string>
+    <string name="like">Понравилось</string>
+
+    <string name="just_now">только что</string>
+    <string name="news_today_at">сегодня в</string>
+    <string name="news_yesterday_at">вчера в</string>
+    <string name="news_date_pattern">d MMM в HH:mm</string>
+    <string name="news_date_year_pattern">d MMM yyyy</string>
+    <string name="news_photo_update_man">обновил фотографию на странице</string>
+    <string name="news_photo_update_woman">обновила фотографию на странице</string>
+    <string name="ellipsis">показать полностью</string>
+    <string name="news_post_full_text">Показать полностью</string>
+    <string name="news_post_collapse_text">Свернуть</string>
+    <string name="drawer_item_my_friends">Мои Друзья</string>
+    <string name="drawer_item_my_photo">Мои Фотографии</string>
+    <string name="drawer_item_my_video">Мои Видеозаписи</string>
+    <string name="drawer_item_my_audio">Мои Аудиозаписи</string>
+    <string name="drawer_item_my_messages">Мои Сообщения</string>
+    <string name="drawer_item_my_group">Мои Группы</string>
+    <string name="drawer_item_my_news">Мои Новости</string>
+    <string name="main_string_of">из</string>
+
+    <string-array name="news_varians">
+        <item>@string/all</item>
+        <item>@string/recomended</item>
+        <item>@string/photo</item>
+        <item>@string/video</item>
+        <item>@string/friend</item>
+        <item>@string/audio</item>
+        <item>@string/note</item>
+        <item>@string/like</item>
+    </string-array>
+
+    <plurals name="news_minutes_variants">
+        <item quantity="zero">%d минут назад</item>
+        <item quantity="one">минуту назад</item>
+        <item quantity="few">%d минуты назад</item>
+        <item quantity="many">%d минут назад</item>
+        <item quantity="other">%d минут назад</item>
+    </plurals>
+
+    <plurals name="news_hour_variants">
+        <item quantity="zero">%d часов назад</item>
+        <item quantity="one">час назад</item>
+        <item quantity="few">%d часа назад</item>
+        <item quantity="many">%d часов назад</item>
+        <item quantity="other">%d часов назад</item>
+    </plurals>
+
+    <plurals name="news_photo_count_variants">
+        <item quantity="zero">еще %d фотографий</item>
+        <item quantity="one">еще одна фотография</item>
+        <item quantity="few">еще %d фотографии</item>
+        <item quantity="many">еще %d фотографий</item>
+        <item quantity="other">еще %d фотографий</item>
+    </plurals>
+
+    <plurals name="news_marked_text_man">
+        <item quantity="zero">был отмечен на фотографии</item>
+        <item quantity="one">был отмечен на фотографии</item>
+        <item quantity="few">был отмечен на фотографиях</item>
+        <item quantity="many">был отмечен на фотографиях</item>
+        <item quantity="other">был отмечен на фотографиях</item>
+    </plurals>
+
+    <plurals name="news_marked_text_woman">
+        <item quantity="zero">была отмечен на фотографии</item>
+        <item quantity="one">была отмечен на фотографии</item>
+        <item quantity="few">была отмечен на фотографиях</item>
+        <item quantity="many">была отмечен на фотографиях</item>
+        <item quantity="other">была отмечен на фотографиях</item>
+    </plurals>
+
+    <plurals name="news_friend_add_variant_woman">
+        <item quantity="zero">добавила в друзья одного человека</item>
+        <item quantity="one">добавила в друзья одного человека</item>
+        <item quantity="few">добавила в друзья %d человека</item>
+        <item quantity="many">добавила в друзья %d человек</item>
+        <item quantity="other">добавила в друзья %d человек</item>
+    </plurals>
+
+    <plurals name="news_friend_add_variant_man">
+        <item quantity="zero">добавил в друзья одного человека</item>
+        <item quantity="one">добавил в друзья одного человека</item>
+        <item quantity="few">добавил в друзья %d человека</item>
+        <item quantity="many">добавил в друзья %d человек</item>
+        <item quantity="other">добавил в друзья %d человек</item>
+    </plurals>
+</resources>

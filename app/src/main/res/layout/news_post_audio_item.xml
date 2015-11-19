@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:RobotoTextView="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:weightSum="10">
+    <ru.diaproject.ui.circularimageview.CircularImageView
+        android:id="@+id/news_post_audio_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="10dp"
+        android:layout_weight="7">
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/news_post_audio_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_black_1000"
+            android:textSize="14sp"
+            RobotoTextView:fontFamily="roboto"
+            RobotoTextView:textWeight="light"
+            RobotoTextView:typeface="roboto_regular"
+            android:singleLine="true"
+            android:lines="1" />
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/news_post_audio_song"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            RobotoTextView:fontFamily="roboto"
+            RobotoTextView:textWeight="light"
+            RobotoTextView:typeface="roboto_regular"
+            android:singleLine="true"
+            android:lines="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="3"
+        android:gravity="center_vertical|right">
+        <TextView
+            android:id="@+id/news_post_audio_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:lines="1"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginRight="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

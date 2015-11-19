@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/DiskLruCache/DiskLruCache.iml" filepath="$PROJECT_DIR$/libraries/third-party/DiskLruCache/DiskLruCache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/FontAwesome/FontAwesome.iml" filepath="$PROJECT_DIR$/libraries/third-party/FontAwesome/FontAwesome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/GifDecoder/GifDecoder.iml" filepath="$PROJECT_DIR$/libraries/third-party/GifDecoder/GifDecoder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Glide/Glide.iml" filepath="$PROJECT_DIR$/libraries/third-party/Glide/Glide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Iconics/Iconics.iml" filepath="$PROJECT_DIR$/libraries/third-party/Iconics/Iconics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/MaterialDrawer/MaterialDrawer.iml" filepath="$PROJECT_DIR$/libraries/third-party/MaterialDrawer/MaterialDrawer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Materialize/Materialize.iml" filepath="$PROJECT_DIR$/libraries/third-party/Materialize/Materialize.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/RobototextView/RobototextView.iml" filepath="$PROJECT_DIR$/libraries/third-party/RobototextView/RobototextView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/SwipyRefreshLayout/SwipyRefreshLayout.iml" filepath="$PROJECT_DIR$/libraries/third-party/SwipyRefreshLayout/SwipyRefreshLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/materialUI/circularimageview/circularimageview.iml" filepath="$PROJECT_DIR$/libraries/materialUI/circularimageview/circularimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vkplus.iml" filepath="$PROJECT_DIR$/vkplus.iml" />
+    </modules>
+  </component>
+</project>
