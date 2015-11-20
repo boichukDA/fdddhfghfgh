@@ -50,26 +50,19 @@ public class NewsHeaderView extends LinearLayout {
             case 0:
                 Glide.with(getContext())
                         .load(avatarUrl)
-                        //.placeholder(R.drawable.group_silhouette)
-                        //.error(R.drawable.picture_placeholder)
                         .into(avatar);
                 break;
             case 1:
 
                 Glide.with(getContext())
                         .load(avatarUrl)
-                        //.placeholder(R.drawable.woman_silhouette)
-                        //.error(R.drawable.picture_placeholder)
                         .into(avatar);
                 break;
             default:
 
                 Glide.with(getContext())
                         .load(avatarUrl)
-                        //.placeholder(R.drawable.man_siluette)
-                       // .error(R.drawable.picture_placeholder)
                         .into(avatar);
-
                 break;
         }
 

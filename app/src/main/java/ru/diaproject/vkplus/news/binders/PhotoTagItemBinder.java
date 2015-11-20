@@ -60,22 +60,16 @@ public class PhotoTagItemBinder extends DataBinder<PhotoTagItemViewHolder> {
             case 0:
                 Glide.with(parent)
                         .load(imageUrl)
-                        .placeholder(R.drawable.group_silhouette)
-                        .error(R.drawable.group_silhouette)
                         .into(holder.avatar);
                 break;
             case 1:
                 Glide.with(parent)
                         .load(imageUrl)
-                        .placeholder(R.drawable.woman_silhouette)
-                        .error(R.drawable.woman_silhouette)
                         .into(holder.avatar);
                 break;
             default:
                 Glide.with(parent)
                         .load(imageUrl)
-                        .placeholder(R.drawable.man_siluette)
-                        .error(R.drawable.man_siluette)
                         .into(holder.avatar);
                 break;
         }

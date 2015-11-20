@@ -60,15 +60,11 @@ public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
             case 0:
                 Glide.with(parent)
                         .load(imageUrl)
-                        .placeholder(R.drawable.group_silhouette)
-                        .error(R.drawable.group_silhouette)
                         .into(holder.avatar);
                 break;
             case 1:
                 Glide.with(parent)
                         .load(imageUrl)
-                        .placeholder(R.drawable.woman_silhouette)
-                        .error(R.drawable.woman_silhouette)
                         .into(holder.avatar);
                 break;
             default:
