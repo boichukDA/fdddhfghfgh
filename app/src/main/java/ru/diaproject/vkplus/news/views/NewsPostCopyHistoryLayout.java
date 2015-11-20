@@ -81,19 +81,23 @@ public class NewsPostCopyHistoryLayout extends LinearLayout{
                     copyImageUrl = group.getPhoto100();
                 }
 
+                final Byte finalCopySex = copySex;
+                final String finalCopyImageUrl = copyImageUrl;
+                final String finalCopyText = copyText;
                 ((Activity)getContext()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         if (history.getText() == null || "".equals(history.getText()))
                             copyTextView.setVisibility(View.GONE);
                         else {
                             copyTextView.setText(history.getText(),mCollapsedStatus, position);
                             copyTextView.setVisibility(View.VISIBLE);
                         }
+
+                        copyHistoryHeader.setData(finalCopyText, finalCopyImageUrl, history.getDate(), finalCopySex);
                     }
                 });
-
-                copyHistoryHeader.setData(copyText, copyImageUrl, history.getDate(), copySex);
 
 
                 if (history.getAttachments()!= null) {
@@ -141,8 +145,11 @@ public class NewsPostCopyHistoryLayout extends LinearLayout{
         });
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
+        if (copyHistoryHeader != null)
+            copyHistoryHeader.clear();
+
         if (attachmentCopyHistoryContainer!= null)
-            attachmentCopyHistoryContainer.clear(newsPagerCardFragment);
+            attachmentCopyHistoryContainer.clear();
     }
 }

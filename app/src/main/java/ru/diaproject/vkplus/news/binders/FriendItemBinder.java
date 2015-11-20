@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.request.BaseRequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,28 +64,31 @@ public class FriendItemBinder extends DataBinder<FriendItemViewHolder> {
             imageUrl = group.getPhoto100();
         }
 
-        BaseRequestOptions opt = new BaseRequestOptions() {
-        };
         switch(sex){
             case 0:
-                opt.placeholder(R.drawable.group_silhouette);
-                opt.error(R.drawable.group_silhouette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.group_silhouette)
+                        .error(R.drawable.group_silhouette)
+                        .into(holder.avatar);
                 break;
             case 1:
-                opt.placeholder(R.drawable.woman_silhouette);
-                opt.error(R.drawable.woman_silhouette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.woman_silhouette)
+                        .error(R.drawable.woman_silhouette)
+                        .into(holder.avatar);
                 break;
             default:
-                opt.placeholder(R.drawable.man_siluette);
-                opt.error(R.drawable.man_siluette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.man_siluette)
+                        .error(R.drawable.man_siluette)
+                        .into(holder.avatar);
                 break;
         }
 
         holder.name.setText(text);
-        Glide.with(parent)
-                .load(imageUrl)
-                .apply(opt)
-                .into(holder.avatar);
 
         holder.date.setTextColor(
                 ColorUtils.setColorAlpha(

@@ -38,9 +38,12 @@ public class PhotoItemViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
+        if (avatar!=null)
+            Glide.clear(avatar);
+
         if (photoViewContainer!=null)
-            photoViewContainer.clear(newsPagerCardFragment);
+            photoViewContainer.clear();
 
     }
 }

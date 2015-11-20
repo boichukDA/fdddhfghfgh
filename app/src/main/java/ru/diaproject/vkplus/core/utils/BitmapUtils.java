@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.BaseRequestOptions;
 
 import java.util.concurrent.ExecutionException;
 
@@ -21,16 +20,6 @@ import ru.diaproject.vkplus.R;
 
 
 public class BitmapUtils {
-    private static BaseRequestOptions pictureOptions;
-    static{
-        pictureOptions = new BaseRequestOptions() {
-        };
-
-        pictureOptions.format(DecodeFormat.PREFER_RGB_565);
-        pictureOptions.placeholder(R.drawable.picture_placeholder);
-        pictureOptions.error(R.drawable.picture_placeholder);
-    }
-
     public static Bitmap appyColorFilterForResource(Context context, int resourceId,@ColorRes int color,  PorterDuff.Mode mode ){
         Bitmap immutable = BitmapFactory.decodeResource(context.getResources(), resourceId);
         final Bitmap mutable = immutable.copy(Bitmap.Config.ARGB_8888, true);
@@ -44,10 +33,10 @@ public class BitmapUtils {
     public static Bitmap loadBitmap(String url, Context context){
         Bitmap bitmap = null;
         try {
-              bitmap = Glide.with(context)
-                    .asBitmap()
-                    .load(url)
-                    .apply(pictureOptions).submit().get();
+              bitmap = Glide.with(context).load(url).asBitmap()
+                      .error(R.drawable.picture_placeholder)
+                      .placeholder(R.drawable.picture_placeholder)
+                      .format(DecodeFormat.PREFER_RGB_565).into(-1, -1).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

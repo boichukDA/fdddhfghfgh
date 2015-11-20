@@ -34,6 +34,6 @@ public class PhotoViewerAdapter extends FragmentPagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
         PhotoViewerItemFragment fragment = (PhotoViewerItemFragment) object;
-        Glide.with(fragment).clear(fragment.getImageView());
+        Glide.clear(fragment.getImageView());
     }
 }

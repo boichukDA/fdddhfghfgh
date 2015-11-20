@@ -2,13 +2,7 @@ package ru.diaproject.vkplus.news.binders;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -82,7 +76,16 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                     imageUrl = group.getPhoto100();
                 }
 
-                holder.header.setData(text, imageUrl, entity.getDate(), sex);
+                final String finalText = text;
+                final String finalImageUrl = imageUrl;
+                final Byte finalSex1 = sex;
+
+                ((Activity)parent.getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        holder.header.setData(finalText, finalImageUrl, entity.getDate(), finalSex1);
+                    }
+                });
 
                 ((Activity)parent.getContext()).runOnUiThread(new Runnable(){
                     @Override
@@ -103,7 +106,7 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                         if (entity.getPostSourceInfo() != null
                                 && parent.getContext().getString(R.string.news_post_profile_photo).equals(entity.getPostSourceInfo().getData())) {
                             holder.mainText.setVisibility(View.VISIBLE);
-                            if (finalSex.equals(new Byte("2")))
+                            if (finalSex.equals(Byte.valueOf("2")))
                                 holder.mainText.setText(parent.getString(R.string.news_photo_update_man));
                             else
                                 holder.mainText.setText(parent.getString(R.string.news_photo_update_woman));
@@ -121,7 +124,7 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                           public void run() {
                               holder.attachmentContainer.setVisibility(View.VISIBLE);
                               holder.attachmentContainer.setPhotos(photos, entity.getSourceId(),
-                                      entity.getDate(), ((NewsPagerCardFragment)parent).getUser());
+                                      entity.getDate(), (parent).getUser());
                           }
                       });
 

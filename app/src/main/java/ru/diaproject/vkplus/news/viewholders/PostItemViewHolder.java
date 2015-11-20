@@ -10,9 +10,7 @@ import com.devspark.robototextview.widget.RobotoTextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import ru.diaproject.ui.circularimageview.CircularImageView;
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.views.NewsHeaderView;
 import ru.diaproject.vkplus.news.views.NewsPostAttachmentContainer;
 import ru.diaproject.vkplus.news.views.NewsPostCopyHistoryLayout;
@@ -72,14 +70,17 @@ public class PostItemViewHolder extends RecyclerView.ViewHolder{
         ButterKnife.bind(this, itemView);
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
+        if (header!= null)
+            header.clear();
+
         if (attachmentContainer != null)
-            attachmentContainer.clear(newsPagerCardFragment);
+            attachmentContainer.clear();
 
         if (firstCopyHistory!= null)
-            firstCopyHistory.clear(newsPagerCardFragment);
+            firstCopyHistory.clear();
 
         if (secondCopyHistory!= null)
-            secondCopyHistory.clear(newsPagerCardFragment);
+            secondCopyHistory.clear();
     }
 }

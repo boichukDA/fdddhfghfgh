@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.BaseRequestOptions;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
@@ -57,27 +56,30 @@ public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
             text = group.getName();
             imageUrl = group.getPhoto100();
         }
-        BaseRequestOptions opt = new BaseRequestOptions() {
-        };
         switch(sex){
             case 0:
-                opt.placeholder(R.drawable.group_silhouette);
-                opt.error(R.drawable.group_silhouette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.group_silhouette)
+                        .error(R.drawable.group_silhouette)
+                        .into(holder.avatar);
                 break;
             case 1:
-                opt.placeholder(R.drawable.woman_silhouette);
-                opt.error(R.drawable.woman_silhouette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.woman_silhouette)
+                        .error(R.drawable.woman_silhouette)
+                        .into(holder.avatar);
                 break;
             default:
-                opt.placeholder(R.drawable.man_siluette);
-                opt.error(R.drawable.man_siluette);
+                Glide.with(parent)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.man_siluette)
+                        .error(R.drawable.man_siluette)
+                        .into(holder.avatar);
                 break;
         }
         holder.name.setText(text);
-        Glide.with(parent)
-                .load(imageUrl)
-                .apply(opt)
-                .into(holder.avatar);
 
         holder.date.setTextColor(
                 ColorUtils.setColorAlpha(
@@ -95,14 +97,7 @@ public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
         else holder.photoCount.setVisibility(View.GONE);
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount() - 7, photos.getCount() - 7));
-
-        BaseRequestOptions pictureOptions = new BaseRequestOptions() {
-        };
-
-        pictureOptions.format(DecodeFormat.PREFER_RGB_565);
-        pictureOptions.placeholder(R.drawable.picture_placeholder);
-        pictureOptions.error(R.drawable.picture_placeholder);
-
         holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), ((NewsPagerCardFragment)parent).getUser());
     }
+
 }

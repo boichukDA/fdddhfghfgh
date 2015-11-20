@@ -32,7 +32,6 @@ public class VKPlusApplication extends Application {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        Glide.get(this).onTrimMemory(level);
         Log.e("TRIM", "TRIM");
     }
 }

@@ -4,20 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,18 +23,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.devspark.robototextview.widget.RobotoExpandableTextView;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.core.utils.Utils;
 import ru.diaproject.vkplus.vkcore.VK;
 
 public class RobotoImageExpandableTextView extends RobotoExpandableTextView {
@@ -105,7 +94,7 @@ public class RobotoImageExpandableTextView extends RobotoExpandableTextView {
                }else if (toConvert.size()>2){
                    String url = VK.SINGLETON.getIconUrl()+getResourceString(toConvert);
                    try {
-                         Bitmap icon = Glide.with(getContext()).asBitmap().load(url).submit().get();
+                         Bitmap icon = Glide.with(getContext()).load(url).asBitmap().into(-1,-1).get();
                          newSpan = new ImageSpan(getContext(), icon);
                          spannable.setSpan(newSpan, startIndex, endIndex, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                    } catch (Throwable e) {
@@ -120,7 +109,7 @@ public class RobotoImageExpandableTextView extends RobotoExpandableTextView {
     private boolean notSetSingle(List<Integer> toConvert, SpannableStringBuilder spannable, int startIndex, int endIndex) {
         String firstImageUrl = VK.SINGLETON.getIconUrl() + getResourceString(toConvert.get(0), toConvert.get(1));
     try {
-        Bitmap icon = Glide.with(getContext()).asBitmap().load(firstImageUrl).submit().get();
+        Bitmap icon =  Glide.with(getContext()).load(firstImageUrl).asBitmap().into(-1, -1).get();
         ImageSpan newSpan = new ImageSpan(getContext(), icon);
         spannable.setSpan(newSpan, startIndex, endIndex, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return true;

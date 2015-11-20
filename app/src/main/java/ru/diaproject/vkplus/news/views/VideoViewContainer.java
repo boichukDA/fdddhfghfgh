@@ -110,24 +110,24 @@ public class VideoViewContainer extends LinearLayout {
         }
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
         if (main!=null)
-            main.clear(newsPagerCardFragment);
+            main.clear();
 
         if (main!=null)
-            mainSecond.clear(newsPagerCardFragment);
+            mainSecond.clear();
 
         if (first!=null)
-            first.clear(newsPagerCardFragment);
+            first.clear();
 
         if (second!=null)
-            second.clear(newsPagerCardFragment);
+            second.clear();
 
         if (third!=null)
-            third.clear(newsPagerCardFragment);
+            third.clear();
 
         if (fourth!=null)
-            fourth.clear(newsPagerCardFragment);
+            fourth.clear();
     }
 
     private void setDataToMainView (NewsVideoItemLayout view, VideoInfo info){

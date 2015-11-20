@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.BaseRequestOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,7 +21,6 @@ import ru.diaproject.ui.circularimageview.CircularImageView;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.DateUtils;
-import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 
 public class NewsAudioItemLayout extends LinearLayout{
     @Bind(R.id.news_post_audio_icon)
@@ -37,8 +34,6 @@ public class NewsAudioItemLayout extends LinearLayout{
 
     @Bind(R.id.news_post_audio_duration)
     TextView duration;
-
-    BaseRequestOptions pictureOptions;
 
     public NewsAudioItemLayout(Context context) {
         super(context);
@@ -54,16 +49,10 @@ public class NewsAudioItemLayout extends LinearLayout{
         LayoutInflater.from(getContext()).inflate(R.layout.news_post_audio_item, this, true);
         ButterKnife.bind(this);
 
-        pictureOptions = new BaseRequestOptions() {
-        };
-
-        pictureOptions.format(DecodeFormat.PREFER_RGB_565);
-        pictureOptions.placeholder(R.drawable.picture_placeholder);
-        pictureOptions.error(R.drawable.picture_placeholder);
         setOrientation(HORIZONTAL);
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
     }
 
     public void setData(String author, String song, Integer duration){

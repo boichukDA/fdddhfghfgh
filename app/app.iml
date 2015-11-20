@@ -98,13 +98,13 @@
     <orderEntry type="library" exported="" name="systembartint-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.6.1" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.5" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
-    <orderEntry type="module" module-name="Glide" exported="" />
     <orderEntry type="module" module-name="RobototextView" exported="" />
     <orderEntry type="module" module-name="circularimageview" exported="" />
     <orderEntry type="module" module-name="MaterialDrawer" exported="" />

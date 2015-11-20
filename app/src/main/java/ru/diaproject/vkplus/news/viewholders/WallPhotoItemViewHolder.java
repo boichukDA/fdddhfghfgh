@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import butterknife.Bind;
@@ -37,8 +38,11 @@ public class WallPhotoItemViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
+        if (avatar!=null)
+            Glide.clear(avatar);
+
         if (photoViewContainer!=null)
-            photoViewContainer.clear(newsPagerCardFragment);
+            photoViewContainer.clear();
     }
 }

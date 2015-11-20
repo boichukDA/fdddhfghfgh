@@ -3,6 +3,7 @@ package ru.diaproject.vkplus.news.viewholders;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import butterknife.Bind;
@@ -30,5 +31,9 @@ public class FriendItemViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         ButterKnife.bind(this, itemView);
 
+    }
+
+    public void clear() {
+        Glide.clear(avatar);
     }
 }

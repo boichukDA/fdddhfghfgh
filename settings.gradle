@@ -1,4 +1,4 @@
-include ':app', ':circularimageview', ':Materialize', ':Iconics', ':MaterialDrawer', ':FontAwesome', ':SwipyRefreshLayout', ':RobototextView', ':Glide', ':GifDecoder', ':DiskLruCache'
+include ':app', ':circularimageview', ':Materialize', ':Iconics', ':MaterialDrawer', ':FontAwesome', ':SwipyRefreshLayout', ':RobototextView', ':GifDecoder', ':DiskLruCache'
 project(':circularimageview').projectDir = new File('libraries/materialUI/circularimageview')
 project(':Materialize').projectDir = new File('libraries/third-party/Materialize')
 project(':Iconics').projectDir = new File('libraries/third-party/Iconics')
@@ -8,4 +8,3 @@ project(':SwipyRefreshLayout').projectDir = new File('libraries/third-party/Swip
 project(':RobototextView').projectDir = new File('libraries/third-party/RobototextView')
 project(':GifDecoder').projectDir = new File('libraries/third-party/GifDecoder')
 project(':DiskLruCache').projectDir = new File('libraries/third-party/DiskLruCache')
-project(':Glide').projectDir = new File('libraries/third-party/Glide')

@@ -21,7 +21,7 @@ public class AudioViewContainer extends LinearLayout{
         super(context, attrs);
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
         removeAllViews();
     }
 

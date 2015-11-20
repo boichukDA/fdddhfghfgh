@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/DiskLruCache/DiskLruCache.iml" filepath="$PROJECT_DIR$/libraries/third-party/DiskLruCache/DiskLruCache.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/FontAwesome/FontAwesome.iml" filepath="$PROJECT_DIR$/libraries/third-party/FontAwesome/FontAwesome.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/GifDecoder/GifDecoder.iml" filepath="$PROJECT_DIR$/libraries/third-party/GifDecoder/GifDecoder.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Glide/Glide.iml" filepath="$PROJECT_DIR$/libraries/third-party/Glide/Glide.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Iconics/Iconics.iml" filepath="$PROJECT_DIR$/libraries/third-party/Iconics/Iconics.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/MaterialDrawer/MaterialDrawer.iml" filepath="$PROJECT_DIR$/libraries/third-party/MaterialDrawer/MaterialDrawer.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/third-party/Materialize/Materialize.iml" filepath="$PROJECT_DIR$/libraries/third-party/Materialize/Materialize.iml" />

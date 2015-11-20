@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.BaseRequestOptions;
-
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,7 +30,6 @@ public class NewsPostAttachmentContainer extends LinearLayout {
     @Bind(R.id.news_post_audio)
     public AudioViewContainer audioViewContainer;
 
-    BaseRequestOptions pictureOptions;
 
     public NewsPostAttachmentContainer(Context context) {
         super(context);
@@ -50,13 +46,6 @@ public class NewsPostAttachmentContainer extends LinearLayout {
         View view = inflater.inflate(R.layout.news_post_content_item_layout, (ViewGroup) getRootView(), false);
         ButterKnife.bind(this, view);
 
-        pictureOptions = new BaseRequestOptions() {
-        };
-
-        pictureOptions.format(DecodeFormat.PREFER_RGB_565);
-        pictureOptions.placeholder(R.drawable.picture_placeholder);
-        pictureOptions.error(R.drawable.picture_placeholder);
-
         addView(view);
     }
 
@@ -69,15 +58,15 @@ public class NewsPostAttachmentContainer extends LinearLayout {
         }
     }
 
-    public void clear(NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
         if (photoViewContainer!=null)
-            photoViewContainer.clear(newsPagerCardFragment);
+            photoViewContainer.clear();
 
         if (videoViewContainer!=null)
-            videoViewContainer.clear(newsPagerCardFragment);
+            videoViewContainer.clear();
 
         if (audioViewContainer!=null)
-            audioViewContainer.clear(newsPagerCardFragment);
+            audioViewContainer.clear();
     }
 
     public void setVideos(List<VideoInfo> videos) {

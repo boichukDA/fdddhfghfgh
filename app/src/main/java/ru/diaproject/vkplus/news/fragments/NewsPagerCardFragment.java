@@ -78,13 +78,15 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
             @Override
             public void onViewRecycled(RecyclerView.ViewHolder holder) {
                 if (holder instanceof PhotoItemViewHolder)
-                    ((PhotoItemViewHolder) holder).clear(NewsPagerCardFragment.this);
+                    ((PhotoItemViewHolder) holder).clear();
                 if (holder instanceof PostItemViewHolder)
-                    ((PostItemViewHolder) holder).clear(NewsPagerCardFragment.this);
+                    ((PostItemViewHolder) holder).clear();
                 if (holder instanceof PhotoTagItemViewHolder)
-                    ((PhotoTagItemViewHolder) holder).clear(NewsPagerCardFragment.this);
+                    ((PhotoTagItemViewHolder) holder).clear();
                 if (holder instanceof WallPhotoItemViewHolder)
-                    ((WallPhotoItemViewHolder) holder).clear(NewsPagerCardFragment.this);
+                    ((WallPhotoItemViewHolder) holder).clear();
+                if (holder instanceof FriendItemViewHolder)
+                    ((FriendItemViewHolder) holder).clear();
 
             }
         });

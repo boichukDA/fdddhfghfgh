@@ -10,9 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.BaseRequestOptions;
-
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +24,6 @@ import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public class PhotoViewContainer extends LinearLayout {
 
-    private Photos photos;
     private Integer ownerId;
     private Integer date;
     private VKUser user;
@@ -155,9 +151,6 @@ public class PhotoViewContainer extends LinearLayout {
     @Bind(R.id.six_seven_im_view_vertical)
     public ImageView sixSevenImViewVertical;
 
-    BaseRequestOptions pictureOptions;
-    private NewsPagerCardFragment fragment;
-
     public PhotoViewContainer(Context context) {
         super(context);
         init();
@@ -174,19 +167,12 @@ public class PhotoViewContainer extends LinearLayout {
         ButterKnife.bind(this, view);
 
         addView(view);
-        pictureOptions = new BaseRequestOptions() {
-        };
-
-        pictureOptions.format(DecodeFormat.PREFER_RGB_565);
-        pictureOptions.placeholder(R.drawable.picture_placeholder);
-        pictureOptions.error(R.drawable.picture_placeholder);
     }
 
     public void setData(Photos photos, Integer ownerId, Integer date, VKUser user){
         this.ownerId = ownerId;
         this.date = date;
         this.user = user;
-        this.photos = photos;
 
         Integer size = photos.getPhotos().size();
         if (size.equals(1)){
@@ -332,48 +318,48 @@ public class PhotoViewContainer extends LinearLayout {
         return width<= height;
     }
 
-    public void clear(final NewsPagerCardFragment newsPagerCardFragment) {
+    public void clear() {
         VKMainExecutor.INSTANCE.execute(new Runnable() {
             @Override
             public void run() {
-                Glide.with(newsPagerCardFragment).clear(firstImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(secondImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(firstImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(secondImViewHorizontal);
+                Glide.clear(firstImViewVertical);
+                Glide.clear(secondImViewVertical);
+                Glide.clear(firstImViewHorizontal);
+                Glide.clear(secondImViewHorizontal);
 
-                Glide.with(newsPagerCardFragment).clear(main34view);
-                Glide.with(newsPagerCardFragment).clear(first34viewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(second34viewHorzintal);
-                Glide.with(newsPagerCardFragment).clear(third34viewHorzintal);
-                Glide.with(newsPagerCardFragment).clear(fourth34viewHorizontal);
+                Glide.clear(main34view);
+                Glide.clear(first34viewHorizontal);
+                Glide.clear(second34viewHorzintal);
+                Glide.clear(third34viewHorzintal);
+                Glide.clear(fourth34viewHorizontal);
 
-                Glide.with(newsPagerCardFragment).clear(first34viewVertical);
-                Glide.with(newsPagerCardFragment).clear(second34viewVertical);
-                Glide.with(newsPagerCardFragment).clear(third34viewVertical);
-                Glide.with(newsPagerCardFragment).clear(fourth34viewVertical);
+                Glide.clear(first34viewVertical);
+                Glide.clear(second34viewVertical);
+                Glide.clear(third34viewVertical);
+                Glide.clear(fourth34viewVertical);
 
-                Glide.with(newsPagerCardFragment).clear(mainSixImView);
-                Glide.with(newsPagerCardFragment).clear(firstSixImView);
-                Glide.with(newsPagerCardFragment).clear(secondSixImView);
-                Glide.with(newsPagerCardFragment).clear(thirdSixImView);
-                Glide.with(newsPagerCardFragment).clear(fourthSixImView);
-                Glide.with(newsPagerCardFragment).clear(fiveSixImView);
+                Glide.clear(mainSixImView);
+                Glide.clear(firstSixImView);
+                Glide.clear(secondSixImView);
+                Glide.clear(thirdSixImView);
+                Glide.clear(fourthSixImView);
+                Glide.clear(fiveSixImView);
 
-                Glide.with(newsPagerCardFragment).clear(mainSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(firstSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(secondSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(thirdSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(fourthSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(fiveSevenImViewHorizontal);
-                Glide.with(newsPagerCardFragment).clear(sixSevenImViewHorizontal);
+                Glide.clear(mainSevenImViewHorizontal);
+                Glide.clear(firstSevenImViewHorizontal);
+                Glide.clear(secondSevenImViewHorizontal);
+                Glide.clear(thirdSevenImViewHorizontal);
+                Glide.clear(fourthSevenImViewHorizontal);
+                Glide.clear(fiveSevenImViewHorizontal);
+                Glide.clear(sixSevenImViewHorizontal);
 
-                Glide.with(newsPagerCardFragment).clear(mainSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(firstSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(secondSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(thirdSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(fourthSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(fiveSevenImViewVertical);
-                Glide.with(newsPagerCardFragment).clear(sixSevenImViewVertical);
+                Glide.clear(mainSevenImViewVertical);
+                Glide.clear(firstSevenImViewVertical);
+                Glide.clear(secondSevenImViewVertical);
+                Glide.clear(thirdSevenImViewVertical);
+                Glide.clear(fourthSevenImViewVertical);
+                Glide.clear(fiveSevenImViewVertical);
+                Glide.clear(sixSevenImViewVertical);
             }
         });
 
@@ -383,7 +369,8 @@ public class PhotoViewContainer extends LinearLayout {
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(getContext())
                 .load(url)
-                .apply(pictureOptions)
+                .placeholder(R.drawable.picture_placeholder)
+                .error(R.drawable.picture_placeholder)
                 .into(view);
 
         view.setOnClickListener(new OnClickListener() {
