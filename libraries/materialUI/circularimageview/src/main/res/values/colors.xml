@@ -14,5 +14,4 @@
     <color name ="m_background_gray">#E0E0E0</color>
     <color name ="m_indigo700">#303F9F</color>
     <color name="picture_delimiter_background">#FFFFFF</color>
-    <color name="image_viewer_bottom_panel_background">#40404040</color>
 </resources>

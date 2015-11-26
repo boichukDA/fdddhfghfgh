@@ -10,14 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
+import ru.diaproject.vkplus.core.utils.EnumUtils;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
-import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.vkcore.user.VKUser;
 
@@ -27,6 +31,8 @@ public class PhotoViewContainer extends LinearLayout {
     private Integer ownerId;
     private Integer date;
     private VKUser user;
+    private Photos photos;
+    private FilterType type;
 
     @Bind(R.id.one_or_two_vertical_layout)
     public LinearLayout oneOrTwoVerticalLayout;
@@ -170,6 +176,7 @@ public class PhotoViewContainer extends LinearLayout {
     }
 
     public void setData(Photos photos, Integer ownerId, Integer date, VKUser user){
+        this.photos = photos;
         this.ownerId = ownerId;
         this.date = date;
         this.user = user;
@@ -368,7 +375,17 @@ public class PhotoViewContainer extends LinearLayout {
     public void prepareImageView(final ImageView view, final String url, final int position){
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(getContext())
-                .load(url)
+                .load(url).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                return false;
+            }
+        })
                 .placeholder(R.drawable.picture_placeholder)
                 .error(R.drawable.picture_placeholder)
                 .into(view);
@@ -381,8 +398,16 @@ public class PhotoViewContainer extends LinearLayout {
                 intent.putExtra(PhotoViewerActivity.IMAGE_POSITION, position);
                 intent.putExtra(PhotoViewerActivity.IMAGE_DATE, date);
                 intent.putExtra(ParentActivityNoTitle.VK_USER_ARG, user);
+                intent.putExtra(PhotoViewerActivity.IMAGE_ARRAY, photos);
+                if (type != null)
+                    EnumUtils.serialize(type).to(intent);
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    public void setData(Photos photos, Integer sourceId, Integer date, VKUser user, FilterType type) {
+        this.type = type;
+        setData(photos, sourceId, date, user);
     }
 }

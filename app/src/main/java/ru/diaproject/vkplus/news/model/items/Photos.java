@@ -2,13 +2,14 @@ package ru.diaproject.vkplus.news.model.items;
 
 import org.xml.sax.ContentHandler;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ru.diaproject.vkplus.core.VKDataCore;
 import ru.diaproject.vkplus.core.utils.json.JsonHandler;
 import ru.diaproject.vkplus.news.model.json.items.PhotosResponseJsonHandler;
 
-public class Photos implements VKDataCore {
+public class Photos implements VKDataCore, Serializable {
     private Integer count;
     private List<PhotosInfo> photos;
     private PhotosResponseJsonHandler jsonHandler;

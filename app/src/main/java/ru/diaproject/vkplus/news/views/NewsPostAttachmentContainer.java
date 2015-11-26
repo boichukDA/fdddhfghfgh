@@ -12,7 +12,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;

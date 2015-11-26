@@ -21,13 +21,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.devspark.robototextview.widget.RobotoExpandableTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.vkcore.VK;
@@ -264,10 +264,8 @@ public class RobotoImageExpandableTextView extends RobotoExpandableTextView {
                         RobotoImageExpandableTextView.super.setText(s, TextView.BufferType.SPANNABLE);
                     }
                 });
-
             }
         });
-
     }
 
     @Override

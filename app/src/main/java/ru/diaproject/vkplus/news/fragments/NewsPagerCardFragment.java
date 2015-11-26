@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -275,9 +276,11 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
         }
 
         public void onHide(){
+            if (listener!=null )
             listener.onHide();
         }
         public void onShow(){
+            if (listener!=null )
             listener.onShow();
         }
     }

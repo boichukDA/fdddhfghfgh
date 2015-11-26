@@ -11,14 +11,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libraries/materialUI/circularimageview" />
-            <option value="$PROJECT_DIR$/libraries/third-party/DiskLruCache" />
-            <option value="$PROJECT_DIR$/libraries/third-party/FontAwesome" />
-            <option value="$PROJECT_DIR$/libraries/third-party/GifDecoder" />
-            <option value="$PROJECT_DIR$/libraries/third-party/Iconics" />
-            <option value="$PROJECT_DIR$/libraries/third-party/MaterialDrawer" />
-            <option value="$PROJECT_DIR$/libraries/third-party/Materialize" />
-            <option value="$PROJECT_DIR$/libraries/third-party/RobototextView" />
-            <option value="$PROJECT_DIR$/libraries/third-party/SwipyRefreshLayout" />
           </set>
         </option>
       </GradleProjectSettings>

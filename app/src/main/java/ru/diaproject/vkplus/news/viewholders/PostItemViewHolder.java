@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.devspark.robototextview.widget.RobotoExpandableTextView;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.news.views.NewsHeaderView;
 import ru.diaproject.vkplus.news.views.NewsPostAttachmentContainer;

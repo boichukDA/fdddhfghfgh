@@ -1,13 +1,14 @@
 package ru.diaproject.vkplus.news.model.json.items;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 import ru.diaproject.vkplus.core.utils.json.JsonHandler;
 import ru.diaproject.vkplus.news.model.items.Photos;
 
-public class PhotosResponseJsonHandler implements JsonHandler<Photos> {
+public class PhotosResponseJsonHandler implements JsonHandler<Photos>, Serializable {
     private Photos photos;
 
     public PhotosResponseJsonHandler(Photos photos) {

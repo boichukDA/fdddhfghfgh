@@ -16,6 +16,7 @@ import ru.diaproject.vkplus.core.utils.ColorUtils;
 import ru.diaproject.vkplus.core.utils.DateUtils;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.Response;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.NewsPhotoItem;
 import ru.diaproject.vkplus.news.model.groups.Group;
 import ru.diaproject.vkplus.news.model.items.Photos;
@@ -93,7 +94,7 @@ public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
         else holder.photoCount.setVisibility(View.GONE);
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount() - 7, photos.getCount() - 7));
-        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), ((NewsPagerCardFragment)parent).getUser());
+        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), ((NewsPagerCardFragment)parent).getUser(), FilterType.PHOTO);
     }
 
 }

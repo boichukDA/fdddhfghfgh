@@ -3,14 +3,25 @@ package ru.diaproject.vkplus.photoviewer;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.devspark.robototextview.widget.RobotoTextView;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -20,6 +31,9 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.executor.VKQueryTask;
+import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.core.utils.EnumUtils;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.photoviewer.adapters.PhotoViewerAdapter;
 import ru.diaproject.vkplus.photoviewer.transformers.DepthPageTransformer;
@@ -34,6 +48,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     public static final String IMAGE_POSITION = "image_position";
     public static final String IMAGE_SOURCE = "image_source";
     public static final String IMAGE_DATE = "image_date";
+    public static final String IMAGE_ARRAY = "image_array";
 
     public static final int ANIMATION_DURATION_MILLS = 500;
 
@@ -41,10 +56,14 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     private Integer sourceId;
     private Integer date;
     private volatile Photos photos;
+    private FilterType type;
     private CountDownLatch latch;
-
+    private boolean isShownInfo;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    private float topInitY;
+    private float bottomInitY;
 
     @Bind(R.id.photo_viewer_background)
     View backgroundView;
@@ -52,6 +71,41 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     @Bind(R.id.photo_viewer_image_layout)
     ViewPager imagePager;
 
+    @Bind(R.id.news_post_like_layout)
+    public LinearLayout postLikeLayout;
+
+    @Bind(R.id.news_post_like_image)
+    public ImageView postLikeImage;
+
+    @Bind(R.id.news_post_like_count)
+    public RobotoTextView postLikeCount;
+
+    @Bind(R.id.news_post_comment_layout)
+    public LinearLayout postCommentLayout;
+
+    @Bind(R.id.news_post_comment_image)
+    public ImageView postCommentImage;
+
+    @Bind(R.id.news_post_comment_count)
+    public RobotoTextView postCommentCount;
+
+    @Bind(R.id.news_post_share_layout)
+    public LinearLayout postShareLayout;
+
+    @Bind(R.id.news_post_share_image)
+    public ImageView postShareImage;
+
+    @Bind(R.id.news_post_share_count)
+    public RobotoTextView postShareCount;
+
+    @Bind(R.id.photo_viewer_info_image)
+    public ImageView photoViewerImage;
+
+    @Bind(R.id.photo_viewer_bottom_panel)
+    public LinearLayout bottomPanel;
+
+    @Bind(R.id.photo_viewer_top_layout)
+    public RelativeLayout topLayout;
     private ActionBar actionBar;
 
     @Override
@@ -59,11 +113,15 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
         imagePos = activityIntent.getIntExtra(IMAGE_POSITION, 0);
         sourceId = activityIntent.getIntExtra(IMAGE_SOURCE, 0);
         date = activityIntent.getIntExtra(IMAGE_DATE, 0);
+        photos = (Photos) activityIntent.getSerializableExtra(IMAGE_ARRAY);
+        type = EnumUtils.deserialize(FilterType.class).from(activityIntent, FilterType.POST);
+
         latch = new CountDownLatch(1);
     }
 
     @Override
     protected void initBackend(Bundle savedInstanceState) {
+        if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST))
         VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(this, createQuery(),
                 new VKMainExecutor.VKTask.ITaskListener<Photos>(){
                     @Override
@@ -78,7 +136,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                 }, latch));
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void initUI(Bundle savedInstanceState) {
         setContentView(R.layout.photo_viewer_layout);
@@ -89,7 +146,8 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " ");
+            if (photos.getCount().equals(photos.getPhotos().size()))
+                actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ photos.getPhotos().size());
         }
 
         ObjectAnimator backgroundAnimator = ObjectAnimator.ofFloat(backgroundView, View.ALPHA, 0f, 1f);
@@ -104,12 +162,10 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                try {
-                    latch.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                createViewPager();
+                if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST))
+                 createViewPagerFromLoad();
+                else
+                   createViewPager();
             }
 
             @Override
@@ -129,6 +185,15 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     protected Toolbar getToolbar() {
         return toolbar;
     }
+    private void createViewPagerFromLoad(){
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ photos.getCount());
+        createViewPager();
+    }
     private void createViewPager(){
         runOnUiThread(new Runnable() {
             @Override
@@ -137,6 +202,23 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                 imagePager.setPageTransformer(true, new DepthPageTransformer());
                 imagePager.setAdapter(adapter);
                 imagePager.setCurrentItem(imagePos);
+
+                isShownInfo = false;
+                topInitY = toolbar.getY();
+                bottomInitY = bottomPanel.getY();
+
+                toolbar.setVisibility(View.GONE);
+                bottomPanel.setVisibility(View.GONE);
+                topLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       if (isShownInfo)
+                            hideInfo();
+                        else
+                            showInfo();
+                    }
+                });
+                loadPhotoData();
                 imagePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -145,7 +227,8 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
                     @Override
                     public void onPageSelected(int position) {
-                        actionBar.setTitle((position + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getCount() );
+                        actionBar.setTitle((position + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getPhotos().size());
+                        loadPhotoData();
                     }
 
                     @Override
@@ -156,7 +239,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             }
         });
     }
-
     private VKQuery createQuery() {
         VKQuery query = null;
         VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
@@ -173,5 +255,145 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
         }
 
         return query;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.photo_viewer_show, R.anim.photo_viewer_hide);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    private void loadPhotoData(){
+        VKMainExecutor.INSTANCE.execute(new Runnable() {
+            @Override
+            public void run() {
+                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postLikeImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+
+        VKMainExecutor.INSTANCE.execute(new Runnable() {
+            @Override
+            public void run() {
+                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postCommentImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+        VKMainExecutor.INSTANCE.execute(new Runnable() {
+            @Override
+            public void run() {
+                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postShareImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+
+        VKMainExecutor.INSTANCE.execute(new Runnable() {
+            @Override
+            public void run() {
+                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.photo_viewer_info_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        photoViewerImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+    }
+
+    public void showInfo(){
+        if (isShownInfo)
+            return;
+
+        isShownInfo = true;
+
+        ObjectAnimator animatorBottom = ObjectAnimator.ofFloat(bottomPanel, View.Y, bottomInitY+toolbar.getHeight(), bottomInitY);
+        ObjectAnimator animatorTop = ObjectAnimator.ofFloat(toolbar, View.Y,  topInitY -toolbar.getHeight(), topInitY);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorBottom, animatorTop);
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                toolbar.setVisibility(View.VISIBLE);
+                bottomPanel.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                toolbar.setVisibility(View.VISIBLE);
+                bottomPanel.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        set.start();
+    }
+
+    public void hideInfo(){
+        if (!isShownInfo)
+            return;
+
+        isShownInfo = false;
+        ObjectAnimator animatorBottom = ObjectAnimator.ofFloat(bottomPanel, View.Y,  bottomInitY, bottomInitY+bottomPanel.getHeight());
+        ObjectAnimator animatorTop = ObjectAnimator.ofFloat(toolbar, View.Y, topInitY, topInitY-toolbar.getHeight());
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorBottom, animatorTop);
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                toolbar.setVisibility(View.VISIBLE);
+                bottomPanel.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                toolbar.setVisibility(View.GONE);
+                bottomPanel.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        set.start();
     }
 }

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.devspark.robototextview.widget.RobotoExpandableTextView;
+import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 
 import java.util.List;
 
@@ -18,13 +18,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.Response;
 import ru.diaproject.vkplus.news.model.attachments.Attachments;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.groups.Group;
-import ru.diaproject.vkplus.news.model.items.CopyHistory;
 import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.users.User;

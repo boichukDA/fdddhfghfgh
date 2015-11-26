@@ -59,4 +59,11 @@
 
         <attr name="donut_circle_starting_degree" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxLines" format="integer"/>
+        <attr name="expandText" format="string"/>
+        <attr name="collapseText" format="string"/>
+        <attr name="collapseColor" format="color"/>
+    </declare-styleable>
 </resources>
