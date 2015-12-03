@@ -12,10 +12,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 
 public class NewsPostAttachmentContainer extends LinearLayout {
@@ -48,12 +48,12 @@ public class NewsPostAttachmentContainer extends LinearLayout {
         addView(view);
     }
 
-    public void setPhotos(Photos photos,Integer ownerId, Integer date, VKUser user) {
+    public void setPhotos(Photos photos,Integer ownerId, Integer date, NewsPagerCardFragment parent) {
         if (photos.getPhotos().size() == 0)
             photoViewContainer.setVisibility(GONE);
         else{
             photoViewContainer.setVisibility(VISIBLE);
-            photoViewContainer.setData(photos, ownerId, date, user);
+            photoViewContainer.setData(photos, ownerId, date, parent);
         }
     }
 

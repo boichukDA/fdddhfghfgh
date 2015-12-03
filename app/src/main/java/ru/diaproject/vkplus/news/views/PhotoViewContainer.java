@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.news.views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +21,20 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
+import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
 import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
+import ru.diaproject.vkplus.photoviewer.fragments.PhotoViewerFragment;
 
 
 public class PhotoViewContainer extends LinearLayout {
 
     private Integer ownerId;
     private Integer date;
-    private VKUser user;
     private Photos photos;
     private FilterType type;
+    private NewsPagerCardFragment parentFragment;
 
     @Bind(R.id.one_or_two_vertical_layout)
     public LinearLayout oneOrTwoVerticalLayout;
@@ -175,11 +177,11 @@ public class PhotoViewContainer extends LinearLayout {
         addView(view);
     }
 
-    public void setData(Photos photos, Integer ownerId, Integer date, VKUser user){
+    public void setData(Photos photos, Integer ownerId, Integer date, NewsPagerCardFragment parent){
         this.photos = photos;
         this.ownerId = ownerId;
         this.date = date;
-        this.user = user;
+        this.parentFragment = parent;
 
         Integer size = photos.getPhotos().size();
         if (size.equals(1)){
@@ -314,8 +316,8 @@ public class PhotoViewContainer extends LinearLayout {
                 prepareImageView(secondSevenImViewVertical, photos.getPhotos().get(2).getPhoto130(),2);
                 prepareImageView(thirdSevenImViewVertical, photos.getPhotos().get(3).getPhoto130(),3);
                 prepareImageView(fourthSevenImViewVertical, photos.getPhotos().get(4).getPhoto130(),4);
-                prepareImageView(fiveSevenImViewVertical, photos.getPhotos().get(5).getPhoto130(),6);
-                prepareImageView(sixSevenImViewVertical, photos.getPhotos().get(6).getPhoto130(),7);
+                prepareImageView(fiveSevenImViewVertical, photos.getPhotos().get(5).getPhoto130(),5);
+                prepareImageView(sixSevenImViewVertical, photos.getPhotos().get(6).getPhoto130(),6);
             }
         }
     }
@@ -397,17 +399,21 @@ public class PhotoViewContainer extends LinearLayout {
                 intent.putExtra(PhotoViewerActivity.IMAGE_SOURCE, ownerId);
                 intent.putExtra(PhotoViewerActivity.IMAGE_POSITION, position);
                 intent.putExtra(PhotoViewerActivity.IMAGE_DATE, date);
-                intent.putExtra(ParentActivityNoTitle.VK_USER_ARG, user);
+                intent.putExtra(ParentActivityNoTitle.VK_USER_ARG, parentFragment.getUser());
                 intent.putExtra(PhotoViewerActivity.IMAGE_ARRAY, photos);
                 if (type != null)
                     EnumUtils.serialize(type).to(intent);
-                getContext().startActivity(intent);
+               /* Bundle bundle = intent.getExtras();
+                PhotoViewerFragment fragment = PhotoViewerFragment.getInstance();
+                fragment.setArguments(bundle);
+                parentFragment.startFragment(fragment, "photo");*/
+               getContext().startActivity(intent);
             }
         });
     }
 
-    public void setData(Photos photos, Integer sourceId, Integer date, VKUser user, FilterType type) {
+    public void setData(Photos photos, Integer sourceId, Integer date, NewsPagerCardFragment fragment, FilterType type) {
         this.type = type;
-        setData(photos, sourceId, date, user);
+        setData(photos, sourceId, date, fragment);
     }
 }

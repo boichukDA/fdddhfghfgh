@@ -1,8 +1,9 @@
 package ru.diaproject.vkplus.vkcore.queries;
 
+import ru.diaproject.vkplus.core.VKDataCore;
 import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
-public class VKHttpsQueryCore extends VKQueryCore {
+public class VKHttpsQueryCore<T extends VKDataCore> extends VKQueryCore<T> {
     private static final String VK_CORE = "https://api.vk.com";
 
     protected VKHttpsQueryCore(VKUserConfiguration configuration) {

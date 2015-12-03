@@ -11,7 +11,7 @@ public class VKQueryBuilder<T extends VKDataCore> {
     private VKQuerySubMethod subMethod = null;
     private VKQueryType queryType = null;
     private VKQueryResponseTypes responseType = null;
-    private VKQueryCore core;
+    private VKQueryCore<T> core;
     private Class<T> resultType;
     private HashMap<String, Object> params;
 
@@ -45,7 +45,7 @@ public class VKQueryBuilder<T extends VKDataCore> {
         return this;
     }
 
-    public VKQuery build() throws VkQueryBuilderException{
+    public VKQuery<T> build() throws VkQueryBuilderException{
        return core.build(resultType, queryType, subMethod,responseType,params);
     }
 }

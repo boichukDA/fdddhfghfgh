@@ -1,13 +1,14 @@
 package ru.diaproject.vkplus.news;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,9 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+
+
+import java.util.ArrayDeque;
 
 
 import butterknife.Bind;
@@ -26,13 +29,14 @@ import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 
+import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.news.adapters.NewsPagerAdapter;
 import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class NewsActivity extends ParentActivityNoTitle {
-
+    public static final String STACK_NAME = "NewsActivityStack";
+    private ArrayDeque<ParentFragment> fragments;
     @Bind(R.id.tablayout)
     TabLayout tabLayout;
 
@@ -45,9 +49,11 @@ public class NewsActivity extends ParentActivityNoTitle {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-
+    @Bind(R.id.news_frontend_placeholder)
+    FrameLayout fragmentsLayout;
     @Override
     protected void initBackend(Bundle savedInstanceState) {
+        fragments = new ArrayDeque<>();
     }
 
     @Override
@@ -55,13 +61,6 @@ public class NewsActivity extends ParentActivityNoTitle {
         setContentView(R.layout.news_layout);
         ButterKnife.bind(this);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = getWindow();
-
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.m_indigo700));
-        }
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -71,7 +70,6 @@ public class NewsActivity extends ParentActivityNoTitle {
         }
 
         toolbar.setCollapsible(true);
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.primary_text_default_material_dark));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,5 +141,54 @@ hideFab();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startFragment(ParentFragment fragment){
+        fragments.add(fragment);
+
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        try {
+            FragmentTransaction trans = fragmentManager.beginTransaction();
+            trans.add(R.id.news_frontend_placeholder, fragment);
+            trans.addToBackStack(null);
+            trans.commit();
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+    }
+
+    public void startFragment(ParentFragment fragment, String tag){
+        fragments.add(fragment);
+
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment searchFragment =  fragmentManager.findFragmentByTag(tag);
+        if (searchFragment == null)
+            System.out.print("");
+        else System.out.print("");
+
+        try {
+            FragmentTransaction trans = fragmentManager.beginTransaction();
+            trans.replace(R.id.news_frontend_placeholder, fragment, tag);
+            trans.commit();
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragments.isEmpty())
+            super.onBackPressed();
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        try {
+            ParentFragment fragment = fragments.pop();
+            trans.remove(fragment);
+            trans.commit();
+        }
+        catch(Throwable e){
+            e.printStackTrace();
+        }
     }
 }

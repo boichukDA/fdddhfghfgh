@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
+import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.Response;
 import ru.diaproject.vkplus.news.model.attachments.Attachments;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
@@ -57,7 +58,7 @@ public class NewsPostCopyHistoryLayout extends LinearLayout{
         this.setVisibility(GONE);
     }
 
-    public void setData(final CopyHistoryInfo history, final Response items, final SparseBooleanArray mCollapsedStatus, final int position, final VKUser user){
+    public void setData(final CopyHistoryInfo history, final Response items, final SparseBooleanArray mCollapsedStatus, final int position, final NewsPagerCardFragment parent){
         VKMainExecutor.INSTANCE.execute(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +109,7 @@ public class NewsPostCopyHistoryLayout extends LinearLayout{
                     ((Activity)getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            attachmentCopyHistoryContainer.setPhotos(photos, copySourceId, history.getDate(), user);
+                            attachmentCopyHistoryContainer.setPhotos(photos, copySourceId, history.getDate(), parent);
                         }
                     });
 

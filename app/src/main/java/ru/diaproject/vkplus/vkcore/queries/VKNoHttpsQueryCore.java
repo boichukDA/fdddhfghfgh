@@ -1,9 +1,10 @@
 package ru.diaproject.vkplus.vkcore.queries;
 
+import ru.diaproject.vkplus.core.VKDataCore;
 import ru.diaproject.vkplus.core.utils.Utils;
 import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
-public class VKNoHttpsQueryCore extends VKQueryCore{
+public class VKNoHttpsQueryCore<T extends VKDataCore> extends VKQueryCore<T>{
     private static final String VK_CORE = "http://api.vk.com";
     private static final String VK_NOHTTPS_SIGN = "&sig=%s";
 

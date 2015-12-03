@@ -5,19 +5,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
+
+import ru.diaproject.vkplus.news.NewsActivity;
 import ru.diaproject.vkplus.news.NewsFragmentSelector;
 import ru.diaproject.vkplus.news.NewsVariantContainer;
 import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
 import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public class NewsPagerAdapter extends FragmentPagerAdapter{
-    private Context context;
+    private NewsActivity context;
     private LayoutInflater inflater;
     private VKUser user;
     private NewsVariantContainer container;
     private OnFabStateChangeListener listener;
 
-    public NewsPagerAdapter(FragmentManager fm, Context context, VKUser user, OnFabStateChangeListener listener) {
+    public NewsPagerAdapter(FragmentManager fm, NewsActivity context, VKUser user, OnFabStateChangeListener listener) {
         super(fm);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
@@ -33,7 +35,7 @@ public class NewsPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return NewsFragmentSelector.getInstance(container.get(position).getId(), user, container.get(position), listener);
+        return NewsFragmentSelector.getInstance(context, container.get(position).getId(), user, container.get(position), listener);
     }
 
     @Override

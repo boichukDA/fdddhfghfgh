@@ -124,7 +124,7 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                           public void run() {
                               holder.attachmentContainer.setVisibility(View.VISIBLE);
                               holder.attachmentContainer.setPhotos(photos, entity.getSourceId(),
-                                      entity.getDate(), (parent).getUser());
+                                      entity.getDate(), parent);
                           }
                       });
 
@@ -174,7 +174,7 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                             }
                         });
 
-                        holder.firstCopyHistory.setData(historyList.get(0),items,mCollapsedStatus,position, parent.getUser());
+                        holder.firstCopyHistory.setData(historyList.get(0),items,mCollapsedStatus,position, parent);
                     }
 
                     if (historyList.size() == 2){
@@ -187,13 +187,13 @@ public class PostItemBinder extends DataBinder<PostItemViewHolder> {
                             }
                         });
 
-                        holder.firstCopyHistory.setData(historyList.get(0),items,mCollapsedStatus,position, parent.getUser());
-                        holder.secondCopyHistory.setData(historyList.get(1),items,mCollapsedStatus,position, parent.getUser());
+                        holder.firstCopyHistory.setData(historyList.get(0),items,mCollapsedStatus,position, parent);
+                        holder.secondCopyHistory.setData(historyList.get(1),items,mCollapsedStatus,position, parent);
                     }
                     if (historyList.size()>2)
                         for (int index = 2;index < historyList.size();index++){
                             final NewsPostCopyHistoryLayout layout = new NewsPostCopyHistoryLayout(parent.getContext());
-                            layout.setData(historyList.get(index), items, mCollapsedStatus, position, parent.getUser());
+                            layout.setData(historyList.get(index), items, mCollapsedStatus, position, parent);
                             ((Activity)parent.getContext()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

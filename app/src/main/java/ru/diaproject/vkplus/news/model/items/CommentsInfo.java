@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class CommentsInfo{
+import java.io.Serializable;
+
+public class CommentsInfo implements Serializable{
     private Integer count;
     private Boolean canPost;
 

@@ -35,6 +35,8 @@ public class PhotoViewerItemFragment extends Fragment {
     private int viewX;
     private int viewY;
 
+    private View.OnClickListener listener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class PhotoViewerItemFragment extends Fragment {
                 return false;
             }
         });
-
+        rootView.setOnClickListener(listener);
         return rootView;
     }
 
@@ -116,4 +118,7 @@ public class PhotoViewerItemFragment extends Fragment {
         return view;
     }
 
+    public void setClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
 }

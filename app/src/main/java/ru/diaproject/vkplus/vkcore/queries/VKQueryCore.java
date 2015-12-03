@@ -11,10 +11,10 @@ public abstract class VKQueryCore<T extends  VKDataCore> {
     private static final String VK_METHOD_REPLACE = "method_name";
     protected static final String VK_ACCESS_TOKEN = "access_token=%s";
 
-    public static final VKQueryCore createInstance(VKUserConfiguration configuration){
+    public static  <T extends VKDataCore> VKQueryCore<T> createInstance(VKUserConfiguration configuration){
         if (configuration.isAllowNoHttps())
-            return new VKNoHttpsQueryCore(configuration);
-        else return new VKHttpsQueryCore(configuration);
+            return new VKNoHttpsQueryCore<>(configuration);
+        else return new VKHttpsQueryCore<>(configuration);
     }
 
     protected VKUserConfiguration configuration;
@@ -31,7 +31,7 @@ public abstract class VKQueryCore<T extends  VKDataCore> {
         return builder;
     }
 
-    public  VKQuery build(Class<T> resultType, VKQueryType queryType, VKQuerySubMethod subMethod, VKQueryResponseTypes responseType, HashMap<String, Object> params) throws VkQueryBuilderException{
+    public  VKQuery<T> build(Class<T> resultType, VKQueryType queryType, VKQuerySubMethod subMethod, VKQueryResponseTypes responseType, HashMap<String, Object> params) throws VkQueryBuilderException{
         if (subMethod == null)
             throw new VkQueryBuilderException("Not set sub method");
 
@@ -41,11 +41,15 @@ public abstract class VKQueryCore<T extends  VKDataCore> {
         queryTemplate.append(VK_METHOD.replace(VK_METHOD_REPLACE, queryType.getValue()));
         queryTemplate.append(subMethod.getValue()).append(responseType.getValue()).append("?");
         if (!params.isEmpty())
-            for (String key:params.keySet())
-                queryTemplate.append(key+"="+params.get(key)+"&");
-        else queryTemplate.append("?");
+            for (String key:params.keySet()) {
+                queryTemplate.append(key);
+                queryTemplate.append("=");
+                queryTemplate.append(params.get(key));
+                queryTemplate.append("&");
+
+            } else queryTemplate.append("?");
 
         queryTemplate = sertificate(queryTemplate);
-        return new VKQuery(resultType, queryTemplate, responseType);
+        return new VKQuery<>(resultType, queryTemplate, responseType);
     }
 }

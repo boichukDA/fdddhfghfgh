@@ -14,7 +14,7 @@ public abstract class NewsFragmentSelector {
     private static final String ARG_VARIANT = "variant";
     private static HashMap<Integer, Fragment> newsFragments = new HashMap<>();
 
-    public  static Fragment getInstance(int id, VKUser user, NewsVariant newsVariant, OnFabStateChangeListener listener){
+    public  static Fragment getInstance(NewsActivity context, int id, VKUser user, NewsVariant newsVariant, OnFabStateChangeListener listener){
         if (newsFragments.containsKey(id))
             return newsFragments.get(id);
 

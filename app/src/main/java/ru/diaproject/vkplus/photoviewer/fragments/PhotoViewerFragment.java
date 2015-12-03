@@ -1,25 +1,19 @@
-package ru.diaproject.vkplus.photoviewer;
+package ru.diaproject.vkplus.photoviewer.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,19 +25,18 @@ import java.util.concurrent.CountDownLatch;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.core.ParentActivityNoTitle;
+import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.core.animations.SimpleAnimatorListener;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.core.executor.VKQueryTask;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
-import ru.diaproject.vkplus.core.utils.WindowUtils;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.CommentsInfo;
 import ru.diaproject.vkplus.news.model.items.LikesInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
 import ru.diaproject.vkplus.photoviewer.adapters.PhotoViewerAdapter;
 import ru.diaproject.vkplus.photoviewer.transformers.DepthPageTransformer;
 import ru.diaproject.vkplus.photoviewer.views.SimplePageChangeListener;
@@ -54,11 +47,16 @@ import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
 import ru.diaproject.vkplus.vkcore.queries.VkQueryBuilderException;
 
-public class PhotoViewerActivity extends ParentActivityNoTitle{
-    public static final String IMAGE_POSITION = "image_position";
-    public static final String IMAGE_SOURCE = "image_source";
-    public static final String IMAGE_DATE = "image_date";
-    public static final String IMAGE_ARRAY = "image_array";
+public class PhotoViewerFragment extends ParentFragment{
+    private static final PhotoViewerFragment fragment = new PhotoViewerFragment();
+    public static final PhotoViewerFragment getInstance(){
+        return fragment;
+    }
+
+    public static final String IMAGE_POSITION = PhotoViewerActivity.IMAGE_POSITION;
+    public static final String IMAGE_SOURCE = PhotoViewerActivity.IMAGE_SOURCE;
+    public static final String IMAGE_DATE = PhotoViewerActivity.IMAGE_DATE;
+    public static final String IMAGE_ARRAY = PhotoViewerActivity.IMAGE_ARRAY;
 
     public static final int ANIMATION_DURATION_MILLS = 500;
 
@@ -116,33 +114,23 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
     @Bind(R.id.photo_viewer_top_layout)
     public RelativeLayout topLayout;
+
     private ActionBar actionBar;
-
-    @Override
-    protected void initContent(Bundle savedInstanceState, Intent activityIntent) {
-        imagePos = activityIntent.getIntExtra(IMAGE_POSITION, 0);
-        sourceId = activityIntent.getIntExtra(IMAGE_SOURCE, 0);
-        date = activityIntent.getIntExtra(IMAGE_DATE, 0);
-        photos = (Photos) activityIntent.getSerializableExtra(IMAGE_ARRAY);
-        type = EnumUtils.deserialize(FilterType.class).from(activityIntent, FilterType.POST);
-
-        latch = new CountDownLatch(1);
-    }
 
     @Override
     protected void initBackend(Bundle savedInstanceState) {
         if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
             latch = new CountDownLatch(2);
-            VKMainExecutor.executeVKQuery(this, createQuery(),
+            VKMainExecutor.executeVKQuery(getContext(), createQuery(),
                     new SimpleTaskListener<Photos>() {
                         @Override
                         public void onDone(Photos result) {
-                            VKMainExecutor.executeVKQuery(PhotoViewerActivity.this,
+                            VKMainExecutor.executeVKQuery(getContext(),
                                     createPhotoQuery(result),
                                     new SimpleTaskListener<Photos>() {
                                         @Override
                                         public void onDone(Photos result) {
-                                            PhotoViewerActivity.this.photos = result;
+                                            PhotoViewerFragment.this.photos = result;
                                         }
 
                                     }, latch);
@@ -150,23 +138,25 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
                     }, latch);
         }
-        else VKMainExecutor.executeVKQuery(this, createPhotoQuery(photos),
+        else VKMainExecutor.executeVKQuery(getContext(), createPhotoQuery(photos),
                 new SimpleTaskListener<Photos>() {
                     @Override
                     public void onDone(Photos result) {
-                        PhotoViewerActivity.this.photos = result;
+                        PhotoViewerFragment.this.photos = result;
                     }
 
                 }, latch);
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
-        setContentView(R.layout.photo_viewer_layout);
-        ButterKnife.bind(this);
+    protected View initUI(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(
+                R.layout.photo_viewer_layout, container, false);
 
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
+        ButterKnife.bind(this, rootView);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(getToolbar());
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -182,16 +172,23 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
         animationSet.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                   createViewPager();
+                createViewPager();
             }
         });
 
         animationSet.start();
+        return rootView;
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
+    protected void initContent(Bundle bundle) {
+        imagePos = bundle.getInt(IMAGE_POSITION, 0);
+        sourceId = bundle.getInt(IMAGE_SOURCE, 0);
+        date = bundle.getInt(IMAGE_DATE, 0);
+        photos = (Photos) bundle.getSerializable(IMAGE_ARRAY);
+        type = EnumUtils.deserialize(FilterType.class).from(bundle, FilterType.POST);
+
+        latch = new CountDownLatch(1);
     }
 
     private void createViewPager(){
@@ -201,12 +198,12 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             e.printStackTrace();
         }
 
-        actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ photos.getCount());
+        actionBar.setTitle((imagePos + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getCount());
 
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PhotoViewerAdapter adapter = new PhotoViewerAdapter(getSupportFragmentManager(), photos, new View.OnClickListener() {
+                PhotoViewerAdapter adapter = new PhotoViewerAdapter(((AppCompatActivity) getActivity()).getSupportFragmentManager(), photos, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (isShownInfo)
@@ -237,6 +234,11 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             }
         });
     }
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
     private VKQuery<Photos> createQuery() {
         VKQuery query = null;
         VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
@@ -281,95 +283,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
         }
 
         return query;
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.photo_viewer_show, R.anim.photo_viewer_hide);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (isShownInfo)
-            bottomInitY = getResources().getDisplayMetrics().heightPixels - bottomPanel.getHeight();
-        else
-            bottomInitY = getResources().getDisplayMetrics().heightPixels - bottomPanel.getHeight();
-        bottomInitY-= WindowUtils.getStatusBarHeight(this);
-    }
-
-    private void loadPhotoData(final PhotosInfo currentPhoto){
-        VKMainExecutor.executeRunnable(new Runnable() {
-            @Override
-            public void run() {
-                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
-                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-
-                    @Override
-                    public void run() {
-                        postLikeImage.setImageBitmap(bitmap);
-                        LikesInfo likes = currentPhoto.getLikes();
-
-                        if (likes!=null) {
-                            postLikeCount.setText(String.valueOf(likes.getCount()));
-                            if (likes.getUserLikes())
-                                ViewCompat.setAlpha(postLikeImage, 0.5f);
-                            else ViewCompat.setAlpha(postLikeImage, 1f);
-                        }
-                    }
-                });
-            }
-        });
-
-        VKMainExecutor.executeRunnable(new Runnable() {
-            @Override
-            public void run() {
-                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
-                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-
-                    @Override
-                    public void run() {
-                        postCommentImage.setImageBitmap(bitmap);
-
-                        CommentsInfo commentsInfo = currentPhoto.getComments();
-                        if (commentsInfo != null) {
-                            postCommentCount.setText(String.valueOf(commentsInfo.getCount()));
-                            if (!currentPhoto.isCanComment())
-                                postCommentLayout.setVisibility(View.INVISIBLE);
-                            else postCommentLayout.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-            }
-        });
-        VKMainExecutor.executeRunnable(new Runnable() {
-            @Override
-            public void run() {
-                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
-                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-
-                    @Override
-                    public void run() {
-                        postShareImage.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        });
-
-        VKMainExecutor.executeRunnable(new Runnable() {
-            @Override
-            public void run() {
-                PhotoViewerActivity.this.runOnUiThread(new Runnable() {
-                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.photo_viewer_info_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-
-                    @Override
-                    public void run() {
-                        photoViewerImage.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        });
     }
 
     public void showInfo(){
@@ -418,4 +331,78 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
         });
         set.start();
     }
+
+    private void loadPhotoData(final PhotosInfo currentPhoto){
+        VKMainExecutor.executeRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(getActivity(), R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postLikeImage.setImageBitmap(bitmap);
+                        LikesInfo likes = currentPhoto.getLikes();
+
+                        if (likes != null) {
+                            postLikeCount.setText(String.valueOf(likes.getCount()));
+                            if (likes.getUserLikes())
+                                ViewCompat.setAlpha(postLikeImage, 0.5f);
+                            else ViewCompat.setAlpha(postLikeImage, 1f);
+                        }
+                    }
+                });
+            }
+        });
+
+        VKMainExecutor.executeRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(getContext(), R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postCommentImage.setImageBitmap(bitmap);
+
+                        CommentsInfo commentsInfo = currentPhoto.getComments();
+                        if (commentsInfo != null) {
+                            postCommentCount.setText(String.valueOf(commentsInfo.getCount()));
+                            if (!currentPhoto.isCanComment())
+                                postCommentLayout.setVisibility(View.INVISIBLE);
+                            else postCommentLayout.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        });
+        VKMainExecutor.executeRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(getContext(), R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        postShareImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+
+        VKMainExecutor.executeRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    Bitmap bitmap = BitmapUtils.appyColorFilterForResource(getContext(), R.drawable.photo_viewer_info_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+
+                    @Override
+                    public void run() {
+                        photoViewerImage.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+    }
+
 }

@@ -1,15 +1,37 @@
 package ru.diaproject.vkplus.core.executor;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import ru.diaproject.vkplus.core.VKDataCore;
+import ru.diaproject.vkplus.vkcore.queries.VKQuery;
+
 public enum VKMainExecutor {
     INSTANCE;
+
+    public static <T extends VKDataCore> void executeVKQuery(Context context,
+                                                             VKQuery<T> query,
+                                                             VKTask.ITaskListener<T> listener){
+        VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(context, query,listener));
+    }
+
+    public static <T extends VKDataCore> void executeVKQuery(Context context,
+                                                             VKQuery<T> query,
+                                                             VKTask.ITaskListener<T> listener, CountDownLatch latch){
+        VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(context, query,listener, latch));
+    }
+
+    public static void executeRunnable(Runnable runnable){
+        INSTANCE.execute(runnable);
+    }
     private static final int MAX_TASK_COUNT = 100;
     public static abstract class VKTask {
 
@@ -87,6 +109,7 @@ public enum VKMainExecutor {
         executingTasks.add(query.id);
         networkThreadPool.execute(query);
     }
+
     public void execute (Runnable runnable){
         localThreadPool.submit(runnable);
     }

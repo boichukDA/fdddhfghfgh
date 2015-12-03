@@ -15,6 +15,12 @@ public class PhotosInfo implements Serializable {
     private Integer height;
     private Integer width;
 
+    //Extended
+    private CommentsInfo comments;
+    private LikesInfo likes;
+    private boolean canComment;
+    private boolean canRepost;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +107,37 @@ public class PhotosInfo implements Serializable {
 
     public void setPhoto2560(String photo2560) {
         this.photo2560 = photo2560;
+    }
+
+    public LikesInfo getLikes() {
+        return likes;
+    }
+
+    public void setLikes(LikesInfo likes) {
+        this.likes = likes;
+    }
+
+    public CommentsInfo getComments() {
+        return comments;
+    }
+
+    public void setComments(CommentsInfo comments) {
+        this.comments = comments;
+    }
+
+    public boolean isCanComment() {
+        return canComment;
+    }
+
+    public void setCanComment(boolean canComment) {
+        this.canComment = canComment;
+    }
+
+    public boolean isCanRepost() {
+        return canRepost;
+    }
+
+    public void setCanRepost(boolean canRepost) {
+        this.canRepost = canRepost;
     }
 }

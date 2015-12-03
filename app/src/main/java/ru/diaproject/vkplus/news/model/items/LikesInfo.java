@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class LikesInfo{
+import java.io.Serializable;
+
+public class LikesInfo implements Serializable{
     private Integer count;
     private Boolean userLikes;
     private Boolean canLikes;

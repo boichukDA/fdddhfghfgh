@@ -94,7 +94,7 @@ public class WallPhotoItemBinder extends DataBinder<WallPhotoItemViewHolder> {
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount()-7, photos.getCount()-7));
 
-        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(),parent.getUser() );
+        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(),parent );
     }
 
 }

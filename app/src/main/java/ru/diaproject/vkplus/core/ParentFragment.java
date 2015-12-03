@@ -1,15 +1,19 @@
 package ru.diaproject.vkplus.core;
 
-import android.content.Intent;
+
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -22,11 +26,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.core.executor.VKQueryTask;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.news.model.users.User;
-import ru.diaproject.vkplus.vkcore.VK;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
@@ -35,79 +38,65 @@ import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
 import ru.diaproject.vkplus.vkcore.queries.VkQueryBuilderException;
 import ru.diaproject.vkplus.vkcore.user.VKUser;
 
-public abstract class ParentActivityNoTitle extends AppCompatActivity {
-    public static final String VK_USER_ARG = "user";
+public abstract class ParentFragment extends Fragment implements ILoggable{
     private VKUser user;
     private DrawerImplementation impl;
 
-     private void initContext(Bundle savedInstanceState){
-         Intent intent = getIntent();
-         Bundle bundle = intent.getExtras();
-         VKUser user = bundle.getParcelable(VK_USER_ARG);
-         if (user == null)
-             throw new RuntimeException("User not come");
-
-         setUser(user);
-
-         initContent(savedInstanceState, intent);
-     }
-
-    protected  void initContent(Bundle savedInstanceState, Intent activityIntent){}
-
     protected abstract void initBackend(Bundle savedInstanceState);
 
-    protected abstract void initUI(Bundle savedInstanceState);
+    protected abstract View initUI(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
+    @Nullable
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+        if (user == null)
+            throw new RuntimeException("User not come");
+
+        Bundle bundle = getArguments();
+        initContent(bundle);
+
+        View returnView = null;
         try {
-            initContext(savedInstanceState);
-            initUI(savedInstanceState);
-            VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(this, createQuery(),
-                    new VKMainExecutor.VKTask.ITaskListener<User>() {
+            returnView = initUI(inflater, container, savedInstanceState);
+            VKMainExecutor.executeVKQuery(getContext(), createQuery(),
+                    new SimpleTaskListener<User>() {
                         @Override
                         public void onDone(final User result) {
                             impl = new DrawerImplementation();
 
-                            final Bitmap icon = BitmapUtils.loadBitmap(result.getPhoto100(), ParentActivityNoTitle.this);
-                            impl.setFriendsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.drawer_friends_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY  ));
+                            final Bitmap icon = BitmapUtils.loadBitmap(result.getPhoto100(), getContext());
+                            impl.setFriendsSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
+                                    R.drawable.drawer_friends_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setPhotoSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setPhotoSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.news_photo_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setVideoSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setVideoSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.news_video_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setAudioSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setAudioSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.news_drawer_audios_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setMessageSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setMessageSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.drawer_charts_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setGroupSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setGroupSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.news_group_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setNewsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setNewsSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.news_group_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            impl.setSettingsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
+                            impl.setSettingsSelectedBitmap(BitmapUtils.appyColorFilterForResource(getContext(),
                                     R.drawable.drawer_settings_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
-                            runOnUiThread(new Runnable() {
+                            ((Activity)getContext()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     initDrawer(result, icon);
                                 }
                             });
                         }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            System.out.print("");
-                        }
-                    }));
+                    });
 
             new Thread(new Runnable() {
                 @Override
@@ -115,10 +104,10 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                     try {
                         initBackend(savedInstanceState);
                     } catch (final Throwable e) {
-                        runOnUiThread(new Runnable() {
+                        ((Activity)getContext()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.fatal_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getResources().getString(R.string.fatal_error), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -127,14 +116,33 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
 
         } catch (final Throwable e) {
             Log.e(getLogName(), "exception", e);
-            runOnUiThread(new Runnable() {
+            ((Activity)getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.fatal_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.fatal_error), Toast.LENGTH_SHORT).show();
                 }
             });
         }
+        return returnView;
     }
+
+    protected abstract void initContent(Bundle bundle);
+
+    @Override
+    public String getLogName() {
+        return getClass().getSimpleName();
+    }
+
+    protected abstract Toolbar getToolbar();
+
+    public void setUser(VKUser user) {
+        this.user = user;
+    }
+
+    public VKUser getUser() {
+        return user;
+    }
+
     private void initDrawer(User result, Bitmap icon) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem();
         profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
@@ -143,10 +151,10 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
 
         if (icon!= null)
             profileDrawerItem.withIcon(icon);
-        else profileDrawerItem.withIcon(ContextCompat.getDrawable(this, R.drawable.man_siluette));
+        else profileDrawerItem.withIcon(ContextCompat.getDrawable(getContext(), R.drawable.man_siluette));
 
         AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
+                .withActivity(getActivity())
                 .withHeaderBackground(R.color.m_indigo)
                 .addProfiles(profileDrawerItem)
                 .withSelectionListEnabledForSingleProfile(false)
@@ -216,7 +224,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                 .withIdentifier(7);
 
         new DrawerBuilder()
-                .withActivity(this)
+                .withActivity(getActivity())
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggle(false)
                 .withStatusBarColorRes(R.color.m_indigo)
@@ -242,15 +250,15 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                 .build();
     }
 
-    private VKQuery createQuery(){
-        VKQuery query = null;
-        VKQueryBuilder builder;
+    private VKQuery<User> createQuery(){
+        VKQuery<User> query = null;
+        VKQueryBuilder<User> builder;
         try {
-            builder = new VKQueryBuilder(user.getConfiguration())
-                    .setVKQueryType(VKQueryType.USERS)
-                    .setVKMethod(VKQuerySubMethod.DEFAULT)
-                    .setResultFormatType(VKQueryResponseTypes.JSON)
-                    .setVKResultType(User.class);
+            builder = new VKQueryBuilder<>(user.getConfiguration());
+            builder.setVKQueryType(VKQueryType.USERS);
+            builder.setVKMethod(VKQuerySubMethod.DEFAULT);
+            builder.setResultFormatType(VKQueryResponseTypes.JSON);
+            builder.setVKResultType(User.class);
             builder.addCondition("fields", "city,verified,status,photo_100");
             builder.addCondition("user_ids", user.getAccountId());
 
@@ -260,24 +268,5 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         }
 
         return query;
-    }
-
-    protected  String getLogName(){
-        return getClass().getSimpleName();
-    }
-    protected abstract Toolbar getToolbar();
-
-    public void setUser(VKUser user) {
-        this.user = user;
-    }
-
-    public VKUser getUser() {
-        return user;
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        intent.putExtra(VK_USER_ARG, VK.SINGLETON.getUser());
-        super.startActivity(intent);
     }
 }

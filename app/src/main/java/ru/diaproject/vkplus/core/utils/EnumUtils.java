@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.core.utils;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 
 public final class EnumUtils {
     public static class Serializer<T extends Enum<T>> extends Deserializer<T> {
@@ -30,6 +31,11 @@ public final class EnumUtils {
         public T from(Intent intent, T defaultValue) {
             if (!intent.hasExtra(name)) return defaultValue;
             return victimType.getEnumConstants()[intent.getIntExtra(name, -1)];
+        }
+
+        public T from(Bundle bundle, T defaultValue) {
+            if (!bundle.containsKey(name)) return defaultValue;
+            return victimType.getEnumConstants()[bundle.getInt(name, -1)];
         }
     }
     public static <T extends Enum<T>> Deserializer<T> deserialize(Class<T> victim) {

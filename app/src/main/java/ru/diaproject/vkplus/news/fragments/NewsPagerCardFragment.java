@@ -12,11 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -25,14 +20,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ILoggable;
-import ru.diaproject.vkplus.core.animations.ResizeAnimation;
+import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.executor.VKQueryTask;
+import ru.diaproject.vkplus.news.NewsActivity;
 import ru.diaproject.vkplus.news.NewsVariant;
 import ru.diaproject.vkplus.news.adapters.NewsMapBindAdapter;
 import ru.diaproject.vkplus.news.model.Response;
 import ru.diaproject.vkplus.news.viewholders.FriendItemViewHolder;
-import ru.diaproject.vkplus.news.viewholders.FriendSubItemViewHolder;
 import ru.diaproject.vkplus.news.viewholders.PhotoItemViewHolder;
 import ru.diaproject.vkplus.news.viewholders.PhotoTagItemViewHolder;
 import ru.diaproject.vkplus.news.viewholders.PostItemViewHolder;
@@ -183,17 +178,15 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     }
 
     private VKQuery createQuery(){
-        VKQuery query = null;
-        VKQueryBuilder builder;
+        VKQuery<Response> query = null;
+        VKQueryBuilder<Response> builder = new VKQueryBuilder<>(user.getConfiguration());
+        builder.setVKQueryType(VKQueryType.NEWS);
+        builder.setVKMethod(variant.getSubMethod());
+        builder.setResultFormatType(VKQueryResponseTypes.JSON);
+        builder.setVKResultType(Response.class);
+        builder.addCondition("filters", variant.getPostFilter());
+        builder.addCondition("max_photos", "7");
         try {
-            builder = new VKQueryBuilder(user.getConfiguration())
-                    .setVKQueryType(VKQueryType.NEWS)
-                    .setVKMethod(variant.getSubMethod())
-                    .setResultFormatType(VKQueryResponseTypes.JSON)
-                    .setVKResultType(Response.class);
-            builder.addCondition("filters", variant.getPostFilter());
-            builder.addCondition("max_photos", "7");
-
             query = builder.build();
         } catch (VkQueryBuilderException e) {
             e.printStackTrace();
@@ -203,22 +196,21 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     }
 
     private VKQuery createQueryFrom(String from){
-        VKQuery builder = null;
+        VKQuery<Response> query = null;
+        VKQueryBuilder<Response> builder = new VKQueryBuilder<>(user.getConfiguration());
+        builder.setVKQueryType(VKQueryType.NEWS);
+        builder.setVKMethod(VKQuerySubMethod.DEFAULT);
+        builder.setResultFormatType(VKQueryResponseTypes.JSON);
+        builder.setVKResultType(Response.class);
+        builder.addCondition("filters", "post");
+        builder.addCondition("start_from", from);
         try {
-            builder = new VKQueryBuilder(user.getConfiguration())
-                    .setVKQueryType(VKQueryType.NEWS)
-                    .setVKMethod(VKQuerySubMethod.DEFAULT)
-                    .setResultFormatType(VKQueryResponseTypes.JSON)
-                    .setVKResultType(Response.class)
-                    .addCondition("filters", "post")
-                            //  .addCondition("filters", "photo")
-                    .addCondition("start_from", from)
-                    .build();
+                 query = builder.build();
         } catch (VkQueryBuilderException e) {
             e.printStackTrace();
         }
 
-        return builder;
+        return query;
     }
 
     @Override
@@ -287,5 +279,14 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
 
     public VKUser getUser(){
         return user;
+    }
+
+    public void startFragment(ParentFragment fragment){
+        fragment.setUser(user);
+        ((NewsActivity) getActivity()).startFragment(fragment);
+    }
+    public void startFragment(ParentFragment fragment, String tag){
+        fragment.setUser(user);
+        ((NewsActivity) getActivity()).startFragment(fragment, tag);
     }
 }

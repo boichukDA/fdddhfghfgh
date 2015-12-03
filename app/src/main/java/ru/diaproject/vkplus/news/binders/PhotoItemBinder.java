@@ -1,13 +1,11 @@
 package ru.diaproject.vkplus.news.binders;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
@@ -24,9 +22,9 @@ import ru.diaproject.vkplus.news.model.users.User;
 import ru.diaproject.vkplus.news.viewholders.PhotoItemViewHolder;
 
 public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
-    private Fragment parent;
+    private NewsPagerCardFragment parent;
     private Response items;
-    public PhotoItemBinder(DataBindAdapter dataBindAdapter, Response items, Fragment fragment) {
+    public PhotoItemBinder(DataBindAdapter dataBindAdapter, Response items, NewsPagerCardFragment fragment) {
         super(dataBindAdapter);
         this.parent = fragment;
         this.items = items;
@@ -94,7 +92,7 @@ public class PhotoItemBinder extends DataBinder<PhotoItemViewHolder> {
         else holder.photoCount.setVisibility(View.GONE);
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount() - 7, photos.getCount() - 7));
-        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), ((NewsPagerCardFragment)parent).getUser(), FilterType.PHOTO);
+        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), parent, FilterType.PHOTO);
     }
 
 }

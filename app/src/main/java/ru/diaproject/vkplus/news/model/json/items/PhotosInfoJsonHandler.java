@@ -41,6 +41,22 @@ public class PhotosInfoJsonHandler {
 
         Integer height = photosJsonObject.optInt("height", 0);
         info.setHeight(height);
+
+        JSONObject comments = photosJsonObject.optJSONObject("comments");
+        if (comments != null){
+            CommentsInfoJsonHandler commentsInfoJsonHandler = new CommentsInfoJsonHandler();
+            info.setComments(commentsInfoJsonHandler.parse(comments));
+        }
+
+        JSONObject likes = photosJsonObject.optJSONObject("likes");
+        if (likes != null){
+            LikesInfoJsonHandler likesInfoJsonHandler = new LikesInfoJsonHandler();
+            info.setLikes(likesInfoJsonHandler.parse(likes));
+        }
+
+        info.setCanComment(photosJsonObject.optInt("can_comment",0)>0);
+        info.setCanRepost(photosJsonObject.optInt("can_repost",0)>0);
+
         return info;
     }
 }
