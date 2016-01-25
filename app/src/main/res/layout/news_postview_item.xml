@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:ExpandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:RobotoTextView="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,26 +21,22 @@
         android:paddingRight="8dp"
         android:paddingTop="8dp">
 
-       <ru.diaproject.vkplus.news.views.NewsHeaderView
-           android:id="@+id/news_header_layout"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:visibility="visible"/>
+        <include layout="@layout/news_item_header_merge" />
 
         <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
             android:id="@+id/news_post_main_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ExpandableTextView:expandText="see more"
-            ExpandableTextView:collapseText="see little"
             ExpandableTextView:collapseColor="@color/m_indigo"
-            ExpandableTextView:maxLines="10"/>
+            ExpandableTextView:collapseText="see little"
+            ExpandableTextView:expandText="see more"
+            ExpandableTextView:maxLines="10" />
 
-       <ru.diaproject.vkplus.news.views.NewsPostAttachmentContainer
-           android:id="@+id/news_main_attachment"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="vertical"/>
+        <include layout="@layout/news_photos_layout_merge" />
+
+        <include layout="@layout/news_videos_layout_merge"/>
+
+        <include layout="@layout/news_audios_layout_merge"/>
 
         <LinearLayout
             android:id="@+id/news_post_history_layout"
@@ -48,31 +44,34 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="10dp">
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/m_indigo"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:background="@color/m_indigo" />
+
             <LinearLayout
-                android:id="@+id/news_copy_history_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <ru.diaproject.vkplus.news.views.NewsPostCopyHistoryLayout
-                android:id="@+id/news_post_first_inner_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <ru.diaproject.vkplus.news.views.NewsPostCopyHistoryLayout
-                android:id="@+id/news_post_second_inner_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+
+                <include
+                    android:id="@+id/news_post_copy_history_first"
+                    layout="@layout/news_first_copyhistory_layout_merge" />
+
+                <include
+                    android:id="@+id/news_post_copy_history_second"
+                    layout="@layout/news_first_copyhistory_layout_merge" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/news_post_like_layout"
                 android:layout_width="0dp"
@@ -80,26 +79,30 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:id="@+id/news_post_like_image"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp" />
+
                     <com.devspark.robototextview.widget.RobotoTextView
                         android:id="@+id/news_post_like_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:layout_gravity="center"
+                        android:textSize="14sp"
                         RobotoTextView:fontFamily="roboto"
-                        RobotoTextView:textWeight="light"/>
-                 </LinearLayout>
+                        RobotoTextView:textWeight="light" />
+                </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/news_post_comment_layout"
                 android:layout_width="0dp"
@@ -107,26 +110,30 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
-                    android:layout_marginRight="5dp">
-                <ImageView
-                    android:id="@+id/news_post_comment_image"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="5dp"/>
-                <com.devspark.robototextview.widget.RobotoTextView
-                    android:id="@+id/news_post_comment_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    RobotoTextView:fontFamily="roboto"
-                    RobotoTextView:textWeight="light"/>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/news_post_comment_image"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="5dp" />
+
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        android:id="@+id/news_post_comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        RobotoTextView:fontFamily="roboto"
+                        RobotoTextView:textWeight="light" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/news_post_share_layout"
                 android:layout_width="0dp"
@@ -134,24 +141,27 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
-                    android:layout_marginRight="5dp">
-                <ImageView
-                    android:id="@+id/news_post_share_image"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="5dp" />
-                <com.devspark.robototextview.widget.RobotoTextView
-                    android:id="@+id/news_post_share_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    RobotoTextView:fontFamily="roboto"
-                    RobotoTextView:textWeight="light"/>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/news_post_share_image"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="5dp" />
+
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        android:id="@+id/news_post_share_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        RobotoTextView:fontFamily="roboto"
+                        RobotoTextView:textWeight="light" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

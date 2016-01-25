@@ -1,18 +1,11 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class AppInfo {
-    private Integer id;
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class AppInfo extends DataObject {
     private String name;
     private String photo130;
     private String photo604;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

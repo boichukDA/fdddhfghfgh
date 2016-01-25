@@ -1,21 +1,14 @@
 package ru.diaproject.vkplus.news.model.items;
 
-import org.xml.sax.ContentHandler;
-
-import java.io.Serializable;
 import java.util.List;
 
-import ru.diaproject.vkplus.core.VKDataCore;
-import ru.diaproject.vkplus.core.utils.json.JsonHandler;
-import ru.diaproject.vkplus.news.model.json.items.PhotosResponseJsonHandler;
+import ru.diaproject.vkplus.news.model.DataObject;
 
-public class Photos implements VKDataCore, Serializable {
+public class Photos extends DataObject{
     private Integer count;
     private List<PhotosInfo> photos;
-    private PhotosResponseJsonHandler jsonHandler;
 
-    public Photos(){
-        jsonHandler = new PhotosResponseJsonHandler(this);
+    public Photos() {
     }
     public Integer getCount() {
         return count;
@@ -33,13 +26,4 @@ public class Photos implements VKDataCore, Serializable {
         this.photos = photos;
     }
 
-    @Override
-    public ContentHandler getXmlHandler() {
-        return null;
-    }
-
-    @Override
-    public JsonHandler getJsonHandler() {
-        return jsonHandler;
-    }
 }

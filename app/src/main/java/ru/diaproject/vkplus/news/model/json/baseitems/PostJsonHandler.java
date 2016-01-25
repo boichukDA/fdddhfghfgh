@@ -4,11 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.diaproject.vkplus.news.model.attachments.Attachment;
+import ru.diaproject.vkplus.news.model.attachments.AttachmentType;
 import ru.diaproject.vkplus.news.model.attachments.Attachments;
-import ru.diaproject.vkplus.news.model.baseitems.NewsEntityBase;
-import ru.diaproject.vkplus.news.model.baseitems.NewsPostItem;
+import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.baseitems.PostType;
+import ru.diaproject.vkplus.news.model.baseitems.DataMainItem;
+import ru.diaproject.vkplus.news.model.baseitems.DataPostItem;
+import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.items.CopyHistory;
+import ru.diaproject.vkplus.news.model.items.Photos;
+import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 import ru.diaproject.vkplus.news.model.items.PostSourceInfo;
 import ru.diaproject.vkplus.news.model.json.attachments.AttachmentsJsonHandler;
 import ru.diaproject.vkplus.news.model.json.items.CommentsInfoJsonHandler;
@@ -19,9 +29,9 @@ import ru.diaproject.vkplus.news.model.json.items.RepostsInfoJsonHandler;
 
 public class PostJsonHandler extends AttachmentJsonParser {
     @Override
-    public NewsPostItem parse(JSONObject object, NewsEntityBase value) throws JSONException {
+    public IDataMainItem parse(JSONObject object, DataMainItem value) throws JSONException {
 
-        NewsPostItem postValue = (NewsPostItem) value;
+        DataPostItem postValue = (DataPostItem) value;
         PostType type = PostType.valueOf(object.optString("post_type", "").toUpperCase());
         postValue.setPostType(type);
 
@@ -49,7 +59,7 @@ public class PostJsonHandler extends AttachmentJsonParser {
         if (attachments!=null) {
             AttachmentsJsonHandler handler = new AttachmentsJsonHandler();
             Attachments attachms = handler.parse(attachments);
-            value.setAttachments(attachms);
+            setAttachments(value, attachms);
         }
 
         JSONObject postSource = object.optJSONObject("post_source");
@@ -76,6 +86,36 @@ public class PostJsonHandler extends AttachmentJsonParser {
             RepostsInfoJsonHandler repostsInfoJsonHandler = new RepostsInfoJsonHandler();
             postValue.setReposts(repostsInfoJsonHandler.parse(reposts));
         }
-        return (NewsPostItem) value;
+        return value;
+    }
+
+    public  void setAttachments(DataMainItem item, Attachments attachments){
+        Photos photos = new Photos();
+        List<PhotosInfo> listPhotos = new ArrayList<>();
+        List<AudioInfo> audios = new ArrayList<>();
+        List<VideoInfo> videos = new ArrayList<>();
+
+        for (Attachment attachment:attachments.getAttachments()){
+            if (attachment.getType().equals(AttachmentType.AUDIO))
+               audios.add((AudioInfo) attachment.getItem());
+
+            if (attachment.getType().equals(AttachmentType.VIDEO))
+                videos.add((VideoInfo) attachment.getItem());
+
+            if (attachment.getType().equals(AttachmentType.PHOTO))
+                listPhotos.add((PhotosInfo) attachment.getItem());
+        }
+
+        if (!listPhotos.isEmpty()){
+            photos.setPhotos(listPhotos);
+            photos.setCount(listPhotos.size());
+            item.setPhotos(photos);
+        }
+
+        if(!audios.isEmpty())
+            item.setAudios(audios);
+
+        if (!videos.isEmpty())
+            item.setVideos(videos);
     }
 }

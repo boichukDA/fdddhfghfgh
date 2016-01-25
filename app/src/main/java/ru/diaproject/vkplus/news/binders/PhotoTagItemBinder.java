@@ -5,30 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
 import ru.diaproject.vkplus.core.databinders.DataBinder;
 import ru.diaproject.vkplus.core.utils.ColorUtils;
-import ru.diaproject.vkplus.core.utils.DateUtils;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
-import ru.diaproject.vkplus.news.model.Response;
+import ru.diaproject.vkplus.news.model.NewsResponse;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
-import ru.diaproject.vkplus.news.model.baseitems.NewsPhotoTagItem;
-import ru.diaproject.vkplus.news.model.groups.Group;
+import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.news.model.users.User;
+import ru.diaproject.vkplus.news.model.users.IDataOwner;
+import ru.diaproject.vkplus.news.model.users.OwnerSex;
 import ru.diaproject.vkplus.news.viewholders.PhotoTagItemViewHolder;
 
-public class PhotoTagItemBinder extends DataBinder<PhotoTagItemViewHolder> {
+public class PhotoTagItemBinder extends DataPhotosBinder<PhotoTagItemViewHolder, IDataMainItem> {
     private NewsPagerCardFragment parent;
-    private Response items;
 
-    public PhotoTagItemBinder(DataBindAdapter dataBindAdapter, Response items, NewsPagerCardFragment fragment) {
-        super(dataBindAdapter);
+    public PhotoTagItemBinder(DataBindAdapter dataBindAdapter, NewsResponse items, NewsPagerCardFragment fragment) {
+        super(fragment.getContext(), dataBindAdapter,items);
         this.parent = fragment;
-        this.items = items;
     }
 
     @Override
@@ -39,54 +34,14 @@ public class PhotoTagItemBinder extends DataBinder<PhotoTagItemViewHolder> {
 
     @Override
     public void bindViewHolder(PhotoTagItemViewHolder holder, int position) {
-        NewsPhotoTagItem entity = (NewsPhotoTagItem) items.getItems().get(position);
-        Integer sourceId = entity.getSourceId();
-        Integer positiveSourceId = Math.abs(sourceId);
-        String text = "";
-        String imageUrl = "";
-        Byte sex = 2;
-        if (sourceId > 0 && items.getProfiles().containsKey(sourceId) ) {
-            User user = items.getProfiles().get(sourceId);
-            sex = user.getSex();
-            text = user.getFirstName() + " " + user.getLastName();
-            imageUrl = user.getPhoto100();
-        }
-        if (sourceId < 0 && items.getGroups().containsKey(positiveSourceId) ) {
-            Group group = items.getGroups().get(positiveSourceId);
-            text = group.getName();
-            sex = 0;
-            imageUrl = group.getPhoto100();
-        }
+        IDataMainItem entity = getItem(position);
+        setDataOwner(holder, entity);
+        IDataOwner owner = entity.getItemOwner();
 
-        switch(sex){
-            case 0:
-                Glide.with(parent)
-                        .load(imageUrl)
-                        .into(holder.avatar);
-                break;
-            case 1:
-                Glide.with(parent)
-                        .load(imageUrl)
-                        .into(holder.avatar);
-                break;
-            default:
-                Glide.with(parent)
-                        .load(imageUrl)
-                        .into(holder.avatar);
-                break;
-        }
 
-        holder.name.setText(text);
+        Photos photos = entity.getAttachmentPhotos();
 
-        holder.date.setTextColor(
-                ColorUtils.setColorAlpha(
-                        ContextCompat.getColor(parent.getContext(), R.color.md_black_1000), ColorUtils.OPACITY_55));
-
-        holder.date.setText(DateUtils.newsDateFormat(entity.getDate(), parent.getContext()));
-
-        Photos photos = entity.getAttachments();
-
-        if (sex.equals(Byte.valueOf("2")))
+        if (owner.getSex().equals(OwnerSex.MAN))
             holder.markedText.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_marked_text_man, photos.getCount(), photos.getCount()));
         else
             holder.markedText.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_marked_text_woman, photos.getCount(), photos.getCount()));
@@ -95,12 +50,11 @@ public class PhotoTagItemBinder extends DataBinder<PhotoTagItemViewHolder> {
                 ColorUtils.setColorAlpha(
                         ContextCompat.getColor(parent.getContext(), R.color.md_black_1000), ColorUtils.OPACITY_55));
 
-        if (photos.getCount()>(7))
+        if (photos.getCount()>getMaxPhotosDisplay())
             holder.photoCount.setVisibility(View.VISIBLE);
         else holder.photoCount.setVisibility(View.GONE);
 
-        holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount()-7, photos.getCount()-7));
-        holder.photoViewContainer.setData(photos, entity.getSourceId(), entity.getDate(), parent, FilterType.PHOTO_TAG);
+        holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount() - 7, photos.getCount()-7));
+        setPhotos(entity.getAttachmentPhotos(), holder);
     }
-
 }

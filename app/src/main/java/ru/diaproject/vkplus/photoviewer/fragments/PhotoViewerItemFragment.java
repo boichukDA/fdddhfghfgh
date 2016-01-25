@@ -11,22 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.imageloading.ImageLoader;
+import ru.diaproject.vkplus.imageloading.OnCompletedListener;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 
 public class PhotoViewerItemFragment extends Fragment {
-    @Bind(R.id.photo_viewer_item_image)
-    ImageView view;
-
-    @Bind(R.id.photo_viewer_item_progress)
-    ProgressBar progress;
+    private ImageView view;
+    private ProgressBar progress;
 
     private PhotosInfo info;
     private float mLastTouchX;
@@ -43,7 +35,8 @@ public class PhotoViewerItemFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.photo_viewer_item_layout, container, false);
 
-        ButterKnife.bind(this, rootView);
+        view = (ImageView) rootView.findViewById(R.id.photo_viewer_item_image);
+        progress = (ProgressBar) rootView.findViewById(R.id.photo_viewer_item_progress);
 
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -88,19 +81,13 @@ public class PhotoViewerItemFragment extends Fragment {
 
         progress.setVisibility(View.VISIBLE);
 
-        Glide.with(this).load(info.getPhoto604()).listener(new RequestListener<String, GlideDrawable>() {
+        ImageLoader.load(view, info.getPhoto604(), new OnCompletedListener() {
             @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+            public void onCompleted() {
                 progress.setVisibility(View.GONE);
-                return false;
             }
+        });
 
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                progress.setVisibility(View.GONE);
-                return false;
-            }
-        }).into(view);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

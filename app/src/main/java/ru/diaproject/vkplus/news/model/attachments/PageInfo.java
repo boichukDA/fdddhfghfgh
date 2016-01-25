@@ -1,7 +1,11 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class PageInfo {
-    private Integer id;
+import java.io.Serializable;
+
+import ru.diaproject.vkplus.news.model.DataObject;
+
+//Need to completed
+public class PageInfo extends DataObject {
     private Integer groupId;
     private Integer creatorId;
     private String title;
@@ -18,14 +22,6 @@ public class PageInfo {
     private String source;
     private String html;
     private String viewUrl;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getGroupId() {
         return groupId;

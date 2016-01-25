@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swiperefreshlayout"
@@ -22,6 +22,6 @@
             android:layout_height="wrap_content"
             android:background="@color/m_background_gray">
         </android.support.v7.widget.RecyclerView>
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </LinearLayout>

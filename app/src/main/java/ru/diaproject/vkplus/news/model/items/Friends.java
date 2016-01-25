@@ -2,7 +2,9 @@ package ru.diaproject.vkplus.news.model.items;
 
 import java.util.List;
 
-public class Friends {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class Friends extends DataObject {
     private Integer count;
     private List<Integer> friends;
 

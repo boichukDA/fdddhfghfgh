@@ -1,18 +1,10 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class PostedPhotoInfo {
-    private Integer id;
-    private Integer ownerId;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class PostedPhotoInfo extends DataItem {
     private String photo130;
     private String photo604;
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public String getPhoto130() {
         return photo130;
@@ -30,11 +22,4 @@ public class PostedPhotoInfo {
         this.photo604 = photo604;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

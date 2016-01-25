@@ -1,6 +1,5 @@
 package ru.diaproject.vkplus.news.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 
 import ru.diaproject.vkplus.news.NewsActivity;
 import ru.diaproject.vkplus.news.NewsFragmentSelector;
+import ru.diaproject.vkplus.news.NewsUserConfig;
 import ru.diaproject.vkplus.news.NewsVariantContainer;
 import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
 import ru.diaproject.vkplus.vkcore.user.VKUser;

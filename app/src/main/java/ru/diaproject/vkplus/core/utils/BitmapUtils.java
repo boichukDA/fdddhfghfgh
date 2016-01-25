@@ -11,12 +11,10 @@ import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-
 import java.util.concurrent.ExecutionException;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.imageloading.ImageLoader;
 
 
 public class BitmapUtils {
@@ -33,10 +31,7 @@ public class BitmapUtils {
     public static Bitmap loadBitmap(String url, Context context){
         Bitmap bitmap = null;
         try {
-              bitmap = Glide.with(context).load(url).asBitmap()
-                      .error(R.drawable.picture_placeholder)
-                      .placeholder(R.drawable.picture_placeholder)
-                      .format(DecodeFormat.PREFER_RGB_565).into(-1, -1).get();
+              bitmap = ImageLoader.loadBitmap(url, R.drawable.picture_placeholder, R.drawable.picture_placeholder);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

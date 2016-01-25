@@ -3,10 +3,11 @@ package ru.diaproject.vkplus.vkcore.queries;
 
 import java.util.HashMap;
 
-import ru.diaproject.vkplus.core.VKDataCore;
+import ru.diaproject.vkplus.news.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
-public class VKQueryBuilder<T extends VKDataCore> {
+public class VKQueryBuilder<T extends IDataObject> {
+    private static final String VK_QUERY_VERSION = "5.44";
 
     private VKQuerySubMethod subMethod = null;
     private VKQueryType queryType = null;
@@ -18,7 +19,7 @@ public class VKQueryBuilder<T extends VKDataCore> {
     public VKQueryBuilder( VKUserConfiguration configuration){
         core = VKQueryCore.createInstance(configuration);
         params = new HashMap<>();
-        params.put("v", "5.37");
+        params.put("v", VK_QUERY_VERSION);
         responseType = VKQueryResponseTypes.JSON;
     }
     public VKQueryBuilder setVKQueryType(VKQueryType queryType){

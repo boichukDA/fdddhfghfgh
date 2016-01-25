@@ -10,7 +10,7 @@ public class AttachNodeInfoJsonHandler {
     public AttachNoteInfo parse(JSONObject jsonObject) throws JSONException {
         AttachNoteInfo info = new AttachNoteInfo();
         info.setId(jsonObject.getInt("id"));
-        info.setUserId(jsonObject.getInt("user_id"));
+        info.setOwnerId(jsonObject.getInt("user_id"));
         info.setTitle(jsonObject.getString("title"));
         info.setText(jsonObject.getString("text"));
         info.setDate(jsonObject.getInt("date"));

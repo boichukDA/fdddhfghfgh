@@ -1,8 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-import java.io.Serializable;
+import ru.diaproject.vkplus.news.model.DataObject;
 
-public class CommentsInfo implements Serializable{
+public class CommentsInfo extends DataObject {
     private Integer count;
     private Boolean canPost;
 

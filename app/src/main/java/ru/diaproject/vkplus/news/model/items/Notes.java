@@ -2,7 +2,9 @@ package ru.diaproject.vkplus.news.model.items;
 
 import java.util.List;
 
-public class Notes {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class Notes extends DataObject {
     private Integer count;
     private List<NotesInfo> notes;
 

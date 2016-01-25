@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,43 +25,80 @@ import android.widget.Toast;
 
 import java.util.ArrayDeque;
 
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 
 import ru.diaproject.vkplus.core.ParentFragment;
+import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.news.adapters.NewsPagerAdapter;
 import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
+import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class NewsActivity extends ParentActivityNoTitle {
     public static final String STACK_NAME = "NewsActivityStack";
+
     private ArrayDeque<ParentFragment> fragments;
-    @Bind(R.id.tablayout)
     TabLayout tabLayout;
-
-    @Bind(R.id.viewpager)
     ViewPager pager;
-
-    @Bind(R.id.fab)
     FloatingActionButton fab;
-
-    @Bind(R.id.toolbar)
     Toolbar toolbar;
-
-    @Bind(R.id.news_frontend_placeholder)
     FrameLayout fragmentsLayout;
+
     @Override
     protected void initBackend(Bundle savedInstanceState) {
         fragments = new ArrayDeque<>();
+        initUserConfiguration(getUser());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PagerAdapter myAdapter = new NewsPagerAdapter(NewsActivity.this.getSupportFragmentManager(),
+                        NewsActivity.this, getUser(), new OnFabStateChangeListener() {
+                    @Override
+                    public void onShow() {
+                        showFab();
+                    }
+
+                    @Override
+                    public void onHide() {
+                        hideFab();
+                    }
+                });
+                pager.setAdapter(myAdapter);
+                tabLayout.setupWithViewPager(pager);
+                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                pager.setCurrentItem(0);
+
+            }
+        });
+    }
+
+    private void initUserConfiguration(VKUser user) {
+        NewsUserConfig newsUserConfig = new NewsUserConfig();
+
+        Bitmap audioPlay = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_audio_play_large_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        newsUserConfig.setAudioPlayBitmap(audioPlay);
+
+        Bitmap likeBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        newsUserConfig.setPostLikeBitmap(likeBitmap);
+
+        Bitmap commentBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        newsUserConfig.setPostCommentBitmap(commentBitmap);
+
+        Bitmap shareBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        newsUserConfig.setPostShareBitmap(shareBitmap);
+        getUser().setNewsUserConfiguration(newsUserConfig);
     }
 
     @Override
     protected void initUI(Bundle savedInstanceState) {
         setContentView(R.layout.news_layout);
-        ButterKnife.bind(this);
+
+        tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        pager = (ViewPager) findViewById(R.id.viewpager);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fragmentsLayout = (FrameLayout) findViewById(R.id.news_frontend_placeholder);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -82,21 +121,6 @@ public class NewsActivity extends ParentActivityNoTitle {
                 }).show();
             }
         });
-        PagerAdapter myAdapter = new NewsPagerAdapter(getSupportFragmentManager(), this,  getUser(), new OnFabStateChangeListener(){
-            @Override
-            public void onShow() {
-                showFab();
-            }
-
-            @Override
-            public void onHide() {
-hideFab();
-            }
-        });
-        pager.setAdapter(myAdapter);
-        tabLayout.setupWithViewPager(pager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        pager.setCurrentItem(0);
     }
 
     private void hideFab() {
@@ -109,11 +133,6 @@ hideFab();
         Log.e("FAB", "SHOW");
         fab.setVisibility(View.VISIBLE);
         fab.show();
-    }
-
-    @Override
-    protected String getLogName() {
-        return null;
     }
 
     @Override

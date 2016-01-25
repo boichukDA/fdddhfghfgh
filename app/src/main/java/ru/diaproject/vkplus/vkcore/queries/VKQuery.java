@@ -1,8 +1,9 @@
 package ru.diaproject.vkplus.vkcore.queries;
 
-import ru.diaproject.vkplus.core.VKDataCore;
 
-public class VKQuery<T extends VKDataCore> {
+import ru.diaproject.vkplus.news.model.users.IDataObject;
+
+public class VKQuery<T extends IDataObject> {
     private StringBuilder builder;
     private VKQueryResponseTypes responseType;
     private Class<T> resultType;

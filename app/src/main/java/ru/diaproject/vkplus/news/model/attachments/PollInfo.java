@@ -2,31 +2,15 @@ package ru.diaproject.vkplus.news.model.attachments;
 
 import java.util.List;
 
-public class PollInfo {
-    private Integer id;
-    private Integer ownerId;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class PollInfo extends DataItem{
     private Integer created;
     private String question;
 
     private Integer votes;
     private Integer answerId;
     private List<PollAnswer> answers;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public Integer getCreated() {
         return created;

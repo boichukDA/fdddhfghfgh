@@ -1,19 +1,12 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
 
-public class PollAnswer {
-    private Integer id;
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class PollAnswer extends DataObject {
     private String text;
     private Integer votes;
     private Integer rate;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getText() {
         return text;

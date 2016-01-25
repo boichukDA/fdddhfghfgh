@@ -72,7 +72,6 @@ public abstract class ParentActivity extends Activity {
             rootLayout = (LinearLayout) inflater.inflate(R.layout.vkplus_header_layout, null);
 
             headerLayout = (RelativeLayout) rootLayout.findViewById(R.id.header_layout);
-           //TODO: ����������� � ������� � �������
 
             userLayout = (LinearLayout) rootLayout.findViewById(R.id.user_view_container);
 

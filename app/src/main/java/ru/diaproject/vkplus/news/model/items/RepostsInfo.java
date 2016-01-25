@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class RepostsInfo {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class RepostsInfo extends DataObject{
     private Integer count;
     private Boolean userReposted;
 

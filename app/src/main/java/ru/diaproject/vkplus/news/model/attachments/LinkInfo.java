@@ -1,8 +1,10 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
+
+import ru.diaproject.vkplus.news.model.DataObject;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 
-public class LinkInfo {
+public class LinkInfo extends DataObject {
     private String url;
     private String title;
     private String description;

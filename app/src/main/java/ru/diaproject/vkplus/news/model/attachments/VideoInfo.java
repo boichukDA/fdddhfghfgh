@@ -1,8 +1,11 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class VideoInfo {
-    private Integer id;
-    private Integer ownerId;
+
+import ru.diaproject.vkplus.core.utils.DateUtils;
+import ru.diaproject.vkplus.news.model.IDataResult;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class VideoInfo extends DataItem implements IDataResult{
     private String title;
     private String description;
     private Integer duration;
@@ -17,21 +20,7 @@ public class VideoInfo {
     private String accessKey;
     private Boolean processing;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
+    private String convertedDuration;
 
     public String getTitle() {
         return title;
@@ -135,5 +124,18 @@ public class VideoInfo {
 
     public void setProcessing(Boolean processing) {
         this.processing = processing;
+    }
+
+    @Override
+    public void prepareItems() {
+       setConvertedDuration(DateUtils.toVideoTimeFormat(duration));
+    }
+
+    public String getConvertedDuration() {
+        return convertedDuration;
+    }
+
+    public void setConvertedDuration(String convertedDuration) {
+        this.convertedDuration = convertedDuration;
     }
 }

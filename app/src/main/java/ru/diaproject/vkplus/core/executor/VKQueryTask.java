@@ -5,29 +5,26 @@ import android.content.Context;
 
 import java.util.concurrent.CountDownLatch;
 
-import ru.diaproject.vkplus.core.VKDataCore;
 import ru.diaproject.vkplus.core.utils.Utils;
-import ru.diaproject.vkplus.core.utils.VKDataParser;
 import ru.diaproject.vkplus.core.utils.json.VKJsonDataParser;
-import ru.diaproject.vkplus.core.utils.xml.VKXmlDataParser;
-import ru.diaproject.vkplus.news.model.Response;
+import ru.diaproject.vkplus.news.model.IDataResult;
+import ru.diaproject.vkplus.news.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
 
-public class VKQueryTask<T extends VKDataCore> extends VKMainExecutor.VKTask implements Runnable {
+public class VKQueryTask<T extends IDataObject> extends VKMainExecutor.VKTask implements Runnable {
 
-    private VKQuery query;
+    private VKQuery<T> query;
     private Context context;
-    private final ITaskListener listener;
+    private final ITaskListener<T> listener;
     private CountDownLatch latch;
 
-    public VKQueryTask(Context context, VKQuery query, ITaskListener listener){
+    public VKQueryTask(Context context, VKQuery<T> query, ITaskListener<T> listener){
         this.query = query;
         this.context = context;
         this.listener = listener;
     }
 
-    public VKQueryTask(Context context, VKQuery query, ITaskListener listener, CountDownLatch latch){
+    public VKQueryTask(Context context, VKQuery<T>  query, ITaskListener<T> listener, CountDownLatch latch){
         this (context, query, listener);
         this.latch = latch;
     }
@@ -38,13 +35,13 @@ public class VKQueryTask<T extends VKDataCore> extends VKMainExecutor.VKTask imp
     }
 
     protected T process(String filePath) throws Exception {
-        VKDataParser<Response> parser;
-         if (query.getResponseType().equals(VKQueryResponseTypes.XML))
-             parser = new VKXmlDataParser<>(filePath, query.getResultType());
-        else
-         parser = new VKJsonDataParser<>(filePath, query.getResultType());
-        T result = (T) parser.parse();
-        return result;
+        VKJsonDataParser<T> parser = new VKJsonDataParser<>(filePath, query.getResultType());
+        T dataResult = parser.parse();
+
+        if (dataResult instanceof IDataResult)
+            ((IDataResult)dataResult).prepareItems();
+
+        return dataResult;
     }
 
     @Override
@@ -59,14 +56,12 @@ public class VKQueryTask<T extends VKDataCore> extends VKMainExecutor.VKTask imp
                 listener.onDone(result);
 
         } catch (Throwable e) {
-        status = VKDownloadStatus.FAILED;
-
-        e.printStackTrace();
-    } finally {
-        VKMainExecutor.INSTANCE.executingTasks.remove(id);
-        isStarted = false;
-            if (latch!=null)
-                latch.countDown();
-    }
+            status = VKDownloadStatus.FAILED;
+        } finally {
+            VKMainExecutor.INSTANCE.executingTasks.remove(id);
+            isStarted = false;
+                if (latch!=null)
+                    latch.countDown();
+        }
     }
 }

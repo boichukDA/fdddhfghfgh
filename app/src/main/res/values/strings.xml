@@ -95,6 +95,14 @@
         <item quantity="other">there are %d more photos</item>
     </plurals>
 
+    <plurals name="news_video_count_variants">
+        <item quantity="zero">there is %d more video</item>
+        <item quantity="one">there is one more video</item>
+        <item quantity="few">there are %d more videos</item>
+        <item quantity="many">there are %d more videos</item>
+        <item quantity="other">there are %d more videos</item>
+    </plurals>
+
     <plurals name="news_friend_add_variant_woman">
         <item quantity="zero">add to friends one person</item>
         <item quantity="one">add to friends one person</item>

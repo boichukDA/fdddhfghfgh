@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class GeoInfo {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class GeoInfo extends DataObject {
     private Integer placeId;
     private String title;
     private String type;

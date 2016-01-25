@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.diaproject.vkplus.core.view.VideoFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/news_video_item_layout">
+
+    <ru.diaproject.vkplus.core.view.VideoImageView
+        android:id="@+id/news_video_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/picture_placeholder" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/news_video_time_round_corners"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/news_video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+</ru.diaproject.vkplus.core.view.VideoFrameLayout>

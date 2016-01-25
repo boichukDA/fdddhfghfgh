@@ -3,42 +3,34 @@ package ru.diaproject.vkplus.photoviewer;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.animations.SimpleAnimatorListener;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.core.executor.VKQueryTask;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
 import ru.diaproject.vkplus.core.utils.WindowUtils;
+import ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.CommentsInfo;
 import ru.diaproject.vkplus.news.model.items.LikesInfo;
@@ -69,54 +61,31 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     private FilterType type;
     private CountDownLatch latch;
     private boolean isShownInfo;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    private boolean isShowDescription;
 
     private float topInitY;
     private float bottomInitY;
+    private int descriptionHeight;
 
-    @Bind(R.id.photo_viewer_background)
+    Toolbar toolbar;
     View backgroundView;
-
-    @Bind(R.id.photo_viewer_image_layout)
     ViewPager imagePager;
-
-    @Bind(R.id.news_post_like_layout)
     public LinearLayout postLikeLayout;
-
-    @Bind(R.id.news_post_like_image)
     public ImageView postLikeImage;
-
-    @Bind(R.id.news_post_like_count)
     public RobotoTextView postLikeCount;
-
-    @Bind(R.id.news_post_comment_layout)
     public LinearLayout postCommentLayout;
-
-    @Bind(R.id.news_post_comment_image)
     public ImageView postCommentImage;
-
-    @Bind(R.id.news_post_comment_count)
     public RobotoTextView postCommentCount;
-
-    @Bind(R.id.news_post_share_layout)
     public LinearLayout postShareLayout;
-
-    @Bind(R.id.news_post_share_image)
     public ImageView postShareImage;
-
-    @Bind(R.id.news_post_share_count)
-    public RobotoTextView postShareCount;
-
-    @Bind(R.id.photo_viewer_info_image)
+    public LinearLayout photoViewerInfoLayout;
     public ImageView photoViewerImage;
-
-    @Bind(R.id.photo_viewer_bottom_panel)
     public LinearLayout bottomPanel;
 
-    @Bind(R.id.photo_viewer_top_layout)
-    public RelativeLayout topLayout;
     private ActionBar actionBar;
+
+    public LinearLayout descriptionLayout;
+    public RobotoImageExpandableTextView descriptionText;
 
     @Override
     protected void initContent(Bundle savedInstanceState, Intent activityIntent) {
@@ -133,12 +102,11 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     protected void initBackend(Bundle savedInstanceState) {
         if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
             latch = new CountDownLatch(2);
-            VKMainExecutor.executeVKQuery(this, createQuery(),
+            VKMainExecutor.executeVKQuery(createQuery(),
                     new SimpleTaskListener<Photos>() {
                         @Override
                         public void onDone(Photos result) {
-                            VKMainExecutor.executeVKQuery(PhotoViewerActivity.this,
-                                    createPhotoQuery(result),
+                            VKMainExecutor.executeVKQuery( createPhotoQuery(result),
                                     new SimpleTaskListener<Photos>() {
                                         @Override
                                         public void onDone(Photos result) {
@@ -150,7 +118,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
                     }, latch);
         }
-        else VKMainExecutor.executeVKQuery(this, createPhotoQuery(photos),
+        else VKMainExecutor.executeVKQuery(createPhotoQuery(photos),
                 new SimpleTaskListener<Photos>() {
                     @Override
                     public void onDone(Photos result) {
@@ -163,7 +131,27 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
     @Override
     protected void initUI(Bundle savedInstanceState) {
         setContentView(R.layout.photo_viewer_layout);
-        ButterKnife.bind(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        backgroundView = (View) findViewById(R.id.photo_viewer_background);
+
+        imagePager = (ViewPager) findViewById(R.id.photo_viewer_image_layout);
+        postLikeLayout = (LinearLayout) findViewById(R.id.news_post_like_layout);
+        postLikeImage = (ImageView) findViewById(R.id.news_post_like_image);
+
+        postLikeCount = (RobotoTextView) findViewById(R.id.news_post_like_count);
+
+        postCommentLayout = (LinearLayout) findViewById(R.id.news_post_comment_layout);
+        postCommentImage = (ImageView) findViewById(R.id.news_post_comment_image);
+        postCommentCount = (RobotoTextView) findViewById(R.id.news_post_comment_count);
+        postShareLayout = (LinearLayout) findViewById(R.id.news_post_share_layout);
+
+        postShareImage = (ImageView) findViewById(R.id.news_post_share_image);
+        photoViewerInfoLayout = (LinearLayout) findViewById(R.id.photo_viewer_info_layout);
+        photoViewerImage = (ImageView) findViewById(R.id.photo_viewer_info_image);
+        bottomPanel = (LinearLayout) findViewById(R.id.photo_viewer_bottom_panel);
+
+        descriptionLayout = (LinearLayout) findViewById(R.id.photo_viewer_description_layout);
+        descriptionText = (RobotoImageExpandableTextView) findViewById(R.id.photo_viewer_description_text);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -196,12 +184,12 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
     private void createViewPager(){
         try {
-            latch.await();
+            latch.await(2, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ photos.getCount());
+        actionBar.setTitle((imagePos + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getCount());
 
         runOnUiThread(new Runnable() {
             @Override
@@ -209,9 +197,13 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                 PhotoViewerAdapter adapter = new PhotoViewerAdapter(getSupportFragmentManager(), photos, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (isShownInfo)
+                        if (isShownInfo) {
+                            if (descriptionLayout.getVisibility() == View.VISIBLE) {
+                                hideDescription();
+                                return;
+                            }
                             hideInfo();
-                        else
+                        } else
                             showInfo();
                     }
                 });
@@ -237,8 +229,29 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             }
         });
     }
+
+    private void hideDescription() {
+        if (!isShowDescription)
+            return;
+
+        ObjectAnimator animatorDescription = ObjectAnimator.ofFloat(descriptionLayout, View.Y, descriptionLayout.getY(), descriptionLayout.getY()+descriptionLayout.getHeight());
+        animatorDescription.addListener(new SimpleAnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                descriptionLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                descriptionLayout.setVisibility(View.GONE);
+                isShowDescription = false;
+            }
+        });
+        animatorDescription.start();
+    }
+
     private VKQuery<Photos> createQuery() {
-        VKQuery query = null;
+        VKQuery<Photos> query = null;
         VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
         builder.setVKQueryType(VKQueryType.PHOTO);
         builder.setVKMethod(VKQuerySubMethod.DEFAULT);
@@ -261,9 +274,11 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             queryParamBuilder.append(info.getOwnerId());
             queryParamBuilder.append("_");
             queryParamBuilder.append(info.getId());
+            queryParamBuilder.append("_");
+            queryParamBuilder.append(info.getAccessToken());
             queryParamBuilder.append(",");
         }
-        queryParamBuilder.deleteCharAt(queryParamBuilder.length()-1);
+        queryParamBuilder.deleteCharAt(queryParamBuilder.length() - 1);
 
         VKQuery<Photos> query = null;
         VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
@@ -315,7 +330,16 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                             postLikeCount.setText(String.valueOf(likes.getCount()));
                             if (likes.getUserLikes())
                                 ViewCompat.setAlpha(postLikeImage, 0.5f);
-                            else ViewCompat.setAlpha(postLikeImage, 1f);
+                            else {
+                                ViewCompat.setAlpha(postLikeImage, 1f);
+                                postLikeLayout.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                    }
+                                });
+                            }
+
                         }
                     }
                 });
@@ -339,6 +363,12 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                                 postCommentLayout.setVisibility(View.INVISIBLE);
                             else postCommentLayout.setVisibility(View.VISIBLE);
                         }
+                        postCommentLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
                     }
                 });
             }
@@ -348,11 +378,17 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
             public void run() {
                 PhotoViewerActivity.this.runOnUiThread(new Runnable() {
                     Bitmap bitmap = BitmapUtils.appyColorFilterForResource(PhotoViewerActivity.this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-
                     @Override
                     public void run() {
                         postShareImage.setImageBitmap(bitmap);
+                        postShareLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
                     }
+
                 });
             }
         });
@@ -366,10 +402,56 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                     @Override
                     public void run() {
                         photoViewerImage.setImageBitmap(bitmap);
+
+                        isShownInfo = false;
+                        if ("".equals(currentPhoto.getText()))
+                            photoViewerInfoLayout.setVisibility(View.GONE);
+                        else {
+                            descriptionText.setText(currentPhoto.getText());
+                            descriptionLayout.getViewTreeObserver().addOnGlobalLayoutListener(
+                                    new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                                        @Override
+                                        public void onGlobalLayout() {
+                                            descriptionHeight = descriptionLayout.getHeight();
+                                            descriptionLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                            descriptionLayout.setVisibility(View.GONE);
+                                        }
+
+                                    });
+                            photoViewerInfoLayout.setVisibility(View.VISIBLE);
+                        }
+                        photoViewerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (descriptionLayout.getVisibility() == View.VISIBLE)
+                                    hideDescription();
+                                else showDescription();
+                            }
+                        });
                     }
                 });
             }
         });
+    }
+
+    private void showDescription() {
+        if (isShowDescription)
+            return;
+
+        ObjectAnimator animatorDescription = ObjectAnimator.ofFloat(descriptionLayout, View.Y, bottomPanel.getY()-bottomPanel.getHeight(), bottomPanel.getY()-bottomPanel.getHeight()-descriptionHeight);
+        animatorDescription.addListener(new SimpleAnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                descriptionLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isShowDescription = true;
+            }
+        });
+        animatorDescription.start();
     }
 
     public void showInfo(){

@@ -5,15 +5,16 @@ import org.json.JSONException;
 
 import java.util.HashMap;
 
-import ru.diaproject.vkplus.news.model.groups.Group;
+import ru.diaproject.vkplus.news.model.groups.IDataGroup;
+
 
 public class GroupsJsonHandler {
-    public HashMap<Integer, Group>  parse(JSONArray jsonArray) throws JSONException{
-        HashMap<Integer, Group> groups = new HashMap<>();
+    public HashMap<Integer, IDataGroup>  parse(JSONArray jsonArray) throws JSONException{
+        HashMap<Integer, IDataGroup> groups = new HashMap<>();
 
         for (int index = 0; index < jsonArray.length();index++){
             GroupJsonHandler handler = new GroupJsonHandler();
-            Group group = handler.parse(jsonArray.getJSONObject(index));
+            IDataGroup group = handler.parse(jsonArray.getJSONObject(index));
             groups.put(group.getId(), group);
         }
         return groups;

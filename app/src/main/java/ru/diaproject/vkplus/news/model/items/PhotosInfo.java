@@ -1,10 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-import java.io.Serializable;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
 
-public class PhotosInfo implements Serializable {
-    private Integer id;
-    private Integer ownerId;
+public class PhotosInfo extends DataItem {
     private Integer albumId;
     private String photo75;
     private String photo130;
@@ -14,28 +12,14 @@ public class PhotosInfo implements Serializable {
     private String photo2560;
     private Integer height;
     private Integer width;
-
+    private String text;
+    private String accessToken;
     //Extended
     private CommentsInfo comments;
     private LikesInfo likes;
     private boolean canComment;
     private boolean canRepost;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public Integer getAlbumId() {
         return albumId;
@@ -139,5 +123,21 @@ public class PhotosInfo implements Serializable {
 
     public void setCanRepost(boolean canRepost) {
         this.canRepost = canRepost;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

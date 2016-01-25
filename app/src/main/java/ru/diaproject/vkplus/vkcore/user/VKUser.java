@@ -3,9 +3,20 @@ package ru.diaproject.vkplus.vkcore.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import ru.diaproject.vkplus.news.NewsUserConfig;
 import ru.diaproject.vkplus.vkcore.persistence.Persistence;
 
 public class VKUser extends Persistence implements Parcelable {
+    private NewsUserConfig newsUserConfiguraiotn;
+
+    public void setNewsUserConfiguration(NewsUserConfig newsUserConfiguraiotn) {
+        this.newsUserConfiguraiotn = newsUserConfiguraiotn;
+    }
+
+    public NewsUserConfig getNewsUserConfiguration() {
+        return newsUserConfiguraiotn;
+    }
+
     public static class VKUserBuilder{
         private String accessToken = "";
         private String accountId = "";

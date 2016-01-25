@@ -6,20 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.model.users.User;
+import ru.diaproject.vkplus.imageloading.ImageLoader;
+import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.news.viewholders.FriendSubItemViewHolder;
 
 
 public class FriendSubItemAdapter extends RecyclerView.Adapter<FriendSubItemViewHolder> {
-    private List<User> users;
+    private List<IDataUser> users;
     private Context context;
 
-    public FriendSubItemAdapter(Context context, List<User> users){
+    public FriendSubItemAdapter(Context context, List<IDataUser> users){
         this.users = users;
         this.context = context;
     }
@@ -32,9 +31,7 @@ public class FriendSubItemAdapter extends RecyclerView.Adapter<FriendSubItemView
 
     @Override
     public void onBindViewHolder(FriendSubItemViewHolder holder, int position) {
-        Glide.with(context)
-                .load(users.get(position).getPhoto100())
-                .into(holder.avatar);
+        //ImageLoader.with(context).load(users.get(position).getPhoto100()).into(holder.avatar);
 
         holder.name.setText(users.get(position).getFirstName());
         holder.surname.setText(users.get(position).getLastName());

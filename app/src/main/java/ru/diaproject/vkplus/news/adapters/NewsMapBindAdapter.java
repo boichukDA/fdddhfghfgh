@@ -11,15 +11,16 @@ import ru.diaproject.vkplus.news.binders.PhotoTagItemBinder;
 import ru.diaproject.vkplus.news.binders.PostItemBinder;
 import ru.diaproject.vkplus.news.binders.WallPhotoItemBinder;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
-import ru.diaproject.vkplus.news.model.Response;
+import ru.diaproject.vkplus.news.model.NewsResponse;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
+import ru.diaproject.vkplus.news.viewholders.base.DataMainViewHolder;
 
 public class NewsMapBindAdapter extends EnumMapBindAdapter<FilterType>{
-    private Response items;
+    private NewsResponse items;
     private NewsPagerCardFragment parent;
     private final SparseBooleanArray mCollapsedStatus;
 
-    public NewsMapBindAdapter(Response items, NewsPagerCardFragment context){
+    public NewsMapBindAdapter(NewsResponse items, NewsPagerCardFragment context){
         setData(items);
         this.parent = context;
         mCollapsedStatus = new SparseBooleanArray();
@@ -34,20 +35,20 @@ public class NewsMapBindAdapter extends EnumMapBindAdapter<FilterType>{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         int itemId = viewHolder.getItemViewType();
         DataBinder binder =  getDataBinder(itemId);
-       binder.bindViewHolder(viewHolder, position);
+       binder.bindViewHolder((DataMainViewHolder) viewHolder, position);
     }
-    public final void setData(Response response){
+    public final void setData(NewsResponse response){
         this.items = response;
     }
 
     @Override
     public int getItemCount() {
-        return items.getItems().size();
+        return items.getListItems().size();
     }
 
     @Override
     public final int getItemViewType(int position) {
-        return items.getItems().get(position).getType().ordinal();
+        return items.getListItems().get(position).getType().ordinal();
     }
 
     @Override

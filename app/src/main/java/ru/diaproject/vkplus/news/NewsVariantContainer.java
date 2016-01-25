@@ -10,10 +10,9 @@ import java.util.List;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
-import ru.diaproject.vkplus.news.model.baseitems.NewsEntityBase;
-import ru.diaproject.vkplus.news.model.baseitems.NewsPostItem;
-import ru.diaproject.vkplus.news.model.groups.Group;
-import ru.diaproject.vkplus.news.model.users.User;
+import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.news.model.groups.IDataGroup;
+import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.user.VKNewsUserConfiguration;
 
@@ -50,14 +49,14 @@ public class NewsVariantContainer {
         variants.add(new NewsVariant(3, ContextCompat.getDrawable(context, R.drawable.news_photo_white),
                 resourcesStrings[2], true, "post,photo,photo_tag,wall_photo", VKQuerySubMethod.DEFAULT, new IDataFilter() {
             @Override
-            public boolean apply(NewsEntityBase item, HashMap<Integer, User> profiles, HashMap<Integer, Group> groups) {
+            public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.PHOTO)
                         || item.getType().equals(FilterType.PHOTO_TAG)
                         || item.getType().equals(FilterType.WALL_PHOTO))
                     return true;
 
                 if (item.getType().equals(FilterType.POST))
-                    if (((NewsPostItem)item).containsPhoto())
+                    if (item.getAttachmentPhotos()!=null)
                         return true;
 
                 return false;
@@ -67,9 +66,9 @@ public class NewsVariantContainer {
         variants.add(new NewsVariant(4, ContextCompat.getDrawable(context, R.drawable.news_video_white),
                 resourcesStrings[3], true, "post", VKQuerySubMethod.DEFAULT, new IDataFilter() {
             @Override
-            public boolean apply(NewsEntityBase item, HashMap<Integer, User> profiles, HashMap<Integer, Group> groups) {
+            public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.POST))
-                    if (((NewsPostItem)item).containsVideo())
+                    if (item.getAttachmentVideos()!=null)
                         return true;
 
                 return false;
@@ -82,19 +81,14 @@ public class NewsVariantContainer {
         variants.add(new NewsVariant(6, ContextCompat.getDrawable(context, R.drawable.news_search_white),
                 resourcesStrings[5], true, "post", VKQuerySubMethod.DEFAULT, new IDataFilter() {
             @Override
-            public boolean apply(NewsEntityBase item, HashMap<Integer, User> profiles, HashMap<Integer, Group> groups) {
+            public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.POST))
-                    if (((NewsPostItem)item).containsAudio())
+                    if (item.getAttachmentAudios()!=null)
                         return true;
 
                 return false;
             }
         }));
-/*
-
-        variants.add(new NewsVariant(7, ContextCompat.getDrawable(context, R.drawable.news_note_white),
-                resourcesStrings[6], true,"", VKQuerySubMethod.DEFAULT, null ));
-*/
 
         variants.add(new NewsVariant(8, ContextCompat.getDrawable(context, R.drawable.news_likes_white),
                 resourcesStrings[7], true,"post", VKQuerySubMethod.DEFAULT, null ));

@@ -1,38 +1,56 @@
 package ru.diaproject.vkplus.core.executor;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ru.diaproject.vkplus.core.VKDataCore;
+import ru.diaproject.vkplus.VKPlusApplication;
+import ru.diaproject.vkplus.news.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 
 public enum VKMainExecutor {
     INSTANCE;
 
-    public static <T extends VKDataCore> void executeVKQuery(Context context,
-                                                             VKQuery<T> query,
+    public static <T extends IDataObject> void executeVKQuery( VKQuery<T> query,
                                                              VKTask.ITaskListener<T> listener){
-        VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(context, query,listener));
+        VKMainExecutor.INSTANCE.executeQuery(
+                new VKQueryTask<>(VKPlusApplication.getStaticContext(), query,listener));
     }
 
-    public static <T extends VKDataCore> void executeVKQuery(Context context,
-                                                             VKQuery<T> query,
+    public static void executeVKQuery(VKBitmapTask task) {
+        VKMainExecutor.INSTANCE.executeQuery(task);
+    }
+
+    public static <T extends IDataObject> Future<T> request(VKQuery<T> query){
+       return  VKMainExecutor.INSTANCE.executeQuery(
+               new VKCallableQueryTask<>(VKPlusApplication.getStaticContext(), query));
+    }
+
+
+    public static <T extends IDataObject> void executeVKQuery(VKQuery<T> query,
                                                              VKTask.ITaskListener<T> listener, CountDownLatch latch){
-        VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(context, query,listener, latch));
+        VKMainExecutor.INSTANCE.executeQuery(
+                new VKQueryTask<>(VKPlusApplication.getStaticContext(), query, listener, latch));
     }
 
     public static void executeRunnable(Runnable runnable){
         INSTANCE.execute(runnable);
     }
     private static final int MAX_TASK_COUNT = 100;
+
+    public static ThreadPoolExecutor getExecutor() {
+        return VKMainExecutor.INSTANCE.localThreadPool;
+    }
+
     public static abstract class VKTask {
 
         public interface ITaskListener<T>{
@@ -83,6 +101,21 @@ public enum VKMainExecutor {
     final long KEEP_ALIVE_VALUE = 1;
     final TimeUnit KEEP_ALIVE_VALUE_TIME_UNIT = TimeUnit.SECONDS;
 
+    final int CACHE_BITMAP_SIZE = (int)(Runtime.getRuntime().maxMemory() / 8192f);
+
+    public LruCache<String, Bitmap> cacheBitmap = new LruCache<String, Bitmap>(CACHE_BITMAP_SIZE) {
+        @Override
+        protected int sizeOf(String key, Bitmap bitmap) {
+            return (int) ((bitmap.getRowBytes() * bitmap.getHeight()) / 1024f);
+        }
+
+       /* @Override
+        protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+            super.entryRemoved(evicted, key, oldValue, newValue);
+            oldValue.recycle();
+        }*/
+    };
+
     VKMainExecutor(){
         networkQueue = new LinkedBlockingQueue<>(MAX_TASK_COUNT);
         localQueue = new LinkedBlockingQueue<>(MAX_TASK_COUNT);
@@ -108,6 +141,17 @@ public enum VKMainExecutor {
     public void executeQuery(VKQueryTask query){
         executingTasks.add(query.id);
         networkThreadPool.execute(query);
+    }
+
+    public void executeQuery(VKBitmapTask query){
+        executingTasks.add(query.id);
+        networkThreadPool.execute(query);
+    }
+
+    public <T extends IDataObject> Future<T> executeQuery(VKCallableQueryTask<T> query){
+        executingTasks.add(query.id);
+        Future<T> future = networkThreadPool.submit(query);
+        return future;
     }
 
     public void execute (Runnable runnable){

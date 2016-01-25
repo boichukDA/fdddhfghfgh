@@ -69,6 +69,14 @@
         <item quantity="other">еще %d фотографий</item>
     </plurals>
 
+    <plurals name="news_video_count_variants">
+        <item quantity="zero">еще %d видео</item>
+        <item quantity="one">еще одно видео</item>
+        <item quantity="few">еще %d видео</item>
+        <item quantity="many">еще %d видео</item>
+        <item quantity="other">еще %d видео</item>
+    </plurals>
+
     <plurals name="news_marked_text_man">
         <item quantity="zero">был отмечен на фотографии</item>
         <item quantity="one">был отмечен на фотографии</item>

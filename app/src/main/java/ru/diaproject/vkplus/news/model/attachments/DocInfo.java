@@ -1,30 +1,14 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class DocInfo {
-    private Integer id;
-    private Integer ownerId;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class DocInfo extends DataItem{
     private Integer size;
     private String title;
     private String ext;
     private String url;
     private String photo100;
     private String photo130;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public Integer getSize() {
         return size;

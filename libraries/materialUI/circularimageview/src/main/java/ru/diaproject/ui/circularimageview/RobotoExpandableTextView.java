@@ -57,6 +57,7 @@ public class RobotoExpandableTextView extends LinearLayout implements View.OnCli
     private int mPosition;
 
     private int mCollapseColor;
+    private int mExpandColor;
 
     public RobotoExpandableTextView(Context context) {
         super(context);
@@ -84,11 +85,15 @@ public class RobotoExpandableTextView extends LinearLayout implements View.OnCli
         mAnimAlphaStart = 0.7f;
         mExpandText = typedArray.getString(R.styleable.ExpandableTextView_expandText);
         mCollapseText = typedArray.getString(R.styleable.ExpandableTextView_collapseText);
+
         mCollapseColor = typedArray.getColor(R.styleable.ExpandableTextView_collapseColor, Color.parseColor("#FFF000"));
+        mExpandColor = typedArray.getColor(R.styleable.ExpandableTextView_expandColor, Color.parseColor("#000000"));
 
         typedArray.recycle();
 
         collapseTextView.setTextColor(mCollapseColor);
+        expandTextView.setTextColor(mExpandColor);
+
         setOrientation(LinearLayout.VERTICAL);
         setVisibility(GONE);
     }

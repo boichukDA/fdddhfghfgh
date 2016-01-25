@@ -15,6 +15,7 @@ import ru.diaproject.vkplus.news.model.attachments.DocInfo;
 import ru.diaproject.vkplus.news.model.attachments.GraffitiInfo;
 import ru.diaproject.vkplus.news.model.attachments.LinkInfo;
 import ru.diaproject.vkplus.news.model.attachments.PageInfo;
+import ru.diaproject.vkplus.news.model.attachments.PhotoListInfo;
 import ru.diaproject.vkplus.news.model.attachments.PollInfo;
 import ru.diaproject.vkplus.news.model.attachments.PostedPhotoInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
@@ -93,7 +94,7 @@ public class AttachmentJsonHandler {
                 break;
             case PHOTOS_LIST:
                 PhotoListJsonHandler photoListJsonHandler = new PhotoListJsonHandler();
-                List<String> list = photoListJsonHandler.parse(attachmentsJsonObject.getJSONArray("photos_list"));
+                PhotoListInfo list = photoListJsonHandler.parse(attachmentsJsonObject.getJSONArray("photos_list"));
                 attachment.setItem(list);
                 break;
             default:

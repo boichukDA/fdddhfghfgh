@@ -22,17 +22,14 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
-import ru.diaproject.vkplus.core.executor.VKQueryTask;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
-import ru.diaproject.vkplus.news.model.users.User;
+import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.VK;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
-import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
-import ru.diaproject.vkplus.vkcore.queries.VkQueryBuilderException;
+import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
+import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
 import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public abstract class ParentActivityNoTitle extends AppCompatActivity {
@@ -64,15 +61,15 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         try {
             initContext(savedInstanceState);
             initUI(savedInstanceState);
-            VKMainExecutor.INSTANCE.executeQuery(new VKQueryTask(this, createQuery(),
-                    new VKMainExecutor.VKTask.ITaskListener<User>() {
+            VKMainExecutor.executeVKQuery(createQuery(),
+                    new SimpleTaskListener<IDataUser>() {
                         @Override
-                        public void onDone(final User result) {
+                        public void onDone(final IDataUser result) {
                             impl = new DrawerImplementation();
 
                             final Bitmap icon = BitmapUtils.loadBitmap(result.getPhoto100(), ParentActivityNoTitle.this);
                             impl.setFriendsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.drawer_friends_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY  ));
+                                    R.drawable.drawer_friends_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
 
                             impl.setPhotoSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
                                     R.drawable.news_photo_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
@@ -103,13 +100,9 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                             });
                         }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            System.out.print("");
-                        }
-                    }));
+                    } );
 
-            new Thread(new Runnable() {
+            VKMainExecutor.executeRunnable(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -123,7 +116,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                         });
                     }
                 }
-            }).start();
+            });
 
         } catch (final Throwable e) {
             Log.e(getLogName(), "exception", e);
@@ -135,7 +128,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
             });
         }
     }
-    private void initDrawer(User result, Bitmap icon) {
+    private void initDrawer(IDataUser result, Bitmap icon) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem();
         profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
         profileDrawerItem.withEmail(result.getStatus());
@@ -242,23 +235,10 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                 .build();
     }
 
-    private VKQuery createQuery(){
-        VKQuery query = null;
-        VKQueryBuilder builder;
-        try {
-            builder = new VKQueryBuilder(user.getConfiguration())
-                    .setVKQueryType(VKQueryType.USERS)
-                    .setVKMethod(VKQuerySubMethod.DEFAULT)
-                    .setResultFormatType(VKQueryResponseTypes.JSON)
-                    .setVKResultType(User.class);
-            builder.addCondition("fields", "city,verified,status,photo_100");
-            builder.addCondition("user_ids", user.getAccountId());
-
-            query = builder.build();
-        } catch (VkQueryBuilderException e) {
-            e.printStackTrace();
-        }
-
+    private VKQuery<IDataUser> createQuery(){
+        VKQuery<IDataUser> query = VKApi.users(user).get()
+                .with(VKParameter.FIELDS, "city,verified,status,photo_100")
+                .and(VKParameter.USER_IDS, user.getAccountId()).build();
         return query;
     }
 

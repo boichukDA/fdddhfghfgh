@@ -1,9 +1,12 @@
 package ru.diaproject.vkplus.core.utils.json;
 
+
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.core.VKDataCore;
+import java.io.Serializable;
 
-public interface JsonHandler<T extends VKDataCore> {
-     T parse(JSONObject object);
+import ru.diaproject.vkplus.news.model.IDataResult;
+
+public interface JsonHandler extends Serializable {
+     <T> T parse(JSONObject object);
 }

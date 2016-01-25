@@ -4,7 +4,8 @@
     xmlns:RobotoTextView="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:ExpandableTextView="http://schemas.android.com/apk/res-auto">
     <View
         android:id="@+id/photo_viewer_background"
         android:layout_width="match_parent"
@@ -39,6 +40,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/m_indigo"/>
             </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
         android:id="@+id/photo_viewer_bottom_panel"
         android:layout_width="match_parent"
@@ -46,7 +48,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:background="@color/image_viewer_bottom_panel_background">
+        android:background="#80000000">
     <LinearLayout
         android:id="@+id/news_post_like_layout"
         android:layout_width="0dp"
@@ -99,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 RobotoTextView:fontFamily="roboto"
-                RobotoTextView:textWeight="light"/>
+                RobotoTextView:textWeight="light"
+                android:textColor="@color/m_white"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -130,6 +133,7 @@
         </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/photo_viewer_info_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -143,5 +147,26 @@
                 android:layout_marginRight="5dp" />
         </LinearLayout>
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/photo_viewer_description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#80000000"
+            android:layout_above="@+id/photo_viewer_bottom_panel"
+            android:visibility="invisible">
+            <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+                android:id="@+id/photo_viewer_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ExpandableTextView:expandText=""
+                ExpandableTextView:collapseText=""
+                ExpandableTextView:maxLines="10"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                ExpandableTextView:expandColor="@color/m_white"/>
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

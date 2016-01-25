@@ -1,8 +1,10 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class AudioInfo {
-    private Integer id;
-    private Integer ownerId;
+import ru.diaproject.vkplus.core.utils.DateUtils;
+import ru.diaproject.vkplus.news.model.IDataResult;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class AudioInfo extends DataItem implements IDataResult {
     private String artist;
     private String title;
     private Integer duration;
@@ -12,21 +14,7 @@ public class AudioInfo {
     private AudioGenre genre;
     private Integer date;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
+    private String convertedDuration;
 
     public String getArtist() {
         return artist;
@@ -90,5 +78,18 @@ public class AudioInfo {
 
     public void setDate(Integer date) {
         this.date = date;
+    }
+
+    @Override
+    public void prepareItems() {
+        setConvertedDuration(DateUtils.toVideoTimeFormat(duration));
+    }
+
+    public String getConvertedDuration() {
+        return convertedDuration;
+    }
+
+    public void setConvertedDuration(String convertedDuration) {
+        this.convertedDuration = convertedDuration;
     }
 }

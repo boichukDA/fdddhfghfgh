@@ -1,86 +1,72 @@
 package ru.diaproject.vkplus.news.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.views.NewsHeaderView;
-import ru.diaproject.vkplus.news.views.NewsPostAttachmentContainer;
-import ru.diaproject.vkplus.news.views.NewsPostCopyHistoryLayout;
+import ru.diaproject.vkplus.news.viewholders.items.CopyHistoryViewHolder;
+import ru.diaproject.vkplus.news.viewholders.items.DataAudiosViewHolder;
+import ru.diaproject.vkplus.news.viewholders.items.DataVideosViewHolder;
 
-public class PostItemViewHolder extends RecyclerView.ViewHolder{
-
-    @Bind(R.id.news_main_attachment)
-    public NewsPostAttachmentContainer attachmentContainer;
-
-    @Bind(R.id.news_header_layout)
-    public NewsHeaderView header;
-
-    @Bind(R.id.news_post_main_text)
+public class PostItemViewHolder extends DataPhotosViewHolder{
     public RobotoExpandableTextView mainText;
+    public DataVideosViewHolder mainVideosholder;
+    public DataAudiosViewHolder mainAudiosHolder;
 
-    @Bind(R.id.news_post_history_layout)
     public LinearLayout copyHistoryLayout;
+    public CopyHistoryViewHolder firstCopyHistory;
+    public CopyHistoryViewHolder secondCopyHistory;
 
-    @Bind(R.id.news_copy_history_layout)
-    public LinearLayout innerCopyHistoryLayout;
-
-    @Bind(R.id.news_post_first_inner_history)
-    public NewsPostCopyHistoryLayout firstCopyHistory;
-
-    @Bind(R.id.news_post_second_inner_history)
-    public NewsPostCopyHistoryLayout secondCopyHistory;
-
-    @Bind(R.id.news_post_like_layout)
     public LinearLayout postLikeLayout;
-
-    @Bind(R.id.news_post_like_image)
     public ImageView postLikeImage;
-
-    @Bind(R.id.news_post_like_count)
     public RobotoTextView postLikeCount;
-
-    @Bind(R.id.news_post_comment_layout)
     public LinearLayout postCommentLayout;
-
-    @Bind(R.id.news_post_comment_image)
     public ImageView postCommentImage;
-
-    @Bind(R.id.news_post_comment_count)
     public RobotoTextView postCommentCount;
-
-    @Bind(R.id.news_post_share_layout)
     public LinearLayout postShareLayout;
-
-    @Bind(R.id.news_post_share_image)
     public ImageView postShareImage;
-
-    @Bind(R.id.news_post_share_count)
     public RobotoTextView postShareCount;
 
     public PostItemViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
+        mainText = (RobotoExpandableTextView) itemView.findViewById(R.id.news_post_main_text);
+        mainVideosholder = new DataVideosViewHolder(itemView);
+        mainAudiosHolder = new DataAudiosViewHolder(itemView);
+
+        copyHistoryLayout = (LinearLayout) itemView.findViewById(R.id.news_post_history_layout);
+
+        View v = itemView.findViewById(R.id.news_post_copy_history_first);
+        firstCopyHistory = new CopyHistoryViewHolder(v);
+
+        View copyView = itemView.findViewById(R.id.news_post_copy_history_second);
+        secondCopyHistory = new CopyHistoryViewHolder(copyView);
+
+        postLikeLayout = (LinearLayout) itemView.findViewById(R.id.news_post_like_layout);
+        postLikeImage = (ImageView) itemView.findViewById(R.id.news_post_like_image);
+        postLikeCount = (RobotoTextView) itemView.findViewById(R.id.news_post_like_count);
+
+        postCommentLayout = (LinearLayout) itemView.findViewById(R.id.news_post_comment_layout);
+        postCommentImage = (ImageView) itemView.findViewById(R.id.news_post_comment_image);
+        postCommentCount = (RobotoTextView) itemView.findViewById(R.id.news_post_comment_count);
+        postShareLayout = (LinearLayout) itemView.findViewById(R.id.news_post_share_layout);
+        postShareImage = (ImageView) itemView.findViewById(R.id.news_post_share_image);
+        postShareCount = (RobotoTextView) itemView.findViewById(R.id.news_post_share_count);
     }
 
     public void clear() {
-        if (header!= null)
-            header.clear();
+        super.clear();
 
-        if (attachmentContainer != null)
-            attachmentContainer.clear();
+        if (mainVideosholder != null)
+            mainVideosholder.clear();
 
-        if (firstCopyHistory!= null)
+        if (mainAudiosHolder != null)
+            mainAudiosHolder.clear();
+
+        if (firstCopyHistory != null)
             firstCopyHistory.clear();
-
-        if (secondCopyHistory!= null)
-            secondCopyHistory.clear();
     }
 }

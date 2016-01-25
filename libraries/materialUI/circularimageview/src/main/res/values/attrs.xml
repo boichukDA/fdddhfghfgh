@@ -65,5 +65,6 @@
         <attr name="expandText" format="string"/>
         <attr name="collapseText" format="string"/>
         <attr name="collapseColor" format="color"/>
+        <attr name="expandColor" format="color"/>
     </declare-styleable>
 </resources>

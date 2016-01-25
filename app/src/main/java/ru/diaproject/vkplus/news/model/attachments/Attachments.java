@@ -3,13 +3,14 @@ package ru.diaproject.vkplus.news.model.attachments;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 
-public class Attachments {
+public class Attachments implements Serializable {
     private List<Attachment> attachments;
 
     public List<Attachment> getAttachments() {

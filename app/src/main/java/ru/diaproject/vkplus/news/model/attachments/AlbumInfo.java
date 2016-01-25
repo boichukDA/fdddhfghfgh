@@ -1,10 +1,15 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
 
-import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 
-public class AlbumInfo {
-    private Integer id;
+import java.util.HashMap;
+
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+import ru.diaproject.vkplus.news.model.groups.IDataGroup;
+import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.news.model.users.IDataUser;
+
+public class AlbumInfo extends DataItem {
     private PhotosInfo thumb;
     private Integer ownerId;
     private String title;
@@ -12,14 +17,6 @@ public class AlbumInfo {
     private Integer created;
     private Integer updated;
     private Integer size;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public PhotosInfo getThumb() {
         return thumb;
@@ -75,5 +72,10 @@ public class AlbumInfo {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    @Override
+    public void findOwner(HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
+
     }
 }

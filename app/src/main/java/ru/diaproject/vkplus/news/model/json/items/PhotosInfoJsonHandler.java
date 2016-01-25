@@ -42,6 +42,12 @@ public class PhotosInfoJsonHandler {
         Integer height = photosJsonObject.optInt("height", 0);
         info.setHeight(height);
 
+        String text = photosJsonObject.optString("text", "");
+        info.setText(text);
+
+        String accessToken = photosJsonObject.optString("access_key", "");
+        info.setAccessToken(accessToken);
+
         JSONObject comments = photosJsonObject.optJSONObject("comments");
         if (comments != null){
             CommentsInfoJsonHandler commentsInfoJsonHandler = new CommentsInfoJsonHandler();

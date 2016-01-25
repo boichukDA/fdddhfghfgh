@@ -95,14 +95,14 @@ public class Utils {
 
         Bitmap bitmap = Utils.processBitmap(
                 file.getAbsolutePath(),
-                Bitmap.Config.RGB_565, 100);
+                Bitmap.Config.RGB_565);
 
         return bitmap;
 
     }
 
 
-    public static Bitmap processBitmap(String fileName, Bitmap.Config config, int widthLimit) {
+    public static Bitmap processBitmap(String fileName, Bitmap.Config config) {
         Bitmap bitmap = null;
 
         try {File tempFile = new File(fileName);
@@ -114,22 +114,7 @@ public class Utils {
             fileInputStream.close();
             fileInputStream = new BufferedInputStream(new FileInputStream(tempFile));
 
-            //Find the correct scale value. It should be the power of 2.
-            int width = opts.outWidth;
-            int scale = 1;
-
-            while (true) {
-                int halfWidth = width / 2;
-
-                if (halfWidth < widthLimit && (widthLimit - halfWidth) > widthLimit / 4)
-                    break;
-
-                width = halfWidth;
-                scale *= 2;
-            }
-
             opts = new BitmapFactory.Options();
-            opts.inSampleSize = scale;
             opts.inPreferredConfig = config;
 
             try {
@@ -139,7 +124,6 @@ public class Utils {
                 if (bitmap != null)
                     return bitmap;
             } catch (Exception ex) {
-            } catch (OutOfMemoryError e) {
             }
 
             fileInputStream.close();
@@ -158,7 +142,6 @@ public class Utils {
                 if (bitmap != null)
                     return bitmap;
             } catch (Exception ex) {
-            } catch (OutOfMemoryError ex) {
             }
 
             fileInputStream.close();
@@ -174,7 +157,6 @@ public class Utils {
                 System.gc();
                 bitmap = BitmapFactory.decodeStream(fileInputStream, null, opts);
             } catch (Exception ex) {
-            } catch (OutOfMemoryError ex) {
             }
 
             fileInputStream.close();

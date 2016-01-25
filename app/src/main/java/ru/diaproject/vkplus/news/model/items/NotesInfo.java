@@ -1,26 +1,11 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class NotesInfo {
-    private Integer id;
-    private Integer ownerId;
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class NotesInfo extends DataItem {
     private String title;
     private Integer comments;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public String getTitle() {
         return title;

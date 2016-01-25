@@ -11,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.diaproject.vkplus.core.utils.json.JsonHandler;
-import ru.diaproject.vkplus.news.model.baseitems.NewsEntityBase;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
-import ru.diaproject.vkplus.news.model.json.baseitems.BaseItemJsonHandler;
 
-public class PhotosResponseJsonHandler implements JsonHandler<Photos>, Serializable {
+public class PhotosResponseJsonHandler implements JsonHandler, Serializable {
     private Photos photos;
 
     public PhotosResponseJsonHandler(Photos photos) {

@@ -29,7 +29,7 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
-import ru.diaproject.vkplus.news.model.users.User;
+import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
@@ -58,10 +58,10 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
         View returnView = null;
         try {
             returnView = initUI(inflater, container, savedInstanceState);
-            VKMainExecutor.executeVKQuery(getContext(), createQuery(),
-                    new SimpleTaskListener<User>() {
+            VKMainExecutor.executeVKQuery(createQuery(),
+                    new SimpleTaskListener<IDataUser>() {
                         @Override
-                        public void onDone(final User result) {
+                        public void onDone(final IDataUser result) {
                             impl = new DrawerImplementation();
 
                             final Bitmap icon = BitmapUtils.loadBitmap(result.getPhoto100(), getContext());
@@ -143,7 +143,7 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
         return user;
     }
 
-    private void initDrawer(User result, Bitmap icon) {
+    private void initDrawer(IDataUser result, Bitmap icon) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem();
         profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
         profileDrawerItem.withEmail(result.getStatus());
@@ -250,15 +250,15 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
                 .build();
     }
 
-    private VKQuery<User> createQuery(){
-        VKQuery<User> query = null;
-        VKQueryBuilder<User> builder;
+    private VKQuery<IDataUser> createQuery(){
+        VKQuery<IDataUser> query = null;
+        VKQueryBuilder<IDataUser> builder;
         try {
             builder = new VKQueryBuilder<>(user.getConfiguration());
             builder.setVKQueryType(VKQueryType.USERS);
             builder.setVKMethod(VKQuerySubMethod.DEFAULT);
             builder.setResultFormatType(VKQueryResponseTypes.JSON);
-            builder.setVKResultType(User.class);
+            builder.setVKResultType(IDataUser.class);
             builder.addCondition("fields", "city,verified,status,photo_100");
             builder.addCondition("user_ids", user.getAccountId());
 

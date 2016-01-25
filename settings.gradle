@@ -1,2 +1,3 @@
-include ':app', ':circularimageview'
+include ':app', ':circularimageview', ':ptrrecyclerview'
 project(':circularimageview').projectDir = new File('libraries/materialUI/circularimageview')
+project(':ptrrecyclerview').projectDir = new File('libraries/materialUI/ptrrecyclerview')

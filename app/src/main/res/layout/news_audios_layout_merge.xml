@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/news_audio_layout"
+    android:visibility="gone">
+
+    <include
+        android:id="@+id/news_audio_first_item"
+        layout="@layout/news_audios_item_layout_merge" />
+
+    <include
+        android:id="@+id/news_audio_second_item"
+        layout="@layout/news_audios_item_layout_merge" />
+
+    <include
+        android:id="@+id/news_audio_third_item"
+        layout="@layout/news_audios_item_layout_merge" />
+
+    <include
+        android:id="@+id/news_audio_fourth_item"
+        layout="@layout/news_audios_item_layout_merge" />
+
+    <include
+        android:id="@+id/news_audio_fifth_item"
+        layout="@layout/news_audios_item_layout_merge" />
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/news_audio_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="14sp"
+        app:fontFamily="roboto"
+        app:textWeight="light"
+        app:typeface="roboto_regular" />
+</LinearLayout>

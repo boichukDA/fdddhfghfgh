@@ -3,15 +3,15 @@ package ru.diaproject.vkplus.vkcore.queries;
 
 import java.util.HashMap;
 
-import ru.diaproject.vkplus.core.VKDataCore;
+import ru.diaproject.vkplus.news.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
-public abstract class VKQueryCore<T extends  VKDataCore> {
+public abstract class VKQueryCore<T extends IDataObject> {
     private static final String VK_METHOD = "/method/method_name";
     private static final String VK_METHOD_REPLACE = "method_name";
     protected static final String VK_ACCESS_TOKEN = "access_token=%s";
 
-    public static  <T extends VKDataCore> VKQueryCore<T> createInstance(VKUserConfiguration configuration){
+    public static  <T extends IDataObject> VKQueryCore<T> createInstance(VKUserConfiguration configuration){
         if (configuration.isAllowNoHttps())
             return new VKNoHttpsQueryCore<>(configuration);
         else return new VKHttpsQueryCore<>(configuration);

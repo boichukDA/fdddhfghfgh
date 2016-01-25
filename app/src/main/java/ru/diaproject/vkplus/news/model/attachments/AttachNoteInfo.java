@@ -1,8 +1,10 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class AttachNoteInfo {
-    private Integer id;
-    private Integer userId;
+import java.io.Serializable;
+
+import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+
+public class AttachNoteInfo extends DataItem {
     private String title;
     private String text;
     private Integer date;
@@ -10,21 +12,6 @@ public class AttachNoteInfo {
     private Integer readComments;
     private String viewUrl;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public String getTitle() {
         return title;

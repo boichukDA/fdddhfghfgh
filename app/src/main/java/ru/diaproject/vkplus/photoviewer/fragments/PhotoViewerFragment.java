@@ -22,8 +22,6 @@ import com.devspark.robototextview.widget.RobotoTextView;
 
 import java.util.concurrent.CountDownLatch;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.core.animations.SimpleAnimatorListener;
@@ -67,53 +65,26 @@ public class PhotoViewerFragment extends ParentFragment{
     private FilterType type;
     private CountDownLatch latch;
     private boolean isShownInfo;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+
+    private Toolbar toolbar;
 
     private float topInitY;
     private float bottomInitY;
 
-    @Bind(R.id.photo_viewer_background)
     View backgroundView;
-
-    @Bind(R.id.photo_viewer_image_layout)
     ViewPager imagePager;
-
-    @Bind(R.id.news_post_like_layout)
-    public LinearLayout postLikeLayout;
-
-    @Bind(R.id.news_post_like_image)
-    public ImageView postLikeImage;
-
-    @Bind(R.id.news_post_like_count)
-    public RobotoTextView postLikeCount;
-
-    @Bind(R.id.news_post_comment_layout)
-    public LinearLayout postCommentLayout;
-
-    @Bind(R.id.news_post_comment_image)
-    public ImageView postCommentImage;
-
-    @Bind(R.id.news_post_comment_count)
-    public RobotoTextView postCommentCount;
-
-    @Bind(R.id.news_post_share_layout)
-    public LinearLayout postShareLayout;
-
-    @Bind(R.id.news_post_share_image)
-    public ImageView postShareImage;
-
-    @Bind(R.id.news_post_share_count)
-    public RobotoTextView postShareCount;
-
-    @Bind(R.id.photo_viewer_info_image)
-    public ImageView photoViewerImage;
-
-    @Bind(R.id.photo_viewer_bottom_panel)
-    public LinearLayout bottomPanel;
-
-    @Bind(R.id.photo_viewer_top_layout)
-    public RelativeLayout topLayout;
+    private LinearLayout postLikeLayout;
+    private ImageView postLikeImage;
+    private RobotoTextView postLikeCount;
+    private LinearLayout postCommentLayout;
+    private ImageView postCommentImage;
+    private RobotoTextView postCommentCount;
+    private LinearLayout postShareLayout;
+    private ImageView postShareImage;
+    private RobotoTextView postShareCount;
+    private ImageView photoViewerImage;
+    private LinearLayout bottomPanel;
+    private RelativeLayout topLayout;
 
     private ActionBar actionBar;
 
@@ -121,12 +92,11 @@ public class PhotoViewerFragment extends ParentFragment{
     protected void initBackend(Bundle savedInstanceState) {
         if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
             latch = new CountDownLatch(2);
-            VKMainExecutor.executeVKQuery(getContext(), createQuery(),
+            VKMainExecutor.executeVKQuery(createQuery(),
                     new SimpleTaskListener<Photos>() {
                         @Override
                         public void onDone(Photos result) {
-                            VKMainExecutor.executeVKQuery(getContext(),
-                                    createPhotoQuery(result),
+                            VKMainExecutor.executeVKQuery(createPhotoQuery(result),
                                     new SimpleTaskListener<Photos>() {
                                         @Override
                                         public void onDone(Photos result) {
@@ -138,7 +108,7 @@ public class PhotoViewerFragment extends ParentFragment{
 
                     }, latch);
         }
-        else VKMainExecutor.executeVKQuery(getContext(), createPhotoQuery(photos),
+        else VKMainExecutor.executeVKQuery( createPhotoQuery(photos),
                 new SimpleTaskListener<Photos>() {
                     @Override
                     public void onDone(Photos result) {
@@ -153,7 +123,19 @@ public class PhotoViewerFragment extends ParentFragment{
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.photo_viewer_layout, container, false);
 
-        ButterKnife.bind(this, rootView);
+        backgroundView = rootView.findViewById(R.id.photo_viewer_background);
+
+        imagePager = (ViewPager) rootView.findViewById(R.id.photo_viewer_image_layout);
+        postLikeLayout = (LinearLayout) rootView.findViewById(R.id.news_post_like_layout);
+        postLikeImage = (ImageView) rootView.findViewById(R.id.news_post_like_image);
+        postLikeCount = (RobotoTextView) rootView.findViewById(R.id.news_post_like_count);
+        postCommentLayout = (LinearLayout) rootView.findViewById(R.id.news_post_comment_layout);
+        postCommentCount = (RobotoTextView) rootView.findViewById(R.id.news_post_comment_count);
+        postShareLayout = (LinearLayout) rootView.findViewById(R.id.news_post_share_layout);
+        postShareImage = (ImageView) rootView.findViewById(R.id.news_post_share_image);
+        postShareCount = (RobotoTextView) rootView.findViewById(R.id.news_post_share_count);
+        photoViewerImage = (ImageView) rootView.findViewById(R.id.photo_viewer_info_image);
+        topLayout = (RelativeLayout) rootView.findViewById(R.id.photo_viewer_top_layout);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(getToolbar());
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

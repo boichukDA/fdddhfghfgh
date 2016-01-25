@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ExpandableTextView="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:visibility="gone">
+
+    <include layout="@layout/news_item_header_merge"/>
+
+    <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+            android:id="@+id/news_copy_history_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ExpandableTextView:expandText="@string/news_post_full_text"
+            ExpandableTextView:collapseColor="@color/m_indigo"
+            ExpandableTextView:collapseText="@string/news_post_collapse_text"
+            ExpandableTextView:maxLines="10"/>
+
+    <include layout="@layout/news_photos_layout_merge"/>
+
+    <include layout="@layout/news_videos_layout_merge"/>
+
+    <include layout="@layout/news_audios_layout_merge"/>
+</LinearLayout>

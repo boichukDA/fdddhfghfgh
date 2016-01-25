@@ -1,8 +1,12 @@
 package ru.diaproject.vkplus.news.model.attachments;
 
-public class Attachment {
+import java.io.Serializable;
+
+import ru.diaproject.vkplus.news.model.users.IDataObject;
+
+public class Attachment implements Serializable {
     private AttachmentType type;
-    private  Object item;
+    private IDataObject item;
 
     public AttachmentType getType() {
         return type;
@@ -16,7 +20,7 @@ public class Attachment {
         return item;
     }
 
-    public void setItem(Object item) {
+    public void setItem(IDataObject item) {
         this.item = item;
     }
 }

@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.model.items;
 
-public class PostSourceInfo {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class PostSourceInfo extends DataObject{
     private String type ="";
     private String data = "";
 

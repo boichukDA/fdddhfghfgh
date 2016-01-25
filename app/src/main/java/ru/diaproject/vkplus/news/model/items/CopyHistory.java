@@ -2,8 +2,14 @@ package ru.diaproject.vkplus.news.model.items;
 
 import java.util.List;
 
-public class CopyHistory {
+import ru.diaproject.vkplus.news.model.DataObject;
+
+public class CopyHistory extends DataObject {
     private List<CopyHistoryInfo> items;
+
+    private boolean containsAudio;
+    private boolean containsVideo;
+    private boolean containsPhoto;
 
     public List<CopyHistoryInfo> getItems() {
         return items;
@@ -13,27 +19,27 @@ public class CopyHistory {
         this.items = items;
     }
 
-    public boolean containsPhoto() {
-        for (CopyHistoryInfo info: items)
-        if(info.containsPhoto())
-            return true;
-
-        return false;
+    public boolean isContainsAudio() {
+        return containsAudio;
     }
 
-    public boolean containsVideo() {
-        for (CopyHistoryInfo info: items)
-            if(info.containsVideo())
-                return true;
-
-        return false;
+    public void setContainsAudio(boolean containsAudio) {
+        this.containsAudio = containsAudio;
     }
 
-    public boolean containsAudio() {
-        for (CopyHistoryInfo info: items)
-            if(info.containsAudio())
-                return true;
+    public boolean isContainsVideo() {
+        return containsVideo;
+    }
 
-        return false;
+    public void setContainsVideo(boolean containsVideo) {
+        this.containsVideo = containsVideo;
+    }
+
+    public boolean isContainsPhoto() {
+        return containsPhoto;
+    }
+
+    public void setContainsPhoto(boolean containsPhoto) {
+        this.containsPhoto = containsPhoto;
     }
 }
