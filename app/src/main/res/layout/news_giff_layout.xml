@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal">
+
+        <include layout="@layout/news_giff_layout_item_merge"
+            android:id="@+id/news_giff_item_first"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="2dp"/>
+
+        <include layout="@layout/news_giff_layout_item_merge"
+            android:id="@+id/news_giff_item_second"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="2dp"/>
+
+        <include layout="@layout/news_giff_layout_item_merge"
+            android:id="@+id/news_giff_item_third"/>
+
+    </LinearLayout>
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/news_gif_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textSize="14sp"
+        app:fontFamily="roboto"
+        app:textWeight="light"
+        app:typeface="roboto_regular" />
+</LinearLayout>
