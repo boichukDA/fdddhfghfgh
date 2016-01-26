@@ -238,4 +238,11 @@ public abstract class VkStringUtils {
         spannableStringBuilder = addPhotoUpdateTextColor(spannableStringBuilder, context);
         return spannableStringBuilder;
     }
+
+    public static Spannable prepareTextToVkName( CharSequence text, Context context) {
+        Spannable spannable = spannableFactory.newSpannable(text);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(spannable);
+        spannableStringBuilder = addImages(spannableStringBuilder, context);
+        return spannableStringBuilder;
+    }
 }

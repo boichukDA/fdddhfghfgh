@@ -18,6 +18,9 @@
             ExpandableTextView:collapseText="@string/news_post_collapse_text"
             ExpandableTextView:maxLines="10"/>
 
+    <include layout="@layout/news_giff_layout"
+        android:id="@+id/news_gif_layout"/>
+
     <include layout="@layout/news_photos_layout_merge"/>
 
     <include layout="@layout/news_videos_layout_merge"/>

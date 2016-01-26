@@ -1,15 +1,15 @@
 package ru.diaproject.vkplus.news.viewholders.items;
 
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.news.viewholders.base.DataItemViewHolder;
 
-public class DataVideosViewHolder extends RecyclerView.ViewHolder{
+public class DataVideosViewHolder extends DataItemViewHolder{
     public LinearLayout mainLayout;
     public DataVideoItemHolder main;
     public LinearLayout additionalLayout;
@@ -17,6 +17,7 @@ public class DataVideosViewHolder extends RecyclerView.ViewHolder{
     public DataVideoItemHolder second;
     public DataVideoItemHolder third;
     public RobotoTextView videoCount;
+    public View itemView;
     public DataVideosViewHolder(View itemView) {
         super(itemView);
         mainLayout = (LinearLayout) itemView.findViewById(R.id.news_video_main_layout);

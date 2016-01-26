@@ -1,6 +1,5 @@
 package ru.diaproject.vkplus.news.viewholders.items;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,8 +7,9 @@ import com.bumptech.glide.Glide;
 
 import ru.diaproject.ui.circularimageview.CircularImageView;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.news.viewholders.base.DataItemViewHolder;
 
-public class DataAudioItemHolder extends RecyclerView.ViewHolder{
+public class DataAudioItemHolder extends DataItemViewHolder{
     public CircularImageView icon;
     public TextView author;
     public TextView song;

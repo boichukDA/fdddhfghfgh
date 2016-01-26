@@ -10,10 +10,12 @@ import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.news.viewholders.items.CopyHistoryViewHolder;
 import ru.diaproject.vkplus.news.viewholders.items.DataAudiosViewHolder;
+import ru.diaproject.vkplus.news.viewholders.items.DataGifsViewHolder;
 import ru.diaproject.vkplus.news.viewholders.items.DataVideosViewHolder;
 
 public class PostItemViewHolder extends DataPhotosViewHolder{
     public RobotoExpandableTextView mainText;
+    public DataGifsViewHolder mainGifViewHolder;
     public DataVideosViewHolder mainVideosholder;
     public DataAudiosViewHolder mainAudiosHolder;
 
@@ -37,13 +39,13 @@ public class PostItemViewHolder extends DataPhotosViewHolder{
         mainVideosholder = new DataVideosViewHolder(itemView);
         mainAudiosHolder = new DataAudiosViewHolder(itemView);
 
+        View docView = itemView.findViewById(R.id.news_gif_layout);
+        mainGifViewHolder = new DataGifsViewHolder(docView);
+
         copyHistoryLayout = (LinearLayout) itemView.findViewById(R.id.news_post_history_layout);
 
         View v = itemView.findViewById(R.id.news_post_copy_history_first);
         firstCopyHistory = new CopyHistoryViewHolder(v);
-
-        View copyView = itemView.findViewById(R.id.news_post_copy_history_second);
-        secondCopyHistory = new CopyHistoryViewHolder(copyView);
 
         postLikeLayout = (LinearLayout) itemView.findViewById(R.id.news_post_like_layout);
         postLikeImage = (ImageView) itemView.findViewById(R.id.news_post_like_image);

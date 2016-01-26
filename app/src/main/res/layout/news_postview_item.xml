@@ -32,6 +32,9 @@
             ExpandableTextView:expandText="see more"
             ExpandableTextView:maxLines="10" />
 
+        <include layout="@layout/news_giff_layout"
+            android:id="@+id/news_gif_layout"/>
+
         <include layout="@layout/news_photos_layout_merge" />
 
         <include layout="@layout/news_videos_layout_merge"/>
@@ -60,9 +63,6 @@
                     android:id="@+id/news_post_copy_history_first"
                     layout="@layout/news_first_copyhistory_layout_merge" />
 
-                <include
-                    android:id="@+id/news_post_copy_history_second"
-                    layout="@layout/news_first_copyhistory_layout_merge" />
             </LinearLayout>
         </LinearLayout>
 

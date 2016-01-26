@@ -1,18 +1,20 @@
 package ru.diaproject.vkplus.news.model.users;
 
 
+import android.text.Spannable;
+
 import ru.diaproject.vkplus.news.model.DataObject;
 import ru.diaproject.vkplus.news.model.IDataResult;
 
 public abstract class DataOwner extends DataObject implements IDataOwner, IDataResult {
-    private String fullName;
+    private Spannable fullName;
     private String photo100;
 
     public DataOwner() {
     }
 
     @Override
-    public final String getFullName() {
+    public final Spannable getFullName() {
         return fullName;
     }
 
@@ -30,7 +32,7 @@ public abstract class DataOwner extends DataObject implements IDataOwner, IDataR
         return photo100;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(Spannable fullName) {
         this.fullName = fullName;
     }
 

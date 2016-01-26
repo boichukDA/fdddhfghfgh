@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.news.binders.bindhelpers;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
 
 import com.bumptech.glide.Glide;
 
@@ -17,7 +18,7 @@ public class HeaderBindHelper {
         this.context = context;
     }
 
-    public void setHeader(String strName, String avatarUrl, Integer intDate, DataMainViewHolder holder){
+    public void setHeader(Spannable strName, String avatarUrl, Integer intDate, DataMainViewHolder holder){
         Glide.with(context).load(avatarUrl).into(holder.avatar);
 
         holder.name.setText(strName);

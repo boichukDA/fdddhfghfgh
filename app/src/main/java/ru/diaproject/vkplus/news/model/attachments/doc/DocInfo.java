@@ -1,14 +1,18 @@
-package ru.diaproject.vkplus.news.model.attachments;
+package ru.diaproject.vkplus.news.model.attachments.doc;
 
 import ru.diaproject.vkplus.news.model.baseitems.DataItem;
 
-public class DocInfo extends DataItem{
+public abstract  class DocInfo extends DataItem{
+    private Integer date;
     private Integer size;
     private String title;
     private String ext;
     private String url;
-    private String photo100;
-    private String photo130;
+    private DocType type;
+
+    public DocInfo(DocType info){
+        setType(info);
+    }
 
     public Integer getSize() {
         return size;
@@ -42,19 +46,19 @@ public class DocInfo extends DataItem{
         this.url = url;
     }
 
-    public String getPhoto100() {
-        return photo100;
+    public Integer getDate() {
+        return date;
     }
 
-    public void setPhoto100(String photo100) {
-        this.photo100 = photo100;
+    public void setDate(Integer date) {
+        this.date = date;
     }
 
-    public String getPhoto130() {
-        return photo130;
+    public DocType getType() {
+        return type;
     }
 
-    public void setPhoto130(String photo130) {
-        this.photo130 = photo130;
+    public void setType(DocType type) {
+        this.type = type;
     }
 }

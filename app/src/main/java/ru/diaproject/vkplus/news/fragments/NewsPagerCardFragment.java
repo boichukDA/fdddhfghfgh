@@ -102,7 +102,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
          listView = (RecyclerView) rootView.findViewById(R.id.list);
          refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swiperefreshlayout);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new PreCachingLayoutManager(getContext(), getResources().getDisplayMetrics().heightPixels);
         listView.setLayoutManager(linearLayoutManager);
         listView.addOnScrollListener(new HidingScrollListener());
         listView.setHasFixedSize(true);

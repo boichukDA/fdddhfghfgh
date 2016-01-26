@@ -25,7 +25,7 @@ public class AudioBindHelper {
     }
 
     public void setData(List<AudioInfo> audios, DataAudiosViewHolder holder){
-        holder.itemView.setVisibility(View.VISIBLE);
+        holder.mainLayout.setVisibility(View.VISIBLE);
         int size = audios.size();
         if (size == 1){
             audioItemBindHelper.setData(audios.get(0), holder.first);

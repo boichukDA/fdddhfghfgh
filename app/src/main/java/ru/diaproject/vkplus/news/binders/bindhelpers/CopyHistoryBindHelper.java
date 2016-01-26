@@ -10,6 +10,7 @@ import java.util.List;
 import ru.diaproject.vkplus.news.NewsUserConfig;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
+import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
 import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.users.IDataOwner;
@@ -22,13 +23,16 @@ public class CopyHistoryBindHelper {
     private final PhotoBindHelper photoBindHelper;
     private final VideoBindHelper videoBindHelper;
     private final AudioBindHelper audioBindHelper;
+    private final GifBindHelper gifBindHelper;
 
-    public CopyHistoryBindHelper(Context context, int totalPixelsOffset, int copyHistoryOffset, float density, int maxPhotoCount, int maxAudioCount, NewsUserConfig config){
+    public CopyHistoryBindHelper(Context context, int totalPixelsOffset, int copyHistoryOffset, float density, int maxPhotoCount, int maxAudioCount,int gifMaxCount,  NewsUserConfig config){
         this.maxPhotoCount = maxPhotoCount;
 
         headerBindHelper = new HeaderBindHelper(context);
 
         int photoContainerWidth = (int) (context.getResources().getDisplayMetrics().widthPixels - (copyHistoryOffset + totalPixelsOffset) * density);
+
+        gifBindHelper = new GifBindHelper(context, gifMaxCount);
         photoBindHelper = new PhotoBindHelper(context, photoContainerWidth, totalPixelsOffset);
         videoBindHelper = new VideoBindHelper(context);
         audioBindHelper = new AudioBindHelper(context, maxAudioCount, config);
@@ -43,9 +47,15 @@ public class CopyHistoryBindHelper {
         if (firstHistory.getText() == null || "".equals(firstHistory.getText()))
             holder.firstCopyTextView.setVisibility(View.GONE);
         else {
-            holder.firstCopyTextView.setText(firstHistory.getText(), mCollapsedStatus, position);
+            holder.firstCopyTextView.setText(firstHistory.getSpannableText(), mCollapsedStatus, position);
             holder.firstCopyTextView.setVisibility(View.VISIBLE);
         }
+
+        List<DocInfo> docs = firstHistory.getAttachmentDocs();
+        if (!(docs == null || docs.size() == 0))
+            gifBindHelper.setData(docs, holder.mainGifViewHolder);
+        else
+            gifBindHelper.hideLayout(holder.mainGifViewHolder);
 
         Photos firstPhotos = firstHistory.getAttachmentPhotos();
 

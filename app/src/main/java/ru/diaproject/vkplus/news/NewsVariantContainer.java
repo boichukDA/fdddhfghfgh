@@ -41,13 +41,13 @@ public class NewsVariantContainer {
 
         String[] resourcesStrings = context.getResources().getStringArray(R.array.news_varians);
         variants.add(new NewsVariant(1,ContextCompat.getDrawable(context, R.drawable.news_all_white),
-                resourcesStrings[0], true, "post,photo_tag,wall_photo,photo,note", VKQuerySubMethod.DEFAULT, null ));
+                resourcesStrings[0], true, "post,photo_tag,note", VKQuerySubMethod.DEFAULT, null ));
 
         variants.add(new NewsVariant(2, ContextCompat.getDrawable(context, R.drawable.news_recom_white),
                 resourcesStrings[1], true,"", VKQuerySubMethod.RECOMENDED, null ));
 
         variants.add(new NewsVariant(3, ContextCompat.getDrawable(context, R.drawable.news_photo_white),
-                resourcesStrings[2], true, "post,photo,photo_tag,wall_photo", VKQuerySubMethod.DEFAULT, new IDataFilter() {
+                resourcesStrings[2], true, "photo,photo_tag,wall_photo", VKQuerySubMethod.DEFAULT, new IDataFilter() {
             @Override
             public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.PHOTO)

@@ -1,8 +1,10 @@
 package ru.diaproject.vkplus.news.model.users;
 
 
+import android.text.Spannable;
+
 public interface IDataOwner extends IDataObject{
-    String getFullName();
+    Spannable getFullName();
     OwnerSex getSex();
     Integer getPlaceholderResource();
     Integer getErrorResource();

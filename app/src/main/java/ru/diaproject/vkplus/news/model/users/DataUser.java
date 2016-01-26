@@ -1,5 +1,8 @@
 package ru.diaproject.vkplus.news.model.users;
 
+import ru.diaproject.vkplus.VKPlusApplication;
+import ru.diaproject.vkplus.core.utils.VkStringUtils;
+
 public abstract class  DataUser extends DataOwner implements IDataObject, IDataUser {
     private String firstName;
     private String lastName;
@@ -77,6 +80,6 @@ public abstract class  DataUser extends DataOwner implements IDataObject, IDataU
 
     @Override
     public void prepareItems() {
-        setFullName(firstName + " " + lastName);
+        setFullName(VkStringUtils.prepareTextToVkName(firstName + " " + lastName, VKPlusApplication.getStaticContext()));
     }
 }

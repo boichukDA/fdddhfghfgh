@@ -2,6 +2,8 @@ package ru.diaproject.vkplus.news.model.groups;
 
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.VKPlusApplication;
+import ru.diaproject.vkplus.core.utils.VkStringUtils;
 import ru.diaproject.vkplus.news.model.users.DataOwner;
 import ru.diaproject.vkplus.news.model.users.DeactivatedType;
 import ru.diaproject.vkplus.news.model.users.OwnerSex;
@@ -115,6 +117,6 @@ public class DataGroup extends DataOwner implements IDataGroup{
 
     @Override
     public void prepareItems() {
-        setFullName(name);
+        setFullName(VkStringUtils.prepareTextToVkName(name, VKPlusApplication.getStaticContext()));
     }
 }

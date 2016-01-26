@@ -11,7 +11,7 @@ import ru.diaproject.vkplus.news.model.IDataResult;
 import ru.diaproject.vkplus.news.model.attachments.AlbumInfo;
 import ru.diaproject.vkplus.news.model.attachments.AppInfo;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
-import ru.diaproject.vkplus.news.model.attachments.DocInfo;
+import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
 import ru.diaproject.vkplus.news.model.attachments.GraffitiInfo;
 import ru.diaproject.vkplus.news.model.attachments.LinkInfo;
 import ru.diaproject.vkplus.news.model.attachments.PageInfo;

@@ -8,6 +8,7 @@ import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 
 public class CopyHistoryViewHolder extends DataPhotosViewHolder {
 
+    public final DataGifsViewHolder mainGifViewHolder;
     public RobotoExpandableTextView firstCopyTextView;
     public DataVideosViewHolder mainVideosholder;
     public DataAudiosViewHolder mainAudioViewHolder;
@@ -15,6 +16,9 @@ public class CopyHistoryViewHolder extends DataPhotosViewHolder {
     public CopyHistoryViewHolder(View itemView){
         super(itemView);
         firstCopyTextView = (RobotoExpandableTextView) itemView.findViewById(R.id.news_copy_history_text);
+        View docView = itemView.findViewById(R.id.news_gif_layout);
+        mainGifViewHolder = new DataGifsViewHolder(docView);
+
         mainVideosholder = new DataVideosViewHolder(itemView);
         mainAudioViewHolder = new DataAudiosViewHolder(itemView);
     }
