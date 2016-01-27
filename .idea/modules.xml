@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/materialUI/circularimageview/circularimageview.iml" filepath="$PROJECT_DIR$/libraries/materialUI/circularimageview/circularimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/materialUI/ptrrecyclerview/ptrrecyclerview.iml" filepath="$PROJECT_DIR$/libraries/materialUI/ptrrecyclerview/ptrrecyclerview.iml" />
       <module fileurl="file://$PROJECT_DIR$/vkplus.iml" filepath="$PROJECT_DIR$/vkplus.iml" />
     </modules>
   </component>
