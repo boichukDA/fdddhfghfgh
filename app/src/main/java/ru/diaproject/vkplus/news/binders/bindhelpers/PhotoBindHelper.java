@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.news.binders.bindhelpers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,7 +12,9 @@ import com.bumptech.glide.Glide;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
+import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
 
 public class PhotoBindHelper {
 
@@ -24,7 +28,7 @@ public class PhotoBindHelper {
         TWO_IMAGE_MIDDLE_OFFSET = offset;
     }
 
-    public void setPhotos(Photos photos, DataPhotosViewHolder holder) {
+    public void setPhotos(final Photos photos, final DataPhotosViewHolder holder) {
 
         PhotosInfo mainPhoto = photos.getPhotos().get(0);
         int size = photos.getPhotos().size();
@@ -115,6 +119,76 @@ public class PhotoBindHelper {
             Glide.with(context).load(thirdPhoto.getPhoto604()).into(holder.thirdImage);
             Glide.with(context).load(fourthPhoto.getPhoto604()).into(holder.fourthImage);
         }
+
+        holder.mainImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewerActivity.class);
+                intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 0);
+                intent.putExtra(PhotoConstants.IMAGE_X, holder.mainImage.getX());
+                intent.putExtra(PhotoConstants.IMAGE_Y, holder.mainImage.getY());
+                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.mainImage.getWidth());
+                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.mainImage.getHeight());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.firstImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewerActivity.class);
+                intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 1);
+                intent.putExtra(PhotoConstants.IMAGE_X, holder.firstImage.getX());
+                intent.putExtra(PhotoConstants.IMAGE_Y, holder.firstImage.getY());
+                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.firstImage.getWidth());
+                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.firstImage.getHeight());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.secondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewerActivity.class);
+                intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 2);
+                intent.putExtra(PhotoConstants.IMAGE_X, holder.secondImage.getX());
+                intent.putExtra(PhotoConstants.IMAGE_Y, holder.secondImage.getY());
+                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.secondImage.getWidth());
+                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.secondImage.getHeight());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.thirdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewerActivity.class);
+                intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 3);
+                intent.putExtra(PhotoConstants.IMAGE_X, holder.thirdImage.getX());
+                intent.putExtra(PhotoConstants.IMAGE_Y, holder.thirdImage.getY());
+                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.thirdImage.getWidth());
+                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.thirdImage.getHeight());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.fourthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewerActivity.class);
+                intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 3);
+                intent.putExtra(PhotoConstants.IMAGE_X, holder.fourthImage.getX());
+                intent.putExtra(PhotoConstants.IMAGE_Y, holder.fourthImage.getY());
+                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.fourthImage.getWidth());
+                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.fourthImage.getHeight());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void calculateRightSubFourViews(PhotosInfo mainPhoto, PhotosInfo firstPhoto, PhotosInfo secondPhoto,

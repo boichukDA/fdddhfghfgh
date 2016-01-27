@@ -100,7 +100,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
 
     @Override
     protected void initBackend(Bundle savedInstanceState) {
-        if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
+       /* if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
             latch = new CountDownLatch(2);
             VKMainExecutor.executeVKQuery(createQuery(),
                     new SimpleTaskListener<Photos>() {
@@ -125,14 +125,14 @@ public class PhotoViewerActivity extends ParentActivityNoTitle{
                         PhotoViewerActivity.this.photos = result;
                     }
 
-                }, latch);
+                }, latch);*/
     }
 
     @Override
     protected void initUI(Bundle savedInstanceState) {
         setContentView(R.layout.photo_viewer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        backgroundView = (View) findViewById(R.id.photo_viewer_background);
+        backgroundView = findViewById(R.id.photo_viewer_background);
 
         imagePager = (ViewPager) findViewById(R.id.photo_viewer_image_layout);
         postLikeLayout = (LinearLayout) findViewById(R.id.news_post_like_layout);

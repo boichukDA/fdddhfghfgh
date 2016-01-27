@@ -32,6 +32,7 @@
     <string name="drawer_item_my_messages">Мои Сообщения</string>
     <string name="drawer_item_my_group">Мои Группы</string>
     <string name="drawer_item_my_news">Мои Новости</string>
+    <string name="drawer_item_settings">Настройки</string>
     <string name="main_string_of">из</string>
 
     <string-array name="news_varians">
