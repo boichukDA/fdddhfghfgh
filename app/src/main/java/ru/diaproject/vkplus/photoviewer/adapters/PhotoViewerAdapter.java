@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ru.diaproject.vkplus.imageloading.ImageLoader;
+import com.bumptech.glide.Glide;
+
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.photoviewer.fragments.PhotoViewerItemFragment;
 
 public class PhotoViewerAdapter extends FragmentPagerAdapter {
+
     private Photos photos;
     private View.OnClickListener listener;
 
@@ -39,6 +41,14 @@ public class PhotoViewerAdapter extends FragmentPagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
         PhotoViewerItemFragment fragment = (PhotoViewerItemFragment) object;
-        ImageLoader.clear(fragment.getImageView());
+        Glide.clear(fragment.getImageView());
+    }
+
+    public Photos getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Photos photos) {
+        this.photos = photos;
     }
 }

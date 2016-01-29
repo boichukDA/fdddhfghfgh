@@ -21,7 +21,7 @@ public interface IDataCopyHistory {
 
     Integer getDate();
 
-    PostType getPostType();
+    FilterType getPostType();
 
     String getText();
 

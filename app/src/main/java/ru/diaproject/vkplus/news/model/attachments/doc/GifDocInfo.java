@@ -23,7 +23,7 @@ public class GifDocInfo extends DocInfo {
         public static class Photo implements Serializable{
             public static class Size implements Serializable{
                 public enum SizeType{
-                    S("s"), M("m");
+                    S("s"), M("m"), O("0");
 
                     private String value;
                     SizeType(String m) {

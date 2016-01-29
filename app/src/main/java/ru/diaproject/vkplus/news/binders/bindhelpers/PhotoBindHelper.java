@@ -11,7 +11,10 @@ import com.bumptech.glide.Glide;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.utils.DataConstants;
+import ru.diaproject.vkplus.core.utils.EnumUtils;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.news.model.baseitems.PostType;
 import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
@@ -32,7 +35,7 @@ public class PhotoBindHelper {
         TWO_IMAGE_MIDDLE_OFFSET = offset;
     }
 
-    private void setPhotos(final Photos photos, final DataPhotosViewHolder holder, final Integer ownerId, final Integer date){
+    private void setPhotos(final Photos photos, final DataPhotosViewHolder holder, final Integer ownerId, final Integer date, final FilterType postType){
         PhotosInfo mainPhoto = photos.getPhotos().get(0);
         int size = photos.getPhotos().size();
 
@@ -143,6 +146,7 @@ public class PhotoBindHelper {
                 intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.mainImage.getHeight());
                 intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_START, r.top);
                 intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_END, r.bottom);
+                EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
         });
@@ -204,11 +208,11 @@ public class PhotoBindHelper {
         });
     }
     public void setPhotos(final IDataMainItem entity, final DataPhotosViewHolder holder) {
-        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate());
+        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate(), entity.getType());
     }
 
     public void setPhotos(final CopyHistoryInfo entity, final DataPhotosViewHolder holder) {
-        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate());
+        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate(), entity.getPostType());
     }
 
 

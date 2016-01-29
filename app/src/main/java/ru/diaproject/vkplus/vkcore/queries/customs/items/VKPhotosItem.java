@@ -24,4 +24,9 @@ public class VKPhotosItem extends VKItem<Photos> {
         return new PreparedItem<>(getQueryBuilder());
     }
 
+    public VKPhotoPreparedItem getById(){
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET_BY_ID);
+        return new VKPhotoPreparedItem(getQueryBuilder());
+    }
+
 }

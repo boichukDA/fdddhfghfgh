@@ -19,13 +19,13 @@ import ru.diaproject.vkplus.news.model.attachments.PollInfo;
 import ru.diaproject.vkplus.news.model.attachments.PostedPhotoInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.baseitems.DataItem;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.IDataCopyHistory;
-import ru.diaproject.vkplus.news.model.baseitems.PostType;
 
 public class CopyHistoryInfo extends DataItem implements IDataCopyHistory, IDataResult{
     private Integer fromId;
     private Integer date;
-    private PostType postType;
+    private FilterType postType;
     private String text;
     private transient Spannable spannableText;
 
@@ -59,11 +59,11 @@ public class CopyHistoryInfo extends DataItem implements IDataCopyHistory, IData
         this.date = date;
     }
 
-    public PostType getPostType() {
+    public FilterType getPostType() {
         return postType;
     }
 
-    public void setPostType(PostType postType) {
+    public void setPostType(FilterType postType) {
         this.postType = postType;
     }
 

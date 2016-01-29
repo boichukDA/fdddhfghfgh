@@ -36,8 +36,9 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
     public static final String VK_USER_ARG = "user";
     private VKUser user;
     private DrawerImplementation impl;
+    private Drawer drawer;
 
-     private void initContext(Bundle savedInstanceState){
+    private void initContext(Bundle savedInstanceState){
          Intent intent = getIntent();
          Bundle bundle = intent.getExtras();
          VKUser user = bundle.getParcelable(VK_USER_ARG);
@@ -208,7 +209,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                 .withSelectedIcon(new BitmapDrawable(getResources(), impl.getSettingsSelectedBitmap()))
                 .withIdentifier(7);
 
-        new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggle(false)
@@ -260,4 +261,18 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         intent.putExtra(VK_USER_ARG, VK.SINGLETON.getUser());
         super.startActivity(intent);
     }
+
+    public Drawer getDrawer() {
+        return drawer;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen())
+            drawer.closeDrawer();
+        else
+            super.onBackPressed();
+    }
+
+
 }

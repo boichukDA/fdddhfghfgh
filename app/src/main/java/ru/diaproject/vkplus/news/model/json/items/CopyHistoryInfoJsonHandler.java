@@ -14,6 +14,7 @@ import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
 import ru.diaproject.vkplus.news.model.attachments.doc.DocType;
+import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
@@ -34,13 +35,13 @@ public class CopyHistoryInfoJsonHandler {
         Integer date= jsonObject.optInt("date", 0);
         info.setDate(date);
 
-        /*try {
-            PostType type = PostType.valueOf(jsonObject.optString("post_type", "").toUpperCase());
+        try {
+            FilterType type = FilterType.valueOf(jsonObject.optString("post_type", "").toUpperCase());
             info.setPostType(type);
         }
         catch(Exception e){
             e.printStackTrace();
-        }*/
+        }
         String text = jsonObject.optString("text", "");
         info.setText(text);
 

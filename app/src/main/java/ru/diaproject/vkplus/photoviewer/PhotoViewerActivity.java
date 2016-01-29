@@ -24,7 +24,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.devspark.robototextview.widget.RobotoTextView;
 
-import java.util.concurrent.CountDownLatch;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
@@ -44,12 +43,6 @@ import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.photoviewer.adapters.PhotoViewerAdapter;
 import ru.diaproject.vkplus.photoviewer.transformers.DepthPageTransformer;
 import ru.diaproject.vkplus.photoviewer.views.SimplePageChangeListener;
-import ru.diaproject.vkplus.vkcore.queries.VKQuery;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
-import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
-import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
-import ru.diaproject.vkplus.vkcore.queries.VkQueryBuilderException;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
 import rx.Observable;
@@ -64,15 +57,12 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
     private int imagePos;
 
-    private volatile Photos photos;
+    private volatile Photos oldPhotos;
     private FilterType type;
-    private CountDownLatch latch;
     private boolean isShownInfo;
-    private boolean isShowDescription;
 
     private float topInitY;
     private float bottomInitY;
-    private int descriptionHeight;
 
     Toolbar toolbar;
     View backgroundView;
@@ -121,7 +111,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     @Override
     protected void initContent(Bundle savedInstanceState, Intent activityIntent) {
         imagePos = activityIntent.getIntExtra(PhotoConstants.IMAGE_POSITION, 0);
-        photos = (Photos) activityIntent.getSerializableExtra(PhotoConstants.IMAGE_ARRAY);
+        oldPhotos = (Photos) activityIntent.getSerializableExtra(PhotoConstants.IMAGE_ARRAY);
 
         startViewX = activityIntent.getIntExtra(PhotoConstants.IMAGE_X, 0);
         startViewY = activityIntent.getIntExtra(PhotoConstants.IMAGE_Y, 0) - WindowUtils.getStatusBarHeight(this);
@@ -136,7 +126,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         density = getResources().getDisplayMetrics().density;
         screeenCoef = (float)getResources().getDisplayMetrics().heightPixels/getResources().getDisplayMetrics().widthPixels;
 
-        PhotosInfo currentPhoto = photos.getPhotos().get(imagePos);
+        PhotosInfo currentPhoto = oldPhotos.getPhotos().get(imagePos);
 
         imageCoef = (float)currentPhoto.getHeight()/currentPhoto.getWidth();
 
@@ -165,53 +155,50 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         VKMainExecutor.executeRunnable(new Runnable() {
             @Override
             public void run() {
-                Observable.from(VKMainExecutor
-                        .request(VKApi.photos(getUser()).get()
-                                .with(VKParameter.FEED, date)
-                                .and(VKParameter.EXTENDED, 1)
-                                .and(VKParameter.OWNER_ID, ownerId)
-                                .build()))
-                        .subscribe(new Action1<Photos>() {
-                            @Override
-                            public void call(final Photos photos) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loadPhotoData(photos.getPhotos().get(imagePager.getCurrentItem()));
-                                    }
-                                });
-                            }
-                        });
+                if (type.equals(FilterType.POST)) {
+                    Observable.from(VKMainExecutor
+                            .request(VKApi.photos(getUser()).getById()
+                                    .with(VKParameter.PHOTOS, oldPhotos)
+                                    .and(VKParameter.EXTENDED, 1)
+                                    .build()))
+                            .subscribe(new Action1<Photos>() {
+                                @Override
+                                public void call(final Photos photos) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            prepareFullData(photos);
+                                        }
+                                    });
+                                }
+                            });
+                } else
+                    Observable.from(VKMainExecutor
+                            .request(VKApi.photos(getUser()).get()
+                                    .with(VKParameter.FEED, date)
+                                    .and(VKParameter.EXTENDED, 1)
+                                    .and(VKParameter.OWNER_ID, ownerId)
+                                    .build()))
+                            .subscribe(new Action1<Photos>() {
+                                @Override
+                                public void call(final Photos photos) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            prepareFullData(photos);
+                                        }
+                                    });
+                                }
+                            });
             }
         });
+    }
 
-        ;
-       /* if (!photos.getCount().equals(photos.getPhotos().size())&& !type.equals(FilterType.POST)) {
-            latch = new CountDownLatch(2);
-            VKMainExecutor.executeVKQuery(createQuery(),
-                    new SimpleTaskListener<Photos>() {
-                        @Override
-                        public void onDone(Photos result) {
-                            VKMainExecutor.executeVKQuery( createPhotoQuery(result),
-                                    new SimpleTaskListener<Photos>() {
-                                        @Override
-                                        public void onDone(Photos result) {
-                                            PhotoViewerActivity.this.photos = result;
-                                        }
-
-                                    }, latch);
-                        }
-
-                    }, latch);
-        }
-        else VKMainExecutor.executeVKQuery(createPhotoQuery(photos),
-                new SimpleTaskListener<Photos>() {
-                    @Override
-                    public void onDone(Photos result) {
-                        PhotoViewerActivity.this.photos = result;
-                    }
-
-                }, latch);*/
+    private void prepareFullData(Photos photos) {
+        oldPhotos = photos;
+        ((PhotoViewerAdapter)imagePager.getAdapter()).setPhotos(photos);
+        (imagePager.getAdapter()).notifyDataSetChanged();
+        loadPhotoData(photos.getPhotos().get(imagePager.getCurrentItem()));
     }
 
     @Override
@@ -249,23 +236,19 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            if (photos.getCount().equals(photos.getPhotos().size()))
-                actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ photos.getCount());
+            if (oldPhotos.getCount().equals(oldPhotos.getPhotos().size()))
+                actionBar.setTitle((imagePos + 1) +" " + getResources().getString(R.string.main_string_of)+ " "+ oldPhotos.getCount());
         }
 
         toolbar.setVisibility(View.GONE);
         bottomPanel.setVisibility(View.INVISIBLE);
 
-        PhotoViewerAdapter adapter = new PhotoViewerAdapter(getSupportFragmentManager(), photos, new View.OnClickListener() {
+        PhotoViewerAdapter adapter = new PhotoViewerAdapter(getSupportFragmentManager(), oldPhotos, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isShownInfo) {
-                    if (descriptionLayout.getVisibility() == View.VISIBLE) {
-                        hideDescription();
-                        return;
-                    }
+                if (isShownInfo)
                     hideInfo();
-                } else
+                else
                     showInfo();
             }
         });
@@ -283,7 +266,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
             @Override
             public boolean onPreDraw() {
                 animationImage.getViewTreeObserver().removeOnPreDrawListener(this);
-                Glide.with(PhotoViewerActivity.this).load(photos.getPhotos().get(imagePos).getPhoto604()).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
+                Glide.with(PhotoViewerActivity.this).load(oldPhotos.getPhotos().get(imagePos).getPhoto604()).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                         return false;
@@ -323,26 +306,26 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
                 scaleX(1).scaleY(1).translationX(endViewX).translationY(endViewY)
                 .setInterpolator(sDecelerator).setListener(new SimpleAnimatorListener() {
 
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(ObjectAnimator.ofFloat(backgroundView, "alpha", 0, 1),
+                        ObjectAnimator.ofFloat(shadowLayout, "shadowMove", 0, 1));
+                set.setDuration(ANIMATION_DURATION_MILLS);
+                set.addListener(new SimpleAnimatorListener() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(ObjectAnimator.ofFloat(backgroundView, "alpha", 0, 1),
-                                ObjectAnimator.ofFloat(shadowLayout, "shadowMove", 0, 1));
-                        set.setDuration(ANIMATION_DURATION_MILLS);
-                        set.addListener(new SimpleAnimatorListener() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                imagePager.setVisibility(View.VISIBLE);
-                                animationImageLayout.setVisibility(View.GONE);
-                                backView.setVisibility(View.GONE);
-                                backgroundView.setVisibility(View.GONE);
-                                initHelpData();
-                            }
-                        });
-                        set.start();
+                        imagePager.setVisibility(View.VISIBLE);
+                        animationImageLayout.setVisibility(View.GONE);
+                        backView.setVisibility(View.GONE);
+                        backgroundView.setVisibility(View.GONE);
+                        initHelpData();
                     }
-
                 });
+                set.start();
+            }
+
+        });
 
         ObjectAnimator shadowAnim = ObjectAnimator.ofFloat(shadowLayout, "shadowDepth", 0, 1);
         shadowAnim.setDuration(ANIMATION_DURATION_MILLS);
@@ -350,7 +333,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     }
 
     private void initHelpData() {
-        actionBar.setTitle((imagePos + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getCount());
+        actionBar.setTitle((imagePos + 1) + " " + getResources().getString(R.string.main_string_of) + " " + oldPhotos.getCount());
         isShownInfo = false;
         topInitY = toolbar.getY();
 
@@ -369,13 +352,13 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         toolbar.setVisibility(View.GONE);
         bottomPanel.setVisibility(View.GONE);
 
-        loadPhotoData(photos.getPhotos().get(imagePos));
+        loadPhotoData(oldPhotos.getPhotos().get(imagePos));
         imagePager.addOnPageChangeListener(new SimplePageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setTitle((position + 1) + " " + getResources().getString(R.string.main_string_of) + " " + photos.getCount());
-                if (position < photos.getPhotos().size())
-                    loadPhotoData(photos.getPhotos().get(position));
+                actionBar.setTitle((position + 1) + " " + getResources().getString(R.string.main_string_of) + " " + oldPhotos.getCount());
+                if (position < oldPhotos.getPhotos().size())
+                    loadPhotoData(oldPhotos.getPhotos().get(position));
             }
         });
     }
@@ -383,76 +366,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     @Override
     protected Toolbar getToolbar() {
         return toolbar;
-    }
-
-
-    private void hideDescription() {
-        /*if (!isShowDescription)
-            return;
-
-        ObjectAnimator animatorDescription = ObjectAnimator.ofFloat(descriptionLayout, View.Y, descriptionLayout.getY(), descriptionLayout.getY()+descriptionLayout.getHeight());
-        animatorDescription.addListener(new SimpleAnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                descriptionLayout.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                descriptionLayout.setVisibility(View.GONE);
-                isShowDescription = false;
-            }
-        });
-        animatorDescription.start();*/
-    }
-
-    private VKQuery<Photos> createQuery() {
-        VKApi.photos(getUser()).get().with(VKParameter.FEED, date).and(VKParameter.EXTENDED, 1).build();
-        VKQuery<Photos> query = null;
-        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
-        builder.setVKQueryType(VKQueryType.PHOTO);
-        builder.setVKMethod(VKQuerySubMethod.DEFAULT);
-        builder.setResultFormatType(VKQueryResponseTypes.JSON);
-        builder.setVKResultType(Photos.class);
-      //  builder.addCondition("owner_id", sourceId);
-        builder.addCondition("feed", date);
-        try {
-            query = builder.build();
-        } catch (VkQueryBuilderException e) {
-            e.printStackTrace();
-        }
-
-        return query;
-    }
-
-    private VKQuery<Photos> createPhotoQuery(Photos oldPhotos) {
-        StringBuilder queryParamBuilder = new StringBuilder();
-        for (PhotosInfo info:oldPhotos.getPhotos()){
-            queryParamBuilder.append(info.getOwnerId());
-            queryParamBuilder.append("_");
-            queryParamBuilder.append(info.getId());
-            queryParamBuilder.append("_");
-            queryParamBuilder.append(info.getAccessToken());
-            queryParamBuilder.append(",");
-        }
-        queryParamBuilder.deleteCharAt(queryParamBuilder.length() - 1);
-
-        VKQuery<Photos> query = null;
-        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
-        builder.setVKQueryType(VKQueryType.PHOTO);
-        builder.setVKMethod(VKQuerySubMethod.GET_BY_ID);
-        builder.setResultFormatType(VKQueryResponseTypes.JSON);
-        builder.setVKResultType(Photos.class);
-        builder.addCondition("photos", queryParamBuilder.toString());
-        builder.addCondition("extended", 1);
-
-        try {
-            query = builder.build();
-        } catch (VkQueryBuilderException e) {
-            e.printStackTrace();
-        }
-
-        return query;
     }
 
     @Override
@@ -520,48 +433,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         isShownInfo = false;
         if ("".equals(currentPhoto.getText()))
             photoViewerInfoLayout.setVisibility(View.GONE);
-        else {
-            descriptionText.setText(currentPhoto.getText());
-            descriptionLayout.getViewTreeObserver().addOnGlobalLayoutListener(
-                    new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                        @Override
-                        public void onGlobalLayout() {
-                            descriptionHeight = descriptionLayout.getHeight();
-                            descriptionLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                            descriptionLayout.setVisibility(View.GONE);
-                        }
-
-                    });
-            photoViewerInfoLayout.setVisibility(View.VISIBLE);
-        }
-        photoViewerInfoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (descriptionLayout.getVisibility() == View.VISIBLE)
-                    hideDescription();
-                else showDescription();
-            }
-        });
-    }
-
-    private void showDescription() {
-       /* if (isShowDescription)
-            return;
-
-        ObjectAnimator animatorDescription = ObjectAnimator.ofFloat(descriptionLayout, View.Y, bottomPanel.getY()-bottomPanel.getHeight(), bottomPanel.getY()-bottomPanel.getHeight()-descriptionHeight);
-        animatorDescription.addListener(new SimpleAnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                descriptionLayout.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                isShowDescription = true;
-            }
-        });
-        animatorDescription.start();*/
     }
 
     public void showInfo(){
@@ -615,5 +486,15 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
                         toolbar.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getDrawer().isDrawerOpen())
+            getDrawer().closeDrawer();
+        else  if (isShownInfo)
+            hideInfo();
+        else
+            super.onBackPressed();
     }
 }
