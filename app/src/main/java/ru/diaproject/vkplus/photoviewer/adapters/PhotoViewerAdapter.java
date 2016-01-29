@@ -24,7 +24,8 @@ public class PhotoViewerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         PhotoViewerItemFragment fragment = new PhotoViewerItemFragment();
-        fragment.setPhotoInfo(photos.getPhotos().get(position));
+        fragment.setPhotos(photos);
+        fragment.setPosition(position);
         fragment.setClickListener(listener);
         return fragment;
     }

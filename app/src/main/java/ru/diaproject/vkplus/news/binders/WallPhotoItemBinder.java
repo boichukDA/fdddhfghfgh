@@ -7,16 +7,11 @@ import android.view.ViewGroup;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
-import ru.diaproject.vkplus.core.databinders.DataBinder;
 import ru.diaproject.vkplus.core.utils.ColorUtils;
-import ru.diaproject.vkplus.core.utils.DateUtils;
-import ru.diaproject.vkplus.imageloading.ImageLoader;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.NewsResponse;
-import ru.diaproject.vkplus.news.model.baseitems.DataWallPhotoItem;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.WallPhotoItemViewHolder;
 
 public class WallPhotoItemBinder extends DataPhotosBinder<WallPhotoItemViewHolder, IDataMainItem> {
@@ -50,7 +45,7 @@ public class WallPhotoItemBinder extends DataPhotosBinder<WallPhotoItemViewHolde
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants,
                 photos.getCount() - getMaxPhotosDisplay(), photos.getCount() - getMaxPhotosDisplay()));
-        setPhotos(photos, holder);
+        setPhotos(entity, holder);
     }
 
 }

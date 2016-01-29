@@ -15,10 +15,8 @@ import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 
 public class PhotosResponseJsonHandler implements JsonHandler, Serializable {
-    private Photos photos;
 
-    public PhotosResponseJsonHandler(Photos photos) {
-        this.photos = photos;
+    public PhotosResponseJsonHandler() {
     }
 
     @Override

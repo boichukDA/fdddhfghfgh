@@ -10,6 +10,7 @@ import ru.diaproject.vkplus.news.binders.bindhelpers.PhotoBindHelper;
 import ru.diaproject.vkplus.news.model.NewsResponse;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.items.Photos;
+import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 
 public abstract class DataPhotosBinder<T extends DataPhotosViewHolder, V extends IDataMainItem> extends DataBinder<T,V>{
@@ -28,9 +29,13 @@ public abstract class DataPhotosBinder<T extends DataPhotosViewHolder, V extends
         photoBindHelper = new PhotoBindHelper(context, photoContainerWidth, TWO_IMAGE_MIDDLE_OFFSET);
     }
 
-    public void setPhotos(Photos photos, T holder){
+    public void setPhotos(IDataMainItem item, T holder){
         holder.photoContainer.setVisibility(View.VISIBLE);
-        photoBindHelper.setPhotos(photos, holder);
+        if (item.getAttachmentPhotos() != null
+                && !item.getAttachmentPhotos().getPhotos().isEmpty()) {
+            photoBindHelper.setPhotos(item, holder);
+        } else
+            hidePhotos(holder);
     }
 
     protected void hidePhotos(T holder) {

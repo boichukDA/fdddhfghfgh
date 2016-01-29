@@ -7,7 +7,7 @@ import ru.diaproject.vkplus.news.model.DataObject;
 import ru.diaproject.vkplus.news.model.IDataResult;
 
 public abstract class DataOwner extends DataObject implements IDataOwner, IDataResult {
-    private Spannable fullName;
+    private transient Spannable fullName;
     private String photo100;
 
     public DataOwner() {

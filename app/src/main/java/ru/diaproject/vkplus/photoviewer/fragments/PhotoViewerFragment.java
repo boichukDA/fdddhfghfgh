@@ -34,6 +34,7 @@ import ru.diaproject.vkplus.news.model.items.CommentsInfo;
 import ru.diaproject.vkplus.news.model.items.LikesInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
 import ru.diaproject.vkplus.photoviewer.adapters.PhotoViewerAdapter;
 import ru.diaproject.vkplus.photoviewer.transformers.DepthPageTransformer;
@@ -51,10 +52,10 @@ public class PhotoViewerFragment extends ParentFragment{
         return fragment;
     }
 
-    public static final String IMAGE_POSITION = PhotoViewerActivity.IMAGE_POSITION;
-    public static final String IMAGE_SOURCE = PhotoViewerActivity.IMAGE_SOURCE;
-    public static final String IMAGE_DATE = PhotoViewerActivity.IMAGE_DATE;
-    public static final String IMAGE_ARRAY = PhotoViewerActivity.IMAGE_ARRAY;
+    public static final String IMAGE_POSITION = PhotoConstants.IMAGE_POSITION;
+    //public static final String IMAGE_SOURCE = PhotoConstants.IMAGE_SOURCE;
+    public static final String IMAGE_DATE = PhotoConstants.IMAGE_DATE;
+    public static final String IMAGE_ARRAY = PhotoConstants.IMAGE_ARRAY;
 
     public static final int ANIMATION_DURATION_MILLS = 500;
 
@@ -123,7 +124,7 @@ public class PhotoViewerFragment extends ParentFragment{
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.photo_viewer_layout, container, false);
 
-        backgroundView = rootView.findViewById(R.id.photo_viewer_background);
+      //  backgroundView = rootView.findViewById(R.id.photo_viewer_background);
 
         imagePager = (ViewPager) rootView.findViewById(R.id.photo_viewer_image_layout);
         postLikeLayout = (LinearLayout) rootView.findViewById(R.id.news_post_like_layout);
@@ -165,7 +166,7 @@ public class PhotoViewerFragment extends ParentFragment{
     @Override
     protected void initContent(Bundle bundle) {
         imagePos = bundle.getInt(IMAGE_POSITION, 0);
-        sourceId = bundle.getInt(IMAGE_SOURCE, 0);
+       // sourceId = bundle.getInt(IMAGE_SOURCE, 0);
         date = bundle.getInt(IMAGE_DATE, 0);
         photos = (Photos) bundle.getSerializable(IMAGE_ARRAY);
         type = EnumUtils.deserialize(FilterType.class).from(bundle, FilterType.POST);

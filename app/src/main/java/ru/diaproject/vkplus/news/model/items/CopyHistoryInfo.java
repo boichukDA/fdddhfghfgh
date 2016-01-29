@@ -27,7 +27,7 @@ public class CopyHistoryInfo extends DataItem implements IDataCopyHistory, IData
     private Integer date;
     private PostType postType;
     private String text;
-    private Spannable spannableText;
+    private transient Spannable spannableText;
 
     private Photos photos;
     private List<PostedPhotoInfo> postedPhotos;

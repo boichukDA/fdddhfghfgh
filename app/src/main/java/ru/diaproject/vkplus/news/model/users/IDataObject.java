@@ -1,5 +1,7 @@
 package ru.diaproject.vkplus.news.model.users;
 
-public interface IDataObject {
+import java.io.Serializable;
+
+public interface IDataObject extends Serializable {
     Integer getId();
 }

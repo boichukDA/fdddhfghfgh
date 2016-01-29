@@ -61,7 +61,7 @@ public class CopyHistoryBindHelper {
 
         if (firstPhotos!=null){
             holder.photoContainer.setVisibility(View.VISIBLE);
-            photoBindHelper.setPhotos(firstPhotos, holder);
+            photoBindHelper.setPhotos(firstHistory, holder );
         }else
             holder.photoContainer.setVisibility(View.GONE);
 

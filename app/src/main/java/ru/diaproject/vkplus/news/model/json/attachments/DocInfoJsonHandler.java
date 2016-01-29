@@ -41,12 +41,15 @@ public class DocInfoJsonHandler {
                 currentSize.setSrc(sizes.getJSONObject(index).getString("src"));
 
                 String strType = sizes.getJSONObject(index).getString("type").toUpperCase();
-                GifDocInfo.Preview.Photo.Size.SizeType sizeType = GifDocInfo.Preview.Photo.Size.SizeType.valueOf(strType);
-
-                currentSize.setType(sizeType);
-                if (sizeType.equals(GifDocInfo.Preview.Photo.Size.SizeType.M))
-                    photo.setSizeM(currentSize);
-                else photo.setSizeS(currentSize);
+                try {
+                    GifDocInfo.Preview.Photo.Size.SizeType sizeType = GifDocInfo.Preview.Photo.Size.SizeType.valueOf(strType);
+                    currentSize.setType(sizeType);
+                    if (sizeType.equals(GifDocInfo.Preview.Photo.Size.SizeType.M))
+                        photo.setSizeM(currentSize);
+                    else photo.setSizeS(currentSize);
+                }catch (Throwable e){
+                    e.printStackTrace();
+                }
             }
 
             GifDocInfo.Preview objPreview = new GifDocInfo.Preview();

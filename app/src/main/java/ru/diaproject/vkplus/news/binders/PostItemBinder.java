@@ -99,7 +99,7 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
             gifBindHelper.hideLayout(holder.mainGifViewHolder);
 
         if (photos != null) {
-            setPhotos(photos, holder);
+            setPhotos(entity, holder);
         } else
             hidePhotos(holder);
 

@@ -33,7 +33,7 @@ public class DataPostItem extends DataMainItem implements IDataPostItem, IDataRe
     private PostSourceInfo postSourceInfo;
 
     private CopyHistory copyHistory;
-    private Spannable spannableText;
+    private transient Spannable spannableText;
 
     public CopyHistory getCopyHistory() {
         return copyHistory;

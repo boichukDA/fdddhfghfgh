@@ -1,8 +1,8 @@
 package ru.diaproject.vkplus.news.binders.bindhelpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,8 +10,12 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.core.utils.DataConstants;
+import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
@@ -28,8 +32,7 @@ public class PhotoBindHelper {
         TWO_IMAGE_MIDDLE_OFFSET = offset;
     }
 
-    public void setPhotos(final Photos photos, final DataPhotosViewHolder holder) {
-
+    private void setPhotos(final Photos photos, final DataPhotosViewHolder holder, final Integer ownerId, final Integer date){
         PhotosInfo mainPhoto = photos.getPhotos().get(0);
         int size = photos.getPhotos().size();
 
@@ -123,13 +126,23 @@ public class PhotoBindHelper {
         holder.mainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int [] positions = new int[2];
+                holder.mainImage.getLocationOnScreen(positions);
+
+                Rect r = new Rect();
+                holder.mainImage.getLocalVisibleRect(r);
+
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
                 intent.putExtra(PhotoConstants.IMAGE_POSITION, 0);
-                intent.putExtra(PhotoConstants.IMAGE_X, holder.mainImage.getX());
-                intent.putExtra(PhotoConstants.IMAGE_Y, holder.mainImage.getY());
+                intent.putExtra(DataConstants.OWNER_ID, ownerId);
+                intent.putExtra(DataConstants.DATE, date);
+                intent.putExtra(PhotoConstants.IMAGE_X, positions[0]);
+                intent.putExtra(PhotoConstants.IMAGE_Y, positions[1]);
                 intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.mainImage.getWidth());
                 intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.mainImage.getHeight());
+                intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_START, r.top);
+                intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_END, r.bottom);
                 context.startActivity(intent);
             }
         });
@@ -190,6 +203,14 @@ public class PhotoBindHelper {
             }
         });
     }
+    public void setPhotos(final IDataMainItem entity, final DataPhotosViewHolder holder) {
+        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate());
+    }
+
+    public void setPhotos(final CopyHistoryInfo entity, final DataPhotosViewHolder holder) {
+        setPhotos(entity.getAttachmentPhotos(), holder, entity.getOwnerId(), entity.getDate());
+    }
+
 
     private void calculateRightSubFourViews(PhotosInfo mainPhoto, PhotosInfo firstPhoto, PhotosInfo secondPhoto,
                                             PhotosInfo thirdPhoto, PhotosInfo fourthPhoto, ImageView mainImage, RelativeLayout photoSubContainer,

@@ -1,4 +1,5 @@
-package ru.diaproject.vkplus.photoviewer.views;
+package ru.diaproject.vkplus.core.view;
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,10 +11,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-public class ShadowLayout extends RelativeLayout {
-
+public class ShadowLayout extends LinearLayout {
     private final Paint mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float mShadowDepth;
     private Bitmap mShadowBitmap;
@@ -49,8 +49,8 @@ public class ShadowLayout extends RelativeLayout {
         Canvas c = new Canvas(mShadowBitmap);
         mShadowPaint.setMaskFilter(new BlurMaskFilter(BLUR_RADIUS, BlurMaskFilter.Blur.NORMAL));
         c.translate(BLUR_RADIUS, BLUR_RADIUS);
-        c.drawRoundRect(sShadowRectF, sShadowRectF.width() / 40,
-                sShadowRectF.height() / 40, mShadowPaint);
+        c.drawRoundRect(sShadowRectF, sShadowRectF.width() / 20,
+                sShadowRectF.height() / 20, mShadowPaint);
     }
 
     /**
@@ -66,6 +66,9 @@ public class ShadowLayout extends RelativeLayout {
         }
     }
 
+    public void setShadowMove(float depth){
+        invalidate();
+    }
     /**
      * Overriding onDraw allows us to draw shadows behind every child of this container.
      * onDraw() is called to draw a layout's content before the children are drawn, so the
@@ -78,7 +81,7 @@ public class ShadowLayout extends RelativeLayout {
             if (child.getVisibility() != View.VISIBLE || child.getAlpha() == 0) {
                 continue;
             }
-            int depthFactor = (int) (80 * mShadowDepth);
+            int depthFactor = (int) (30 * mShadowDepth);
             canvas.save();
             canvas.translate(child.getLeft() + depthFactor,
                     child.getTop() + depthFactor);
@@ -89,6 +92,4 @@ public class ShadowLayout extends RelativeLayout {
             canvas.restore();
         }
     }
-
-
 }

@@ -1,13 +1,15 @@
 package ru.diaproject.vkplus.news.model.attachments.doc;
 
 
+import java.io.Serializable;
+
 public class GifDocInfo extends DocInfo {
 
     public GifDocInfo() {
         super(DocType.GIF_DOC_TYPE);
     }
 
-    public static class Preview{
+    public static class Preview implements Serializable{
         private Photo photo;
 
         public Photo getPhoto() {
@@ -18,8 +20,8 @@ public class GifDocInfo extends DocInfo {
             this.photo = photo;
         }
 
-        public static class Photo{
-            public static class Size{
+        public static class Photo implements Serializable{
+            public static class Size implements Serializable{
                 public enum SizeType{
                     S("s"), M("m");
 

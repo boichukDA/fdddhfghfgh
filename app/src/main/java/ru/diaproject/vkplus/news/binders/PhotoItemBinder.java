@@ -46,8 +46,7 @@ public class PhotoItemBinder extends DataPhotosBinder<PhotoItemViewHolder, IData
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants,
                 photos.getCount() - getMaxPhotosDisplay(), photos.getCount() - getMaxPhotosDisplay()));
 
-        if (!photos.getPhotos().isEmpty())
-            setPhotos(photos, holder);
+            setPhotos(entity, holder);
     }
 
 }

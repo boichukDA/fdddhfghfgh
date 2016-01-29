@@ -55,6 +55,6 @@ public class PhotoTagItemBinder extends DataPhotosBinder<PhotoTagItemViewHolder,
         else holder.photoCount.setVisibility(View.GONE);
 
         holder.photoCount.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_photo_count_variants, photos.getCount() - 7, photos.getCount()-7));
-        setPhotos(entity.getAttachmentPhotos(), holder);
+        setPhotos(entity, holder);
     }
 }

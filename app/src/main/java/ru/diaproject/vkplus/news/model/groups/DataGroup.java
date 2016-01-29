@@ -119,4 +119,9 @@ public class DataGroup extends DataOwner implements IDataGroup{
     public void prepareItems() {
         setFullName(VkStringUtils.prepareTextToVkName(name, VKPlusApplication.getStaticContext()));
     }
+
+    @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
 }
