@@ -20,6 +20,7 @@ import ru.diaproject.ptrrecyclerview.PullToRefreshWrapper;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ILoggable;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.NewsVariant;
 import ru.diaproject.vkplus.news.adapters.NewsMapBindAdapter;
 import ru.diaproject.vkplus.news.model.NewsResponse;
@@ -33,7 +34,6 @@ import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKPreparedItem;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -49,7 +49,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
 
     private static final int LIMIT = 50;
 
-    private VKUser user;
+    private User user;
     private NewsVariant variant;
     private View rootView;
     private NewsResponse response;
@@ -65,7 +65,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = getArguments().getParcelable(ARG_USER);
+        user = (User) getArguments().getSerializable(ARG_USER);
         variant = getArguments().getParcelable(ARG_VARIANT);
     }
 
@@ -288,7 +288,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
         }
     }
 
-    public VKUser getUser(){
+    public User getUser(){
         return user;
     }
 

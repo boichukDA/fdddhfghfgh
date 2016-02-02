@@ -1,21 +1,21 @@
 package ru.diaproject.vkplus.vkcore.queries.customs;
 
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.vkcore.queries.customs.items.VKNewsItem;
 import ru.diaproject.vkplus.vkcore.queries.customs.items.VKPhotosItem;
 import ru.diaproject.vkplus.vkcore.queries.customs.items.VKUsersItem;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public abstract class VKApi {
 
-    public static VKNewsItem news(VKUser user){
+    public static VKNewsItem news(User user){
         return new VKNewsItem(user);
     }
 
-    public static VKUsersItem users(VKUser user){
+    public static VKUsersItem users(User user){
         return new VKUsersItem(user);
     }
 
-    public static VKPhotosItem photos(VKUser user){
+    public static VKPhotosItem photos(User user){
         return new VKPhotosItem(user);
     }
 }

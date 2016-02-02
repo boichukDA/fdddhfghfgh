@@ -25,23 +25,23 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.VK;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public abstract class ParentActivityNoTitle extends AppCompatActivity {
     public static final String VK_USER_ARG = "user";
-    private VKUser user;
+    private User user;
     private DrawerImplementation impl;
     private Drawer drawer;
 
     private void initContext(Bundle savedInstanceState){
          Intent intent = getIntent();
          Bundle bundle = intent.getExtras();
-         VKUser user = bundle.getParcelable(VK_USER_ARG);
+         User user = (User) bundle.getSerializable(VK_USER_ARG);
          if (user == null)
              throw new RuntimeException("User not come");
 
@@ -248,17 +248,17 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
     }
     protected abstract Toolbar getToolbar();
 
-    public void setUser(VKUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public VKUser getUser() {
+    public User getUser() {
         return user;
     }
 
     @Override
     public void startActivity(Intent intent) {
-        intent.putExtra(VK_USER_ARG, VK.SINGLETON.getUser());
+        intent.putExtra(VK_USER_ARG, getUser());
         super.startActivity(intent);
     }
 

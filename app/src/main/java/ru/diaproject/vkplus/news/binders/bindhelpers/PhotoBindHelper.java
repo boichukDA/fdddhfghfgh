@@ -2,26 +2,26 @@ package ru.diaproject.vkplus.news.binders.bindhelpers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.baseitems.PostType;
 import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 import ru.diaproject.vkplus.photoviewer.PhotoViewerActivity;
+import ru.diaproject.vkplus.photoviewer.model.ImageData;
 
 public class PhotoBindHelper {
 
@@ -37,6 +37,7 @@ public class PhotoBindHelper {
 
     private void setPhotos(final Photos photos, final DataPhotosViewHolder holder, final Integer ownerId, final Integer date, final FilterType postType){
         PhotosInfo mainPhoto = photos.getPhotos().get(0);
+
         int size = photos.getPhotos().size();
 
         if (size == 1) {
@@ -78,6 +79,7 @@ public class PhotoBindHelper {
             Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
             Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
             Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
+
         } else if (size == 4) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
             holder.firstImage.setVisibility(View.VISIBLE);
@@ -100,6 +102,7 @@ public class PhotoBindHelper {
             Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
             Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
             Glide.with(context).load(thirdPhoto.getPhoto604()).into(holder.thirdImage);
+
         } else if (size >= 5) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
             holder.firstImage.setVisibility(View.VISIBLE);
@@ -124,28 +127,19 @@ public class PhotoBindHelper {
             Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
             Glide.with(context).load(thirdPhoto.getPhoto604()).into(holder.thirdImage);
             Glide.with(context).load(fourthPhoto.getPhoto604()).into(holder.fourthImage);
+
         }
 
         holder.mainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int [] positions = new int[2];
-                holder.mainImage.getLocationOnScreen(positions);
-
-                Rect r = new Rect();
-                holder.mainImage.getLocalVisibleRect(r);
-
+                ArrayList<ImageData> imageData = getImageData(holder.mainImage, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
                 intent.putExtra(PhotoConstants.IMAGE_POSITION, 0);
                 intent.putExtra(DataConstants.OWNER_ID, ownerId);
                 intent.putExtra(DataConstants.DATE, date);
-                intent.putExtra(PhotoConstants.IMAGE_X, positions[0]);
-                intent.putExtra(PhotoConstants.IMAGE_Y, positions[1]);
-                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.mainImage.getWidth());
-                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.mainImage.getHeight());
-                intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_START, r.top);
-                intent.putExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_END, r.bottom);
+                intent.putParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY, imageData);
                 EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
@@ -154,13 +148,14 @@ public class PhotoBindHelper {
         holder.firstImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<ImageData> imageData = getImageData(holder.mainImage, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
                 intent.putExtra(PhotoConstants.IMAGE_POSITION, 1);
-                intent.putExtra(PhotoConstants.IMAGE_X, holder.firstImage.getX());
-                intent.putExtra(PhotoConstants.IMAGE_Y, holder.firstImage.getY());
-                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.firstImage.getWidth());
-                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.firstImage.getHeight());
+                intent.putExtra(DataConstants.OWNER_ID, ownerId);
+                intent.putExtra(DataConstants.DATE, date);
+                intent.putParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY, imageData);
+                EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
         });
@@ -168,13 +163,14 @@ public class PhotoBindHelper {
         holder.secondImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<ImageData> imageData = getImageData(holder.mainImage, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
                 intent.putExtra(PhotoConstants.IMAGE_POSITION, 2);
-                intent.putExtra(PhotoConstants.IMAGE_X, holder.secondImage.getX());
-                intent.putExtra(PhotoConstants.IMAGE_Y, holder.secondImage.getY());
-                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.secondImage.getWidth());
-                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.secondImage.getHeight());
+                intent.putExtra(DataConstants.OWNER_ID, ownerId);
+                intent.putExtra(DataConstants.DATE, date);
+                intent.putParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY, imageData);
+                EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
         });
@@ -182,13 +178,14 @@ public class PhotoBindHelper {
         holder.thirdImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<ImageData> imageData = getImageData(holder.mainImage, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
                 intent.putExtra(PhotoConstants.IMAGE_POSITION, 3);
-                intent.putExtra(PhotoConstants.IMAGE_X, holder.thirdImage.getX());
-                intent.putExtra(PhotoConstants.IMAGE_Y, holder.thirdImage.getY());
-                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.thirdImage.getWidth());
-                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.thirdImage.getHeight());
+                intent.putExtra(DataConstants.OWNER_ID, ownerId);
+                intent.putExtra(DataConstants.DATE, date);
+                intent.putParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY, imageData);
+                EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
         });
@@ -196,13 +193,14 @@ public class PhotoBindHelper {
         holder.fourthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<ImageData> imageData = getImageData(holder.mainImage, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
                 Intent intent = new Intent(context, PhotoViewerActivity.class);
                 intent.putExtra(PhotoConstants.IMAGE_ARRAY, photos);
-                intent.putExtra(PhotoConstants.IMAGE_POSITION, 3);
-                intent.putExtra(PhotoConstants.IMAGE_X, holder.fourthImage.getX());
-                intent.putExtra(PhotoConstants.IMAGE_Y, holder.fourthImage.getY());
-                intent.putExtra(PhotoConstants.IMAGE_WIDTH, holder.fourthImage.getWidth());
-                intent.putExtra(PhotoConstants.IMAGE_HEIGHT, holder.fourthImage.getHeight());
+                intent.putExtra(PhotoConstants.IMAGE_POSITION, 4);
+                intent.putExtra(DataConstants.OWNER_ID, ownerId);
+                intent.putExtra(DataConstants.DATE, date);
+                intent.putParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY, imageData);
+                EnumUtils.serialize(postType).to(intent);
                 context.startActivity(intent);
             }
         });
@@ -863,6 +861,14 @@ public class PhotoBindHelper {
         int height = photo.getHeight();
         int width = photo.getWidth();
         return ((width)) * 2 / 3 >= height;
+    }
+    private ArrayList<ImageData> getImageData(ImageView ... views){
+        ArrayList<ImageData> resultImages = new ArrayList<>();
+        for (ImageView view:views){
+            if (view.getVisibility() == View.VISIBLE)
+                resultImages.add(ImageData.fromImageView(view,context));
+        }
+        return resultImages;
     }
 }
 

@@ -7,7 +7,7 @@ import android.view.View;
 
 import java.util.List;
 
-import ru.diaproject.vkplus.news.NewsUserConfig;
+import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
@@ -25,7 +25,7 @@ public class CopyHistoryBindHelper {
     private final AudioBindHelper audioBindHelper;
     private final GifBindHelper gifBindHelper;
 
-    public CopyHistoryBindHelper(Context context, int totalPixelsOffset, int copyHistoryOffset, float density, int maxPhotoCount, int maxAudioCount,int gifMaxCount,  NewsUserConfig config){
+    public CopyHistoryBindHelper(Context context, int totalPixelsOffset, int copyHistoryOffset, float density, int maxPhotoCount, int maxAudioCount,int gifMaxCount,  NewsConfiguration config){
         this.maxPhotoCount = maxPhotoCount;
 
         headerBindHelper = new HeaderBindHelper(context);

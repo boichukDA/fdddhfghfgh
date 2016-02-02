@@ -9,17 +9,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.NewsConfiguration;
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.groups.IDataGroup;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
-import ru.diaproject.vkplus.vkcore.user.VKNewsUserConfiguration;
 
 public class NewsVariantContainer {
-    public static NewsVariantContainer getInstance(Context context, VKNewsUserConfiguration userConfiguration){
+    public static NewsVariantContainer getInstance(Context context, User user){
         if (container == null) {
-            container = new NewsVariantContainer(context, userConfiguration);
+            container = new NewsVariantContainer(context, user.getNewsConfiguration());
             container.init();
         }
 
@@ -32,12 +33,13 @@ public class NewsVariantContainer {
     private List<NewsVariant> currentVariants;
 
     private Context context;
-    private VKNewsUserConfiguration config;
-    private NewsVariantContainer(Context context, VKNewsUserConfiguration userConfiguration){
+    private NewsConfiguration config;
+
+    private NewsVariantContainer(Context context, NewsConfiguration configuration){
         variants = new ArrayList<>();
         currentVariants = new ArrayList<>();
         this.context = context;
-        config = userConfiguration;
+        config = configuration;
 
         String[] resourcesStrings = context.getResources().getStringArray(R.array.news_varians);
         variants.add(new NewsVariant(1,ContextCompat.getDrawable(context, R.drawable.news_all_white),

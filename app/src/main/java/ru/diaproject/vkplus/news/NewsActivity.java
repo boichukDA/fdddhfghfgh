@@ -30,9 +30,10 @@ import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 
 import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.database.model.NewsConfiguration;
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.adapters.NewsPagerAdapter;
 import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class NewsActivity extends ParentActivityNoTitle {
@@ -73,21 +74,20 @@ public class NewsActivity extends ParentActivityNoTitle {
         });
     }
 
-    private void initUserConfiguration(VKUser user) {
-        NewsUserConfig newsUserConfig = new NewsUserConfig();
+    private void initUserConfiguration(User user) {
+        NewsConfiguration configuration = user.getNewsConfiguration();
 
         Bitmap audioPlay = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_audio_play_large_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-        newsUserConfig.setAudioPlayBitmap(audioPlay);
+        configuration.setAudioPlayBitmap(audioPlay);
 
         Bitmap likeBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-        newsUserConfig.setPostLikeBitmap(likeBitmap);
+        configuration.setPostLikeButton(likeBitmap);
 
         Bitmap commentBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-        newsUserConfig.setPostCommentBitmap(commentBitmap);
+        configuration.setPostCommentButton(commentBitmap);
 
         Bitmap shareBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
-        newsUserConfig.setPostShareBitmap(shareBitmap);
-        getUser().setNewsUserConfiguration(newsUserConfig);
+        configuration.setPostShareBitmap(shareBitmap);
     }
 
     @Override

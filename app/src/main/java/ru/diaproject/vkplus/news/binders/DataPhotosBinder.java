@@ -14,7 +14,7 @@ import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 
 public abstract class DataPhotosBinder<T extends DataPhotosViewHolder, V extends IDataMainItem> extends DataBinder<T,V>{
-    private static final int MAX_PHOTOS_DISPLAY = 5;
+    public static final int MAX_PHOTOS_DISPLAY = 5;
 
     private static final int TOTAL_PIXELS_OFFSET = 40;
     private static final int TWO_IMAGE_MIDDLE_OFFSET = 8;

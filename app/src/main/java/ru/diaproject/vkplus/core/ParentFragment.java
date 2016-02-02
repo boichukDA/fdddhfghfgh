@@ -29,6 +29,7 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
@@ -36,10 +37,9 @@ import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
 import ru.diaproject.vkplus.vkcore.queries.VkQueryBuilderException;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 public abstract class ParentFragment extends Fragment implements ILoggable{
-    private VKUser user;
+    private User user;
     private DrawerImplementation impl;
 
     protected abstract void initBackend(Bundle savedInstanceState);
@@ -135,11 +135,11 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
 
     protected abstract Toolbar getToolbar();
 
-    public void setUser(VKUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public VKUser getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -254,7 +254,7 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
         VKQuery<IDataUser> query = null;
         VKQueryBuilder<IDataUser> builder;
         try {
-            builder = new VKQueryBuilder<>(user.getConfiguration());
+            builder = new VKQueryBuilder<>(user);
             builder.setVKQueryType(VKQueryType.USERS);
             builder.setVKMethod(VKQuerySubMethod.DEFAULT);
             builder.setResultFormatType(VKQueryResponseTypes.JSON);

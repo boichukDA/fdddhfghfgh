@@ -12,6 +12,7 @@ public abstract class PhotoConstants {
 
     public static final String IMAGE_POSITION = "image_position";
     public static final String IMAGE_ARRAY = "image_array";
+    public static final String IMAGE_VIEW_ARRAY = "image_view_array";
 
     public static final String IMAGE_DATE = "image_date";
 }

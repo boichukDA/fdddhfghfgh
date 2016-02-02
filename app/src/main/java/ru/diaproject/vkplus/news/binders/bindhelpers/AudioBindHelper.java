@@ -7,7 +7,7 @@ import android.view.View;
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.NewsUserConfig;
+import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataAudiosViewHolder;
 
@@ -17,7 +17,7 @@ public class AudioBindHelper {
     private Context context;
     private int maxAudiosCount;
 
-    public AudioBindHelper(Context context, int maxAudioCount, NewsUserConfig newsUserConfiguraiotn){
+    public AudioBindHelper(Context context, int maxAudioCount, NewsConfiguration newsUserConfiguraiotn){
         this.context = context;
         this.maxAudiosCount = maxAudioCount;
 

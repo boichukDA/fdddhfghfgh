@@ -11,7 +11,7 @@ import java.util.List;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
-import ru.diaproject.vkplus.news.NewsUserConfig;
+import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.news.binders.bindhelpers.AudioBindHelper;
 import ru.diaproject.vkplus.news.binders.bindhelpers.CopyHistoryBindHelper;
 import ru.diaproject.vkplus.news.binders.bindhelpers.GifBindHelper;
@@ -32,10 +32,10 @@ import ru.diaproject.vkplus.news.model.users.OwnerSex;
 import ru.diaproject.vkplus.news.viewholders.PostItemViewHolder;
 
 public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPostItem> {
-    private static final int MAX_VIDEOS_DISPLAY = 4;
-    private static final int MAX_AUDIOS_DISPLAY = 4;
-    private static final int MAX_GIF_DISPLAY = 3;
-    private static final int TOTAL_COPY_HISTORY_OFFSET = 10;
+    public static final int MAX_VIDEOS_DISPLAY = 4;
+    public static final int MAX_AUDIOS_DISPLAY = 4;
+    public static final int MAX_GIF_DISPLAY = 3;
+    public static final int TOTAL_COPY_HISTORY_OFFSET = 10;
 
     private final SparseBooleanArray mCollapsedStatus;
     private final CopyHistoryBindHelper copyHistoryBinder;
@@ -43,18 +43,18 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
     private final GifBindHelper gifBindHelper;
     private final VideoBindHelper videoBindHelper;
     private final AudioBindHelper audioBindHelper;
+    private final NewsConfiguration configuration;
     private NewsPagerCardFragment parent;
-    private NewsUserConfig configuration;
 
     public PostItemBinder(DataBindAdapter dataBindAdapter, NewsResponse items, NewsPagerCardFragment fragment, SparseBooleanArray mCollapsedStatus) {
         super(fragment.getContext(), dataBindAdapter, items);
 
         this.parent = fragment;
         this.mCollapsedStatus = mCollapsedStatus;
-        this.configuration = parent.getUser().getNewsUserConfiguration();
+        this.configuration = parent.getUser().getNewsConfiguration();
 
         copyHistoryBinder = new CopyHistoryBindHelper(getContext(), getTotalPixelsOffset(), TOTAL_COPY_HISTORY_OFFSET, getDensity(),
-                MAX_VIDEOS_DISPLAY, MAX_AUDIOS_DISPLAY, MAX_GIF_DISPLAY, parent.getUser().getNewsUserConfiguration());
+                MAX_VIDEOS_DISPLAY, MAX_AUDIOS_DISPLAY, MAX_GIF_DISPLAY, parent.getUser().getNewsConfiguration());
 
         videoBindHelper = new VideoBindHelper(getContext());
         audioBindHelper = new AudioBindHelper(parent.getContext(), MAX_AUDIOS_DISPLAY, configuration);
@@ -125,7 +125,7 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
         } else holder.copyHistoryLayout.setVisibility(View.GONE);
 
         LikesInfo likesInfo = entity.getLikes();
-        holder.postLikeImage.setImageBitmap(Bitmap.createBitmap(configuration.getPostLikeBitmap()));
+        holder.postLikeImage.setImageBitmap(Bitmap.createBitmap(configuration.getPostLikeButton()));
         holder.postLikeCount.setText(String.valueOf(likesInfo.getCount()));
         if (likesInfo.getUserLikes())
             ViewCompat.setAlpha(holder.postLikeImage, 0.5f);
@@ -142,7 +142,7 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
 
         CommentsInfo commentsInfo = entity.getComments();
 
-        holder.postCommentImage.setImageBitmap(configuration.getPostCommentBitmap());
+        holder.postCommentImage.setImageBitmap(configuration.getPostCommentButton());
         holder.postCommentCount.setText(String.valueOf(commentsInfo.getCount()));
         if (!commentsInfo.getCanPost())
             holder.postCommentLayout.setVisibility(View.INVISIBLE);

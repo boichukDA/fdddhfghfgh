@@ -3,8 +3,8 @@ package ru.diaproject.vkplus.vkcore.queries;
 
 import java.util.HashMap;
 
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.users.IDataObject;
-import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
 public class VKQueryBuilder<T extends IDataObject> {
     private static final String VK_QUERY_VERSION = "5.44";
@@ -16,8 +16,8 @@ public class VKQueryBuilder<T extends IDataObject> {
     private Class<T> resultType;
     private HashMap<String, Object> params;
 
-    public VKQueryBuilder( VKUserConfiguration configuration){
-        core = VKQueryCore.createInstance(configuration);
+    public VKQueryBuilder( User user){
+        core = VKQueryCore.createInstance(user);
         params = new HashMap<>();
         params.put("v", VK_QUERY_VERSION);
         responseType = VKQueryResponseTypes.JSON;

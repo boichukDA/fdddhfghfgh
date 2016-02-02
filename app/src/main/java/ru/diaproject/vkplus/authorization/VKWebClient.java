@@ -1,7 +1,6 @@
 package ru.diaproject.vkplus.authorization;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebView;
@@ -10,8 +9,9 @@ import android.webkit.WebViewClient;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import ru.diaproject.vkplus.database.model.User;
+import ru.diaproject.vkplus.database.workers.UserWorker;
 import ru.diaproject.vkplus.vkcore.VK;
-import ru.diaproject.vkplus.vkcore.user.VKUser;
 
 
 public class VKWebClient extends WebViewClient {
@@ -82,15 +82,13 @@ public class VKWebClient extends WebViewClient {
             Log.d(logName, "userId = " + userId);
             Log.d(logName, "secret = " + secret);
 
-            VKUser user = new VKUser.VKUserBuilder()
+            User user = new User.UserBuilder()
                     .setAccessToken(accessToken)
                     .setAccountId(userId)
                     .setSecret(secret)
-                    .setHttpsRequired(httpsRequired)
                     .build();
 
-            vk.setUser(user);
-
+            UserWorker.createUser(user, httpsRequired);
             activity.setResult(Activity.RESULT_OK);
             activity.finish();
         }

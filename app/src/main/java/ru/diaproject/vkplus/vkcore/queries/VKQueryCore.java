@@ -3,28 +3,28 @@ package ru.diaproject.vkplus.vkcore.queries;
 
 import java.util.HashMap;
 
+import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.users.IDataObject;
-import ru.diaproject.vkplus.vkcore.user.VKUserConfiguration;
 
 public abstract class VKQueryCore<T extends IDataObject> {
     private static final String VK_METHOD = "/method/method_name";
     private static final String VK_METHOD_REPLACE = "method_name";
     protected static final String VK_ACCESS_TOKEN = "access_token=%s";
 
-    public static  <T extends IDataObject> VKQueryCore<T> createInstance(VKUserConfiguration configuration){
-        if (configuration.isAllowNoHttps())
-            return new VKNoHttpsQueryCore<>(configuration);
-        else return new VKHttpsQueryCore<>(configuration);
+    public static  <T extends IDataObject> VKQueryCore<T> createInstance(User user){
+        if (user.getMainConfiguration().isHttpsRequired())
+            return new VKNoHttpsQueryCore<>(user);
+        else return new VKHttpsQueryCore<>(user);
     }
 
-    protected VKUserConfiguration configuration;
+    protected User user;
 
-    protected VKQueryCore(VKUserConfiguration configuration){
-        this.configuration = configuration;
+    protected VKQueryCore(User user){
+        this.user = user;
     }
 
     protected StringBuilder sertificate(StringBuilder query){
-        return  query.append(String.format(VK_ACCESS_TOKEN, configuration.getAccessToken()));
+        return  query.append(String.format(VK_ACCESS_TOKEN, user.getAccessToken()));
     }
 
     protected StringBuilder prepareQueryTemplate(StringBuilder builder) {

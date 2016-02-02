@@ -25,6 +25,8 @@ import com.bumptech.glide.request.target.Target;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 
+import java.util.List;
+
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.animations.SimpleAnimatorListener;
@@ -34,6 +36,7 @@ import ru.diaproject.vkplus.core.utils.EnumUtils;
 import ru.diaproject.vkplus.core.utils.WindowUtils;
 import ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView;
 import ru.diaproject.vkplus.core.view.ShadowLayout;
+import ru.diaproject.vkplus.news.binders.DataPhotosBinder;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.CommentsInfo;
 import ru.diaproject.vkplus.news.model.items.LikesInfo;
@@ -41,6 +44,7 @@ import ru.diaproject.vkplus.news.model.items.Photos;
 import ru.diaproject.vkplus.news.model.items.PhotosInfo;
 import ru.diaproject.vkplus.news.utils.PhotoConstants;
 import ru.diaproject.vkplus.photoviewer.adapters.PhotoViewerAdapter;
+import ru.diaproject.vkplus.photoviewer.model.ImageData;
 import ru.diaproject.vkplus.photoviewer.transformers.DepthPageTransformer;
 import ru.diaproject.vkplus.photoviewer.views.SimplePageChangeListener;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
@@ -88,37 +92,31 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private View backView;
     private ShadowLayout shadowLayout;
 
-    private int startViewX;
-    private int startViewY;
-    private int startViewWidth;
-    private int startViewHeight;
-
-    private int endViewX;
-    private int endViewY;
-    private int endViewWidth;
-    private int endViewHeight;
-
     private float density;
     private float mWidthScale;
     private float mHeightScale;
     private float screeenCoef;
     private float imageCoef;
-    private int visibleHeightStart;
-    private int visibleHeightEnd;
+
     private int ownerId;
     private Integer date;
+    private List<ImageData> startImages;
+    private ImageData enterStartImage;
+    private ImageData enterEndImage;
+    private ImageData exitEndImage;
+    private ImageData exitStartImage;
+    private boolean isEndAnimStarted = false;
+
 
     @Override
     protected void initContent(Bundle savedInstanceState, Intent activityIntent) {
         imagePos = activityIntent.getIntExtra(PhotoConstants.IMAGE_POSITION, 0);
         oldPhotos = (Photos) activityIntent.getSerializableExtra(PhotoConstants.IMAGE_ARRAY);
 
-        startViewX = activityIntent.getIntExtra(PhotoConstants.IMAGE_X, 0);
-        startViewY = activityIntent.getIntExtra(PhotoConstants.IMAGE_Y, 0) - WindowUtils.getStatusBarHeight(this);
-        startViewWidth = activityIntent.getIntExtra(PhotoConstants.IMAGE_WIDTH, 0);
-        startViewHeight = activityIntent.getIntExtra(PhotoConstants.IMAGE_HEIGHT, 0);
-        visibleHeightStart = activityIntent.getIntExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_START, 0);
-        visibleHeightEnd = activityIntent.getIntExtra(PhotoConstants.IMAGE_VISIBLE_HEIGHT_END, 0);
+        startImages = activityIntent.getParcelableArrayListExtra(PhotoConstants.IMAGE_VIEW_ARRAY);
+        enterStartImage = startImages.get(imagePos);
+        enterEndImage = new ImageData();
+
         ownerId = activityIntent.getIntExtra(DataConstants.OWNER_ID, 0);
         date = activityIntent.getIntExtra(DataConstants.DATE, 0);
         type = EnumUtils.deserialize(FilterType.class).from(activityIntent, FilterType.POST);
@@ -132,21 +130,20 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
         float coef;
         if (imageCoef >= screeenCoef){
-            coef = (float) startViewHeight/getResources().getDisplayMetrics().heightPixels;
+            coef = (float) enterStartImage.getHeight()/getResources().getDisplayMetrics().heightPixels;
 
-            endViewWidth = (int) (startViewWidth/coef);
-            endViewHeight = (int) (startViewHeight/coef);
+            enterEndImage.setWidth((int) (enterStartImage.getWidth() / coef));
+            enterEndImage.setHeight((int) (enterStartImage.getHeight() / coef));
 
-            endViewY = 0;
-            endViewX = (getResources().getDisplayMetrics().widthPixels - endViewWidth)/2;
+            enterEndImage.setY(0);
+            enterEndImage.setX((getResources().getDisplayMetrics().widthPixels - enterEndImage.getWidth())/2);
         }else{
-            coef = (float) startViewWidth/getResources().getDisplayMetrics().widthPixels;
+            coef = (float) enterStartImage.getWidth()/getResources().getDisplayMetrics().widthPixels;
+            enterEndImage.setWidth((int) (enterStartImage.getWidth() / coef));
+            enterEndImage.setHeight((int) (enterStartImage.getHeight() / coef));
 
-            endViewWidth = (int) (startViewWidth/coef);
-            endViewHeight = (int) (startViewHeight/coef);
-
-            endViewX = 0;
-            endViewY = (getResources().getDisplayMetrics().heightPixels - endViewHeight- WindowUtils.getStatusBarHeight(this))/2;
+            enterEndImage.setX(0);
+            enterEndImage.setY((getResources().getDisplayMetrics().heightPixels - enterEndImage.getHeight()- WindowUtils.getStatusBarHeight(this))/2);
         }
     }
 
@@ -256,10 +253,10 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         imagePager.setAdapter(adapter);
         imagePager.setCurrentItem(imagePos);
 
-        animationImage.setX(endViewX);
-        animationImage.setY(endViewY);
-        animationImage.getLayoutParams().width = endViewWidth;
-        animationImage.getLayoutParams().height = endViewHeight;
+        animationImage.setX(enterEndImage.getX());
+        animationImage.setY(enterEndImage.getY());
+        animationImage.getLayoutParams().width = enterEndImage.getWidth();
+        animationImage.getLayoutParams().height = enterEndImage.getHeight();
 
         ViewTreeObserver observer = animationImage.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -274,10 +271,10 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        backView.setX(startViewX);
-                        backView.setY(startViewY+ visibleHeightStart);
-                        backView.getLayoutParams().width = startViewWidth;
-                        backView.getLayoutParams().height = (visibleHeightEnd - visibleHeightStart);
+                        backView.setX(enterStartImage.getX());
+                        backView.setY(enterStartImage.getY() + enterStartImage.getVisibleHeightStart());
+                        backView.getLayoutParams().width = enterStartImage.getWidth();
+                        backView.getLayoutParams().height = (enterStartImage.getVisibleHeightEnd() - enterStartImage.getVisibleHeightStart());
                         backView.setVisibility(View.VISIBLE);
                         runEnterAnimation();
                         return false;
@@ -292,18 +289,19 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private void runEnterAnimation() {
         animationImage.setVisibility(View.VISIBLE);
 
-        mWidthScale = (float) startViewWidth / endViewWidth;
-        mHeightScale = (float) startViewHeight / endViewHeight;
+        mWidthScale = (float) enterStartImage.getWidth() / enterEndImage.getWidth();
+        mHeightScale = (float) enterStartImage.getHeight() / enterEndImage.getHeight();
 
         animationImage.setPivotX(0);
         animationImage.setPivotY(0);
         animationImage.setScaleX(mWidthScale);
         animationImage.setScaleY(mHeightScale);
-        animationImage.setTranslationX(startViewX);
-        animationImage.setTranslationY(startViewY);
+        animationImage.setTranslationX(enterStartImage.getX());
+        animationImage.setTranslationY(enterStartImage.getY());
 
         animationImage.animate().setDuration(ANIMATION_DURATION_MILLS).
-                scaleX(1).scaleY(1).translationX(endViewX).translationY(endViewY)
+                scaleX(1).scaleY(1)
+                .translationX(enterEndImage.getX()).translationY(enterEndImage.getY())
                 .setInterpolator(sDecelerator).setListener(new SimpleAnimatorListener() {
 
             @Override
@@ -490,11 +488,117 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
     @Override
     public void onBackPressed() {
-        if (getDrawer().isDrawerOpen())
+        if (getDrawer()!= null && getDrawer().isDrawerOpen())
             getDrawer().closeDrawer();
         else  if (isShownInfo)
             hideInfo();
-        else
+        else if (imagePager.getCurrentItem() < DataPhotosBinder.MAX_PHOTOS_DISPLAY){
+            if (!isEndAnimStarted) {
+                isEndAnimStarted = true;
+                exitWithAnimation();
+            }
+        }else
             super.onBackPressed();
+    }
+
+    private void exitWithAnimation() {
+        int itemPosition = imagePager.getCurrentItem();
+        exitStartImage = new ImageData();
+        exitEndImage = startImages.get(itemPosition);
+
+        PhotosInfo currentPhoto = oldPhotos.getPhotos().get(itemPosition);
+
+        imageCoef = (float)currentPhoto.getHeight()/currentPhoto.getWidth();
+
+        float coef;
+        if (imageCoef >= screeenCoef){
+            coef = (float) exitEndImage.getHeight()/getResources().getDisplayMetrics().heightPixels;
+
+            exitStartImage.setWidth((int) (exitEndImage.getWidth() / coef));
+            exitStartImage.setHeight((int) (exitEndImage.getHeight() / coef));
+
+            exitStartImage.setY(0);
+            exitStartImage.setX((getResources().getDisplayMetrics().widthPixels - exitStartImage.getWidth()) / 2);
+        }else{
+            coef = (float) exitEndImage.getWidth()/getResources().getDisplayMetrics().widthPixels;
+            exitStartImage.setWidth((int) (exitEndImage.getWidth() / coef));
+            exitStartImage.setHeight((int) (exitEndImage.getHeight() / coef));
+
+            exitStartImage.setX(0);
+            exitStartImage.setY((getResources().getDisplayMetrics().heightPixels - exitStartImage.getHeight() - WindowUtils.getStatusBarHeight(this)) / 2);
+        }
+
+        animationImage.setX(exitStartImage.getX());
+        animationImage.setY(exitStartImage.getY());
+        animationImage.getLayoutParams().width = exitStartImage.getWidth();
+        animationImage.getLayoutParams().height = exitStartImage.getHeight();
+
+        Glide.with(PhotoViewerActivity.this).load(oldPhotos.getPhotos().get(itemPosition).getPhoto604()).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                backView.setX(exitStartImage.getX());
+                backView.setY(exitStartImage.getY() + exitStartImage.getVisibleHeightStart());
+                backView.getLayoutParams().width = exitStartImage.getWidth();
+                backView.getLayoutParams().height = (exitStartImage.getVisibleHeightEnd() - exitStartImage.getVisibleHeightStart());
+                backView.setVisibility(View.VISIBLE);
+                animationImage.setVisibility(View.VISIBLE);
+                imagePager.setVisibility(View.GONE);
+                animationImageLayout.setVisibility(View.VISIBLE);
+                backgroundView.setVisibility(View.VISIBLE);
+                shadowLayout.setVisibility(View.VISIBLE);
+
+                runExitAnimation();
+                return false;
+            }
+        }).into(animationImage);
+
+
+    }
+
+    private void runExitAnimation() {
+        mWidthScale = (float) exitStartImage.getWidth() / exitEndImage.getWidth();
+        mHeightScale = (float) exitStartImage.getHeight() / exitEndImage.getHeight();
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(ObjectAnimator.ofFloat(backgroundView, "alpha", 1, 0),
+                ObjectAnimator.ofFloat(shadowLayout, "shadowMove", 1, 0));
+        set.setDuration(ANIMATION_DURATION_MILLS);
+        set.addListener(new SimpleAnimatorListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                animationImage.setPivotX(0);
+                animationImage.setPivotY(0);
+                animationImage.setScaleX(1);
+                animationImage.setScaleY(1);
+                animationImage.setTranslationX(exitStartImage.getX());
+                animationImage.setTranslationY(exitStartImage.getY());
+
+                animationImage.animate().setDuration(ANIMATION_DURATION_MILLS).
+                        scaleX(1 / mWidthScale).scaleY(1 / mHeightScale)
+                        .translationX(exitEndImage.getX()).translationY(exitEndImage.getY())
+                        .setInterpolator(sDecelerator).setListener(new SimpleAnimatorListener() {
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        imagePager.setVisibility(View.GONE);
+                        animationImageLayout.setVisibility(View.GONE);
+                        backView.setVisibility(View.GONE);
+                        backgroundView.setVisibility(View.GONE);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                });
+                ObjectAnimator shadowAnim = ObjectAnimator.ofFloat(shadowLayout, "shadowDepth", 1, 0);
+                shadowAnim.setDuration(ANIMATION_DURATION_MILLS);
+                shadowAnim.start();
+            }
+
+        });
+        set.start();
     }
 }

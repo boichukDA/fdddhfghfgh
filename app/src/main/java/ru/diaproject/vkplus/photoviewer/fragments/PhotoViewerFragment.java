@@ -224,7 +224,7 @@ public class PhotoViewerFragment extends ParentFragment{
 
     private VKQuery<Photos> createQuery() {
         VKQuery query = null;
-        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
+        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser());
         builder.setVKQueryType(VKQueryType.PHOTO);
         builder.setVKMethod(VKQuerySubMethod.DEFAULT);
         builder.setResultFormatType(VKQueryResponseTypes.JSON);
@@ -251,7 +251,7 @@ public class PhotoViewerFragment extends ParentFragment{
         queryParamBuilder.deleteCharAt(queryParamBuilder.length()-1);
 
         VKQuery<Photos> query = null;
-        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser().getConfiguration());
+        VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser());
         builder.setVKQueryType(VKQueryType.PHOTO);
         builder.setVKMethod(VKQuerySubMethod.GET_BY_ID);
         builder.setResultFormatType(VKQueryResponseTypes.JSON);

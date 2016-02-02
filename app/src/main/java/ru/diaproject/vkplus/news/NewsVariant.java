@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
-import ru.diaproject.vkplus.vkcore.user.VKNewsUserConfiguration;
 
 public class NewsVariant implements Parcelable {
     public static final Parcelable.Creator<NewsVariant> CREATOR = new Parcelable.Creator<NewsVariant>() {
