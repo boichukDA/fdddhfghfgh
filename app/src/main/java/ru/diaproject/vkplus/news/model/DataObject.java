@@ -19,4 +19,9 @@ public abstract class DataObject implements IDataObject,Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return ((DataObject)o).id.equals(id);
+    }
 }

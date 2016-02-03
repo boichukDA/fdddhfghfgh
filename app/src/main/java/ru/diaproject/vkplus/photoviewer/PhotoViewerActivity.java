@@ -25,6 +25,7 @@ import com.bumptech.glide.request.target.Target;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
@@ -174,17 +175,14 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
                             .request(VKApi.photos(getUser()).get()
                                     .with(VKParameter.FEED, date)
                                     .and(VKParameter.EXTENDED, 1)
+                                    .and(VKParameter.FEED_TYPE, type.toString().toLowerCase())
                                     .and(VKParameter.OWNER_ID, ownerId)
                                     .build()))
                             .subscribe(new Action1<Photos>() {
                                 @Override
                                 public void call(final Photos photos) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            prepareFullData(photos);
-                                        }
-                                    });
+                                    prepareFullData(photos);
+
                                 }
                             });
             }
@@ -192,10 +190,28 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     }
 
     private void prepareFullData(Photos photos) {
-        oldPhotos = photos;
-        ((PhotoViewerAdapter)imagePager.getAdapter()).setPhotos(photos);
-        (imagePager.getAdapter()).notifyDataSetChanged();
-        loadPhotoData(photos.getPhotos().get(imagePager.getCurrentItem()));
+        oldPhotos = mergePhotos(oldPhotos, photos);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((PhotoViewerAdapter) imagePager.getAdapter()).setPhotos(oldPhotos);
+                (imagePager.getAdapter()).notifyDataSetChanged();
+                loadPhotoData(oldPhotos.getPhotos().get(imagePager.getCurrentItem()));
+            }
+        });
+    }
+
+    private Photos mergePhotos(Photos oldPhotos, Photos photos) {
+        Photos resultPhotos = new Photos();
+        List<PhotosInfo> infoes = new ArrayList<>();
+
+        resultPhotos.setCount(oldPhotos.getCount());
+        for (PhotosInfo info:oldPhotos.getPhotos()) {
+            infoes.add(photos.getPhotos().remove(photos.getPhotos().indexOf(info)));
+        }
+        infoes.addAll(photos.getPhotos());
+        resultPhotos.setPhotos(infoes);
+        return resultPhotos;
     }
 
     @Override
@@ -541,17 +557,18 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                backView.setX(exitStartImage.getX());
-                backView.setY(exitStartImage.getY() + exitStartImage.getVisibleHeightStart());
-                backView.getLayoutParams().width = exitStartImage.getWidth();
-                backView.getLayoutParams().height = (exitStartImage.getVisibleHeightEnd() - exitStartImage.getVisibleHeightStart());
+                backView.setX(exitEndImage.getX());
+                backView.setY(exitEndImage.getY() + exitEndImage.getVisibleHeightStart());
+                backView.getLayoutParams().width = exitEndImage.getWidth();
+                backView.getLayoutParams().height = (exitEndImage.getVisibleHeightEnd() - exitEndImage.getVisibleHeightStart());
                 backView.setVisibility(View.VISIBLE);
+
                 animationImage.setVisibility(View.VISIBLE);
                 imagePager.setVisibility(View.GONE);
                 animationImageLayout.setVisibility(View.VISIBLE);
                 backgroundView.setVisibility(View.VISIBLE);
                 shadowLayout.setVisibility(View.VISIBLE);
-
+                backView.setVisibility(View.VISIBLE);
                 runExitAnimation();
                 return false;
             }
@@ -587,7 +604,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
                     public void onAnimationEnd(Animator animation) {
                         imagePager.setVisibility(View.GONE);
                         animationImageLayout.setVisibility(View.GONE);
-                        backView.setVisibility(View.GONE);
                         backgroundView.setVisibility(View.GONE);
                         overridePendingTransition(0, 0);
                         finish();

@@ -36,14 +36,14 @@ public class PhotoBindHelper {
     }
 
     private void setPhotos(final Photos photos, final DataPhotosViewHolder holder, final Integer ownerId, final Integer date, final FilterType postType){
-        PhotosInfo mainPhoto = photos.getPhotos().get(0);
+        final PhotosInfo mainPhoto = photos.getPhotos().get(0);
 
         int size = photos.getPhotos().size();
 
         if (size == 1) {
             holder.photoSubContainer.setVisibility(View.GONE);
             calculateOneImageView(mainPhoto, holder.mainImage);
-            Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
+            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
 
         } else if (size == 2) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
@@ -58,8 +58,8 @@ public class PhotoBindHelper {
             else
                 calculateTwoVerticalImageViews(mainPhoto, firstPhoto, holder.mainImage,holder. photoSubContainer, holder.firstImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
+            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
+            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
 
         } else if (size == 3) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
@@ -76,9 +76,9 @@ public class PhotoBindHelper {
             else
                 calculateRightSubViews(mainPhoto, firstPhoto, secondPhoto, holder.mainImage, holder.photoSubContainer, holder.firstImage, holder.secondImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
+            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
+            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
+            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
 
         } else if (size == 4) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
@@ -98,11 +98,10 @@ public class PhotoBindHelper {
                 calculateRightSubThreeViews(mainPhoto, firstPhoto, secondPhoto, thirdPhoto, holder.mainImage,
                         holder.photoSubContainer, holder.firstImage, holder.secondImage, holder.thirdImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
-            Glide.with(context).load(thirdPhoto.getPhoto604()).into(holder.thirdImage);
-
+            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
+            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
+            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
+            Glide.with(context).load(thirdPhoto.getPhoto604()).dontAnimate().into(holder.thirdImage);
         } else if (size >= 5) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
             holder.firstImage.setVisibility(View.VISIBLE);
@@ -122,11 +121,11 @@ public class PhotoBindHelper {
                 calculateRightSubFourViews(mainPhoto, firstPhoto, secondPhoto, thirdPhoto, fourthPhoto,
                         holder.mainImage, holder.photoSubContainer, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).into(holder.secondImage);
-            Glide.with(context).load(thirdPhoto.getPhoto604()).into(holder.thirdImage);
-            Glide.with(context).load(fourthPhoto.getPhoto604()).into(holder.fourthImage);
+            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
+            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
+            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
+            Glide.with(context).load(thirdPhoto.getPhoto604()).dontAnimate().into(holder.thirdImage);
+            Glide.with(context).load(fourthPhoto.getPhoto604()).dontAnimate().into(holder.fourthImage);
 
         }
 

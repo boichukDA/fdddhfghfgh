@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,12 +13,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 
 import java.util.ArrayDeque;
@@ -33,7 +28,6 @@ import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.adapters.NewsPagerAdapter;
-import ru.diaproject.vkplus.news.fragments.OnFabStateChangeListener;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class NewsActivity extends ParentActivityNoTitle {
@@ -42,7 +36,6 @@ public class NewsActivity extends ParentActivityNoTitle {
     private ArrayDeque<ParentFragment> fragments;
     TabLayout tabLayout;
     ViewPager pager;
-    FloatingActionButton fab;
     Toolbar toolbar;
     FrameLayout fragmentsLayout;
 
@@ -54,17 +47,7 @@ public class NewsActivity extends ParentActivityNoTitle {
             @Override
             public void run() {
                 PagerAdapter myAdapter = new NewsPagerAdapter(NewsActivity.this.getSupportFragmentManager(),
-                        NewsActivity.this, getUser(), new OnFabStateChangeListener() {
-                    @Override
-                    public void onShow() {
-                        showFab();
-                    }
-
-                    @Override
-                    public void onHide() {
-                        hideFab();
-                    }
-                });
+                        NewsActivity.this, getUser());
                 pager.setAdapter(myAdapter);
                 tabLayout.setupWithViewPager(pager);
                 tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -96,7 +79,6 @@ public class NewsActivity extends ParentActivityNoTitle {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         pager = (ViewPager) findViewById(R.id.viewpager);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fragmentsLayout = (FrameLayout) findViewById(R.id.news_frontend_placeholder);
 
@@ -109,30 +91,6 @@ public class NewsActivity extends ParentActivityNoTitle {
         }
 
         toolbar.setCollapsible(true);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(findViewById(R.id.coordinator), "I'm a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(NewsActivity.this, "Snackbar Action", Toast.LENGTH_LONG).show();
-                    }
-                }).show();
-            }
-        });
-    }
-
-    private void hideFab() {
-        Log.e("FAB", "HIDE");
-        fab.setVisibility(View.GONE);
-        fab.hide();
-    }
-
-    private void showFab() {
-        Log.e("FAB", "SHOW");
-        fab.setVisibility(View.VISIBLE);
-        fab.show();
     }
 
     @Override

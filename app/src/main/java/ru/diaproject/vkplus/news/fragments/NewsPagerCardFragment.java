@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
+
 import ru.diaproject.ptrrecyclerview.PagingListener;
 import ru.diaproject.ptrrecyclerview.PullToRefreshWrapper;
 import ru.diaproject.vkplus.R;
@@ -59,8 +61,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     private RecyclerView listView;
     private SwipeRefreshLayout refreshLayout;
 
-
-    private OnFabStateChangeListener listener;
+    private ViewPreloadSizeProvider<Object> preloadSizeProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initUI(inflater, container);
+        preloadSizeProvider  = new ViewPreloadSizeProvider<>();
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setRecyclerListener(new RecyclerView.RecyclerListener() {
             @Override
@@ -90,9 +92,6 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
             }
         });
 
-        final VKQuery<NewsResponse> query = createQuery();
-        Log.e(getLogName(), query.getQuery());
-
         initBackend(savedInstanceState);
         return rootView;
     }
@@ -104,7 +103,6 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
 
         LinearLayoutManager linearLayoutManager = new PreCachingLayoutManager(getContext(), getResources().getDisplayMetrics().heightPixels);
         listView.setLayoutManager(linearLayoutManager);
-        listView.addOnScrollListener(new HidingScrollListener());
         listView.setHasFixedSize(true);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -235,57 +233,11 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
         super.onHiddenChanged(hidden);
     }
 
-    public void setOnFabStateChangeListener(OnFabStateChangeListener onFabStateChangeListener) {
-        this.listener = onFabStateChangeListener;
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.e("fragment", "resume");
-        listView.addOnScrollListener(new HidingScrollListener());
-    }
-
-    public class HidingScrollListener extends RecyclerView.OnScrollListener {
-        private static final int HIDE_THRESHOLD = 20;
-        private int scrolledDistance = 0;
-        private boolean controlsVisible = true;
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            int firstVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-            if (firstVisibleItem == 0) {
-                if(!controlsVisible) {
-                    onShow();
-                    controlsVisible = true;
-                }
-            } else {
-                if (scrolledDistance > HIDE_THRESHOLD && controlsVisible) {
-                    onHide();
-                    controlsVisible = false;
-                    scrolledDistance = 0;
-                } else if (scrolledDistance < -HIDE_THRESHOLD && !controlsVisible) {
-                    onShow();
-                    controlsVisible = true;
-                    scrolledDistance = 0;
-                }
-            }
-
-            if((controlsVisible && dy>0) || (!controlsVisible && dy<0)) {
-                scrolledDistance += dy;
-            }
-        }
-
-        public void onHide(){
-            if (listener!=null )
-            listener.onHide();
-        }
-        public void onShow(){
-            if (listener!=null )
-            listener.onShow();
-        }
     }
 
     public User getUser(){
