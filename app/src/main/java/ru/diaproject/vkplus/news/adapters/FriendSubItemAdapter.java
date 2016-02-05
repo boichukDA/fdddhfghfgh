@@ -6,39 +6,56 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import com.bumptech.glide.Glide;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.imageloading.ImageLoader;
+import ru.diaproject.vkplus.database.model.ColorScheme;
+import ru.diaproject.vkplus.news.binders.bindhelpers.HeaderBindHelper;
+import ru.diaproject.vkplus.news.model.baseitems.DataFriendItem;
+import ru.diaproject.vkplus.news.model.groups.IDataGroup;
+import ru.diaproject.vkplus.news.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.news.viewholders.FriendSubItemViewHolder;
 
 
 public class FriendSubItemAdapter extends RecyclerView.Adapter<FriendSubItemViewHolder> {
-    private List<IDataUser> users;
+    private DataFriendItem entity;
     private Context context;
+    private ColorScheme colorScheme;
 
-    public FriendSubItemAdapter(Context context, List<IDataUser> users){
-        this.users = users;
+    public FriendSubItemAdapter(Context context, DataFriendItem entity, ColorScheme colorScheme){
+        this.entity = entity;
         this.context = context;
+        this.colorScheme = colorScheme;
     }
 
     @Override
     public FriendSubItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.news_friend_subview_item, parent, false);
-       return new FriendSubItemViewHolder(v);
+        FriendSubItemViewHolder holder = new FriendSubItemViewHolder(v);
+        holder.applyColorScheme(colorScheme);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(FriendSubItemViewHolder holder, int position) {
-        //ImageLoader.with(context).load(users.get(position).getPhoto100()).into(holder.avatar);
+        IDataOwner owner = entity.getFriendOwners().get(position);
 
-        holder.name.setText(users.get(position).getFirstName());
-        holder.surname.setText(users.get(position).getLastName());
+        Glide.with(context).load(owner.getPhoto100()).into(holder.avatar);
+
+        if (owner instanceof IDataGroup){
+            holder.surname.setVisibility(View.GONE);
+            holder.name.setText(owner.getFullName());
+        }else {
+            holder.surname.setVisibility(View.VISIBLE);
+            holder.name.setText(((IDataUser) owner).getFirstName());
+            holder.surname.setText(((IDataUser)owner).getLastName());
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return entity.getFriendOwners().size();
     }
 }

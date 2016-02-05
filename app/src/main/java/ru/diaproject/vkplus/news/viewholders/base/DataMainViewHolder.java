@@ -2,14 +2,14 @@ package ru.diaproject.vkplus.news.viewholders.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.ui.circularimageview.CircularImageView;
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.imageloading.ImageLoader;
+import ru.diaproject.vkplus.core.utils.ColorUtils;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 
 public class DataMainViewHolder extends RecyclerView.ViewHolder {
     public RobotoTextView name;
@@ -25,6 +25,12 @@ public class DataMainViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void clear() {
-        ImageLoader.clear(avatar);
+        Glide.clear(avatar);
+    }
+
+    public void applyColorScheme(ColorScheme scheme){
+        date.setTextColor(
+                ColorUtils.setColorAlpha(scheme.getTextColor(), ColorUtils.OPACITY_55));
+        name.setTextColor(scheme.getTextColor());
     }
 }

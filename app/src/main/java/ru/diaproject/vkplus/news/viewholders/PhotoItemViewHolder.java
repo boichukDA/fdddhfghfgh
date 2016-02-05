@@ -5,6 +5,7 @@ import android.view.View;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 
 public class PhotoItemViewHolder extends DataPhotosViewHolder {
     public RobotoTextView photoCount;
@@ -17,4 +18,6 @@ public class PhotoItemViewHolder extends DataPhotosViewHolder {
     public void clear() {
         super.clear();
     }
+
+
 }

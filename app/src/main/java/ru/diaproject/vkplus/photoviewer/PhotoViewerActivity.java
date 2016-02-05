@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +27,7 @@ import com.devspark.robototextview.widget.RobotoTextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.animations.SimpleAnimatorListener;
@@ -35,8 +35,8 @@ import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
 import ru.diaproject.vkplus.core.utils.WindowUtils;
-import ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView;
 import ru.diaproject.vkplus.core.view.ShadowLayout;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.binders.DataPhotosBinder;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.items.CommentsInfo;
@@ -58,7 +58,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     public static final int ANIMATION_DURATION_MILLS = 500;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
-    private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
 
     private int imagePos;
 
@@ -66,7 +65,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private FilterType type;
     private boolean isShownInfo;
 
-    private float topInitY;
     private float bottomInitY;
 
     Toolbar toolbar;
@@ -86,14 +84,13 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private ActionBar actionBar;
 
     public LinearLayout descriptionLayout;
-    public RobotoImageExpandableTextView descriptionText;
+    public RobotoExpandableTextView descriptionText;
 
     private LinearLayout animationImageLayout;
     private ImageView animationImage;
     private View backView;
     private ShadowLayout shadowLayout;
 
-    private float density;
     private float mWidthScale;
     private float mHeightScale;
     private float screeenCoef;
@@ -107,7 +104,15 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private ImageData exitEndImage;
     private ImageData exitStartImage;
     private boolean isEndAnimStarted = false;
+    private View appBarLayout;
 
+
+    @Override
+    protected void initColorScheme(ColorScheme colorScheme) {
+        super.initColorScheme(colorScheme);
+        appBarLayout.setBackgroundColor(colorScheme.getMainColor());
+        backView.setBackgroundColor(colorScheme.getCardColor());
+    }
 
     @Override
     protected void initContent(Bundle savedInstanceState, Intent activityIntent) {
@@ -122,7 +127,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         date = activityIntent.getIntExtra(DataConstants.DATE, 0);
         type = EnumUtils.deserialize(FilterType.class).from(activityIntent, FilterType.POST);
 
-        density = getResources().getDisplayMetrics().density;
         screeenCoef = (float)getResources().getDisplayMetrics().heightPixels/getResources().getDisplayMetrics().widthPixels;
 
         PhotosInfo currentPhoto = oldPhotos.getPhotos().get(imagePos);
@@ -218,6 +222,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     protected void initUI(Bundle savedInstanceState) {
         setContentView(R.layout.photo_viewer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appBarLayout = findViewById(R.id.app_bar_layout);
         backgroundView = findViewById(R.id.photo_viewer_background);
 
         imagePager = (ViewPager) findViewById(R.id.photo_viewer_image_layout);
@@ -237,7 +242,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         bottomPanel = (LinearLayout) findViewById(R.id.photo_viewer_bottom_panel);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.photo_viewer_description_layout);
-        descriptionText = (RobotoImageExpandableTextView) findViewById(R.id.photo_viewer_description_text);
+        descriptionText = (RobotoExpandableTextView) findViewById(R.id.photo_viewer_description_text);
 
         animationImageLayout = (LinearLayout) findViewById(R.id.photo_viewer_animation_layout);
         animationImage = (ImageView) findViewById(R.id.photo_viewer_animation_view);
@@ -349,7 +354,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
     private void initHelpData() {
         actionBar.setTitle((imagePos + 1) + " " + getResources().getString(R.string.main_string_of) + " " + oldPhotos.getCount());
         isShownInfo = false;
-        topInitY = toolbar.getY();
 
         ViewTreeObserver observer = bottomPanel.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {

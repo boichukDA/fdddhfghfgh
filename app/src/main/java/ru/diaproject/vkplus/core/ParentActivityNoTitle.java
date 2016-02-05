@@ -3,13 +3,18 @@ package ru.diaproject.vkplus.core;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -25,9 +30,9 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
-import ru.diaproject.vkplus.vkcore.VK;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
@@ -38,6 +43,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
     private DrawerImplementation impl;
     private Drawer drawer;
 
+    private ColorScheme colorScheme;
     private void initContext(Bundle savedInstanceState){
          Intent intent = getIntent();
          Bundle bundle = intent.getExtras();
@@ -46,7 +52,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
              throw new RuntimeException("User not come");
 
          setUser(user);
-
+         colorScheme = user.getColorScheme();
          initContent(savedInstanceState, intent);
      }
 
@@ -62,6 +68,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         try {
             initContext(savedInstanceState);
             initUI(savedInstanceState);
+            initColorScheme(colorScheme);
             VKMainExecutor.executeVKQuery(createQuery(),
                     new SimpleTaskListener<IDataUser>() {
                         @Override
@@ -129,6 +136,12 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
             });
         }
     }
+
+    protected  void initColorScheme(ColorScheme colorScheme){
+        getToolbar().setBackgroundColor(colorScheme.getMainColor());
+
+    }
+
     private void initDrawer(IDataUser result, Bitmap icon) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem();
         profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
@@ -141,7 +154,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.m_indigo)
+                .withHeaderBackground(new ColorDrawable(colorScheme.getMainColor()))
                 .addProfiles(profileDrawerItem)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
@@ -213,7 +226,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggle(false)
-                .withStatusBarColorRes(R.color.m_indigo)
+                .withStatusBarColor(colorScheme.getStatusBarColor())
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         myFriendsItem,
@@ -237,10 +250,9 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
     }
 
     private VKQuery<IDataUser> createQuery(){
-        VKQuery<IDataUser> query = VKApi.users(user).get()
+        return VKApi.users(user).get()
                 .with(VKParameter.FIELDS, "city,verified,status,photo_100")
                 .and(VKParameter.USER_IDS, user.getAccountId()).build();
-        return query;
     }
 
     protected  String getLogName(){
@@ -268,11 +280,45 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen())
+        if (drawer!= null && drawer.isDrawerOpen())
             drawer.closeDrawer();
         else
             super.onBackPressed();
     }
 
+    public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor) {
+        final PorterDuffColorFilter colorFilter
+                = new PorterDuffColorFilter(toolbarIconsColor, PorterDuff.Mode.MULTIPLY);
 
+        for (int i = 0; i < toolbarView.getChildCount(); i++) {
+            final View v = toolbarView.getChildAt(i);
+
+            if (v instanceof ImageButton) {
+                ((ImageButton) v).getDrawable().setColorFilter(colorFilter);
+            }
+
+            if (v instanceof ActionMenuView) {
+                for (int j = 0; j < ((ActionMenuView) v).getChildCount(); j++) {
+
+                    final View innerView = ((ActionMenuView) v).getChildAt(j);
+
+                    if (innerView instanceof ActionMenuItemView) {
+                        int drawablesCount = ((ActionMenuItemView) innerView).getCompoundDrawables().length;
+                        for (int k = 0; k < drawablesCount; k++) {
+                            if (((ActionMenuItemView) innerView).getCompoundDrawables()[k] != null) {
+                                final int finalK = k;
+
+                                innerView.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

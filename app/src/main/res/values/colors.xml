@@ -6,6 +6,7 @@
     <color name="greenDark">#3E5F22</color>
     <color name="banana">#FFCC00</color>
 
+    <color name ="card_view_background_default">#f9f9f9</color>
     <color name ="m_indigo">#3F51B5</color>
     <color name ="m_pink">#E91E63</color>
     <color name ="m_amber">#FFC107</color>

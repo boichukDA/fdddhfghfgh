@@ -11,9 +11,12 @@ import java.util.List;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
+import ru.diaproject.vkplus.news.model.baseitems.DataPostItem;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
 import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.model.groups.IDataGroup;
+import ru.diaproject.vkplus.news.model.items.CopyHistory;
+import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
 import ru.diaproject.vkplus.news.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 
@@ -85,9 +88,16 @@ public class NewsVariantContainer {
             @Override
             public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.POST))
-                    if (item.getAttachmentAudios()!=null)
+                    if (item.getAttachmentAudios()!=null )
                         return true;
-
+                else {
+                        CopyHistory history = ((DataPostItem)item).getCopyHistory();
+                        if (history!= null){
+                            CopyHistoryInfo historyInfo = history.getItems().get(0);
+                            if (historyInfo.getAttachmentAudios()!=null)
+                                return true;
+                        }
+                    }
                 return false;
             }
         }));

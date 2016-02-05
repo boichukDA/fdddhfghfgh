@@ -23,7 +23,7 @@
 
         <include layout="@layout/news_item_header_merge" />
 
-        <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+        <ru.diaproject.ui.circularimageview.RobotoExpandableTextView
             android:id="@+id/news_post_main_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +49,7 @@
             android:paddingTop="10dp">
 
             <View
+                android:id="@+id/news_copy_history_right_linear"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="5dp"

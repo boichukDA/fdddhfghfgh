@@ -25,6 +25,7 @@ import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 
 import ru.diaproject.vkplus.core.ParentFragment;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.adapters.NewsPagerAdapter;
@@ -38,6 +39,15 @@ public class NewsActivity extends ParentActivityNoTitle {
     ViewPager pager;
     Toolbar toolbar;
     FrameLayout fragmentsLayout;
+
+    @Override
+    protected void initColorScheme(ColorScheme colorScheme) {
+        super.initColorScheme(colorScheme);
+        tabLayout.setBackgroundColor(colorScheme.getMainColor());
+        tabLayout.setTabTextColors(colorScheme.getTitleColor(), colorScheme.getTitleColor());
+        toolbar.setTitleTextColor(colorScheme.getTitleColor());
+        colorizeToolbar(toolbar, colorScheme.getTitleColor());
+    }
 
     @Override
     protected void initBackend(Bundle savedInstanceState) {
@@ -58,18 +68,20 @@ public class NewsActivity extends ParentActivityNoTitle {
     }
 
     private void initUserConfiguration(User user) {
+
+        ColorScheme colorScheme = user.getColorScheme();
         NewsConfiguration configuration = user.getNewsConfiguration();
 
-        Bitmap audioPlay = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_audio_play_large_white, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        Bitmap audioPlay = BitmapUtils.appyColorFilter(this, R.drawable.news_post_audio_play_large_white, colorScheme.getMainColor(), PorterDuff.Mode.MULTIPLY);
         configuration.setAudioPlayBitmap(audioPlay);
 
-        Bitmap likeBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        Bitmap likeBitmap = BitmapUtils.appyColorFilter(this, R.drawable.news_post_like, colorScheme.getMainColor(), PorterDuff.Mode.MULTIPLY);
         configuration.setPostLikeButton(likeBitmap);
 
-        Bitmap commentBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_post_comment, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        Bitmap commentBitmap = BitmapUtils.appyColorFilter(this, R.drawable.news_post_comment, colorScheme.getMainColor(), PorterDuff.Mode.MULTIPLY);
         configuration.setPostCommentButton(commentBitmap);
 
-        Bitmap shareBitmap = BitmapUtils.appyColorFilterForResource(this, R.drawable.news_share_like, R.color.m_indigo, PorterDuff.Mode.MULTIPLY);
+        Bitmap shareBitmap = BitmapUtils.appyColorFilter(this, R.drawable.news_share_like, colorScheme.getMainColor(), PorterDuff.Mode.MULTIPLY);
         configuration.setPostShareBitmap(shareBitmap);
     }
 

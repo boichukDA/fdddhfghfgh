@@ -8,6 +8,7 @@ import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.viewholders.items.CopyHistoryViewHolder;
 import ru.diaproject.vkplus.news.viewholders.items.DataAudiosViewHolder;
 import ru.diaproject.vkplus.news.viewholders.items.DataGifsViewHolder;
@@ -19,6 +20,7 @@ public class PostItemViewHolder extends DataPhotosViewHolder{
     public DataVideosViewHolder mainVideosholder;
     public DataAudiosViewHolder mainAudiosHolder;
 
+    public View copyHistoryRightView;
     public LinearLayout copyHistoryLayout;
     public CopyHistoryViewHolder firstCopyHistory;
     public CopyHistoryViewHolder secondCopyHistory;
@@ -44,6 +46,7 @@ public class PostItemViewHolder extends DataPhotosViewHolder{
 
         copyHistoryLayout = (LinearLayout) itemView.findViewById(R.id.news_post_history_layout);
 
+        copyHistoryRightView = itemView.findViewById(R.id.news_copy_history_right_linear);
         View v = itemView.findViewById(R.id.news_post_copy_history_first);
         firstCopyHistory = new CopyHistoryViewHolder(v);
 
@@ -70,5 +73,10 @@ public class PostItemViewHolder extends DataPhotosViewHolder{
 
         if (firstCopyHistory != null)
             firstCopyHistory.clear();
+    }
+    @Override
+    public void applyColorScheme(ColorScheme scheme) {
+        super.applyColorScheme(scheme);
+
     }
 }

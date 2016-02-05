@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = "USERS")
 public class User implements Serializable{
+
     public static class UserBuilder{
         private String accessToken = "";
         private String accountId = "";
@@ -84,6 +85,9 @@ public class User implements Serializable{
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate = true)
     private NewsConfiguration newsConfiguration;
 
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate = true)
+    private ColorScheme colorScheme;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -139,4 +143,13 @@ public class User implements Serializable{
     public void setNewsConfiguration(NewsConfiguration newsConfiguration) {
         this.newsConfiguration = newsConfiguration;
     }
+
+    public ColorScheme getColorScheme() {
+        return colorScheme;
+    }
+
+    public void setColorScheme(ColorScheme colorScheme) {
+        this.colorScheme = colorScheme;
+    }
+
 }

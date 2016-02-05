@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.viewholders.base.DataItemViewHolder;
 
 public class DataVideosViewHolder extends DataItemViewHolder{
@@ -17,7 +18,7 @@ public class DataVideosViewHolder extends DataItemViewHolder{
     public DataVideoItemHolder second;
     public DataVideoItemHolder third;
     public RobotoTextView videoCount;
-    public View itemView;
+
     public DataVideosViewHolder(View itemView) {
         super(itemView);
         mainLayout = (LinearLayout) itemView.findViewById(R.id.news_video_main_layout);
@@ -41,5 +42,16 @@ public class DataVideosViewHolder extends DataItemViewHolder{
 
         if (main!= null)
             third.clear();
+    }
+
+    @Override
+    public void applyColorScheme(ColorScheme scheme) {
+        super.applyColorScheme(scheme);
+        videoCount.setTextColor(scheme.getTextColor());
+
+        main.applyColorScheme(scheme);
+        first.applyColorScheme(scheme);
+        second.applyColorScheme(scheme);
+        third.applyColorScheme(scheme);
     }
 }

@@ -12,6 +12,7 @@ public class UserWorker {
             if (user != null) {
                 HelperFactory.getHelper().getNewsConfigurationDao().refresh(user.getNewsConfiguration());
                 HelperFactory.getHelper().getMainConfigurationDao().refresh(user.getMainConfiguration());
+                HelperFactory.getHelper().getColorSchemeDao().refresh(user.getColorScheme());
             }
             return user;
         } catch (SQLException e) {

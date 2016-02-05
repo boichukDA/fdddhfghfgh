@@ -256,6 +256,11 @@ public class RobotoExpandableTextView extends LinearLayout implements View.OnCli
             mCollapsedHeight = getMeasuredHeight();
         }
     }
+
+    public void setTextColor(Integer textColor) {
+        expandTextView.setTextColor(textColor);
+    }
+
     class ExpandCollapseAnimation extends Animation {
         private final View mTargetView;
         private final int mStartHeight;

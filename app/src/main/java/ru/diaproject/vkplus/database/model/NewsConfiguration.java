@@ -5,11 +5,12 @@ import android.graphics.Bitmap;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-
+@DatabaseTable(tableName = "NEWS_CONFIGURATION")
 public class NewsConfiguration implements Serializable {
-    public final static String CONFIG_ID_COLUMN = "id";
+    public final static String CONFIG_ID_COLUMN = "ID";
     public final static String TAB_VALUES_COLUMN = "TAB_VALUES";
     public final static String IS_DEFAULT_COLUMN = "IS_DEFAULT";
 

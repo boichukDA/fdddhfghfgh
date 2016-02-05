@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.viewholders.base.DataItemViewHolder;
 
 public class DataAudiosViewHolder extends DataItemViewHolder{
@@ -44,5 +45,16 @@ public class DataAudiosViewHolder extends DataItemViewHolder{
 
         if (fifth!=null)
             fifth.clear();
+    }
+
+    @Override
+    public void applyColorScheme(ColorScheme scheme) {
+        super.applyColorScheme(scheme);
+        audioCount.setTextColor(scheme.getTextColor());
+        first.applyColorScheme(scheme);
+        second.applyColorScheme(scheme);
+        third.applyColorScheme(scheme);
+        fourth.applyColorScheme(scheme);
+        fifth.applyColorScheme(scheme);
     }
 }

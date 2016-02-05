@@ -1,6 +1,7 @@
 package ru.diaproject.vkplus.news.binders;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
 import ru.diaproject.vkplus.core.databinders.DataBinder;
 import ru.diaproject.vkplus.core.utils.ColorUtils;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.news.model.NewsResponse;
 import ru.diaproject.vkplus.news.model.baseitems.FilterType;
@@ -20,16 +22,26 @@ import ru.diaproject.vkplus.news.viewholders.PhotoTagItemViewHolder;
 
 public class PhotoTagItemBinder extends DataPhotosBinder<PhotoTagItemViewHolder, IDataMainItem> {
     private NewsPagerCardFragment parent;
+    private ColorScheme colorScheme;
 
     public PhotoTagItemBinder(DataBindAdapter dataBindAdapter, NewsResponse items, NewsPagerCardFragment fragment) {
         super(fragment.getContext(), dataBindAdapter,items);
         this.parent = fragment;
+        colorScheme = parent.getUser().getColorScheme();
     }
 
     @Override
     public PhotoTagItemViewHolder newViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_phototagview_item, parent, false);
-        return new PhotoTagItemViewHolder(v);
+        ((CardView)v).setCardBackgroundColor(colorScheme.getCardColor());
+
+        PhotoTagItemViewHolder holder = new PhotoTagItemViewHolder(v);
+        holder.applyColorScheme(colorScheme);
+        holder.photoCount.setTextColor(
+                ColorUtils.setColorAlpha(colorScheme.getTextColor(), ColorUtils.OPACITY_55));
+        holder.markedText.setTextColor(colorScheme.getTextColor());
+
+        return holder;
     }
 
     @Override
@@ -45,10 +57,6 @@ public class PhotoTagItemBinder extends DataPhotosBinder<PhotoTagItemViewHolder,
             holder.markedText.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_marked_text_man, photos.getCount(), photos.getCount()));
         else
             holder.markedText.setText(parent.getContext().getResources().getQuantityString(R.plurals.news_marked_text_woman, photos.getCount(), photos.getCount()));
-
-        holder.photoCount.setTextColor(
-                ColorUtils.setColorAlpha(
-                        ContextCompat.getColor(parent.getContext(), R.color.md_black_1000), ColorUtils.OPACITY_55));
 
         if (photos.getCount()>getMaxPhotosDisplay())
             holder.photoCount.setVisibility(View.VISIBLE);

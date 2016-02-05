@@ -62,7 +62,7 @@ public class AudioBindHelper {
         if (audios.size()> maxAudiosCount) {
             holder.audioCount.setVisibility(View.VISIBLE);
 
-            holder.audioCount.setText(context.getResources().getQuantityString(R.plurals.news_video_count_variants,
+            holder.audioCount.setText(context.getResources().getQuantityString(R.plurals.news_audio_count_variants,
                     size - maxAudiosCount, size - maxAudiosCount));
         }
         else holder.audioCount.setVisibility(View.GONE);

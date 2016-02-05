@@ -9,7 +9,7 @@
 
     <include layout="@layout/news_item_header_merge"/>
 
-    <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+    <ru.diaproject.ui.circularimageview.RobotoExpandableTextView
             android:id="@+id/news_copy_history_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

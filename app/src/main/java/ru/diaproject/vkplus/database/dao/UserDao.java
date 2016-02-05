@@ -7,9 +7,11 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.MainConfiguration;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
+import ru.diaproject.vkplus.database.workers.ColorSchemeWorker;
 import ru.diaproject.vkplus.database.workers.MainConfigurationWorker;
 import ru.diaproject.vkplus.database.workers.NewsConfigurationWorker;
 
@@ -53,6 +55,9 @@ public class UserDao extends BaseDaoImpl<User, Integer> {
 
         NewsConfiguration newsConfiguration = NewsConfigurationWorker.createDefault();
         data.setNewsConfiguration(newsConfiguration);
+
+        ColorScheme scheme = ColorSchemeWorker.getDefault();
+        data.setColorScheme(scheme);
 
         return create(data);
     }

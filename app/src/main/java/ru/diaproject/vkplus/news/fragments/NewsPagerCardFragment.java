@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.news.fragments;
 
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -22,6 +23,7 @@ import ru.diaproject.ptrrecyclerview.PullToRefreshWrapper;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ILoggable;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.NewsVariant;
 import ru.diaproject.vkplus.news.adapters.NewsMapBindAdapter;
@@ -61,7 +63,6 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     private RecyclerView listView;
     private SwipeRefreshLayout refreshLayout;
 
-    private ViewPreloadSizeProvider<Object> preloadSizeProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,6 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initUI(inflater, container);
-        preloadSizeProvider  = new ViewPreloadSizeProvider<>();
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setRecyclerListener(new RecyclerView.RecyclerListener() {
             @Override
@@ -101,6 +101,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
          listView = (RecyclerView) rootView.findViewById(R.id.list);
          refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swiperefreshlayout);
 
+        initColorScheme(user.getColorScheme());
         LinearLayoutManager linearLayoutManager = new PreCachingLayoutManager(getContext(), getResources().getDisplayMetrics().heightPixels);
         listView.setLayoutManager(linearLayoutManager);
         listView.setHasFixedSize(true);
@@ -111,6 +112,9 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
                 initBackend(null);
             }
         });
+    }
+    protected void initColorScheme(ColorScheme colorScheme){
+        listView.setBackgroundColor(colorScheme.getBackgroundColor());
     }
     protected void initBackend(Bundle savedInstanceState) {
         if (savedInstanceState != null){
@@ -132,30 +136,30 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
             @Override
             public void run() {
                 Observable.from(VKMainExecutor.request(query))
-                    .map(new Func1<NewsResponse, NewsResponse>() {
-                        @Override
-                        public NewsResponse call(NewsResponse response) {
-                            if (variant.getFilter() != null)
-                                return response.applyFilter(variant.getFilter());
-
-                            return response;
-                        }
-                    })
-                .subscribe(new Action1<NewsResponse>() {
-                    @Override
-                    public void call(NewsResponse totalResponse) {
-                        response = totalResponse;
-
-                        adapter = new NewsMapBindAdapter(response, NewsPagerCardFragment.this);
-
-                        ((Activity) getContext()).runOnUiThread(new Runnable() {
+                        .map(new Func1<NewsResponse, NewsResponse>() {
                             @Override
-                            public void run() {
-                                initRecyclerView();
+                            public NewsResponse call(NewsResponse response) {
+                                if (variant.getFilter() != null)
+                                    return response.applyFilter(variant.getFilter());
+
+                                return response;
+                            }
+                        })
+                        .subscribe(new Action1<NewsResponse>() {
+                            @Override
+                            public void call(NewsResponse totalResponse) {
+                                response = totalResponse;
+
+                                adapter = new NewsMapBindAdapter(response, NewsPagerCardFragment.this);
+
+                                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initRecyclerView();
+                                    }
+                                });
                             }
                         });
-                    }
-                });
             }
         });
     }

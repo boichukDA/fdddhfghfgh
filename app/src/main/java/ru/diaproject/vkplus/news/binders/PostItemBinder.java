@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.news.binders;
 
 import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.news.binders.bindhelpers.AudioBindHelper;
 import ru.diaproject.vkplus.news.binders.bindhelpers.CopyHistoryBindHelper;
@@ -45,11 +47,14 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
     private final AudioBindHelper audioBindHelper;
     private final NewsConfiguration configuration;
     private NewsPagerCardFragment parent;
+    private ColorScheme colorScheme;
 
     public PostItemBinder(DataBindAdapter dataBindAdapter, NewsResponse items, NewsPagerCardFragment fragment, SparseBooleanArray mCollapsedStatus) {
         super(fragment.getContext(), dataBindAdapter, items);
 
         this.parent = fragment;
+        colorScheme = parent.getUser().getColorScheme();
+
         this.mCollapsedStatus = mCollapsedStatus;
         this.configuration = parent.getUser().getNewsConfiguration();
 
@@ -64,7 +69,23 @@ public class PostItemBinder extends DataPhotosBinder<PostItemViewHolder, IDataPo
     @Override
     public PostItemViewHolder newViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_postview_item, parent, false);
-        return new PostItemViewHolder(v);
+
+        PostItemViewHolder holder = new PostItemViewHolder(v);
+        ((CardView)holder.itemView).setCardBackgroundColor(colorScheme.getCardColor());
+        holder.copyHistoryRightView.setBackgroundColor(colorScheme.getMainColor());
+        holder.mainText.setTextColor(colorScheme.getTextColor());
+        holder.applyColorScheme(colorScheme);
+
+        holder.mainVideosholder.applyColorScheme(colorScheme);
+        holder.mainAudiosHolder.applyColorScheme(colorScheme);
+        holder.mainGifViewHolder.applyColorScheme(colorScheme);
+
+        holder.firstCopyHistory.applyColorScheme(colorScheme);
+
+        holder.postLikeCount.setTextColor(colorScheme.getTextColor());
+        holder.postCommentCount.setTextColor(colorScheme.getTextColor());
+        holder.postShareCount.setTextColor(colorScheme.getTextColor());
+        return holder;
     }
 
     @Override

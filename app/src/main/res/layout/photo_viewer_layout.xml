@@ -30,8 +30,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/m_indigo" />
+                android:layout_height="?attr/actionBarSize" />
         </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
@@ -163,7 +162,7 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <ru.diaproject.vkplus.core.view.RobotoImageExpandableTextView
+            <ru.diaproject.ui.circularimageview.RobotoExpandableTextView
                 android:id="@+id/photo_viewer_description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

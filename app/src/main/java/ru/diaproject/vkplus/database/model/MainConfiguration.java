@@ -3,11 +3,12 @@ package ru.diaproject.vkplus.database.model;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-
+@DatabaseTable(tableName = "MAIN_CONFIGURATION")
 public class MainConfiguration implements Serializable {
-    public final static String ID_COLUMN = "id";
+    public final static String ID_COLUMN = "ID";
     public final static String HTTPS_REQUIRED_COLUMN = "HTTPS_REQUIRED";
     public final static String IS_DEFAULT_COLUMN = "IS_DEFAULT";
 

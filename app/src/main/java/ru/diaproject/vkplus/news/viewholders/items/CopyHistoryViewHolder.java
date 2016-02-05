@@ -4,6 +4,7 @@ import android.view.View;
 
 import ru.diaproject.ui.circularimageview.RobotoExpandableTextView;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 
 public class CopyHistoryViewHolder extends DataPhotosViewHolder {
@@ -29,5 +30,16 @@ public class CopyHistoryViewHolder extends DataPhotosViewHolder {
 
         if (mainVideosholder != null)
             mainVideosholder.clear();
+    }
+
+    @Override
+    public void applyColorScheme(ColorScheme scheme) {
+        super.applyColorScheme(scheme);
+
+        firstCopyTextView.setTextColor(scheme.getTextColor());
+
+        mainGifViewHolder.applyColorScheme(scheme);
+        mainVideosholder.applyColorScheme(scheme);
+        mainAudioViewHolder.applyColorScheme(scheme);
     }
 }

@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide;
 
 import ru.diaproject.ui.circularimageview.CircularImageView;
 import ru.diaproject.vkplus.R;
+import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.viewholders.base.DataItemViewHolder;
 
 public class DataAudioItemHolder extends DataItemViewHolder{
@@ -30,5 +31,13 @@ public class DataAudioItemHolder extends DataItemViewHolder{
 
     public void hideLayout(){
         itemView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void applyColorScheme(ColorScheme scheme) {
+        super.applyColorScheme(scheme);
+        author.setTextColor(scheme.getTextColor());
+        song.setTextColor(scheme.getTextColor());
+        duration.setTextColor(scheme.getTextColor());
     }
 }

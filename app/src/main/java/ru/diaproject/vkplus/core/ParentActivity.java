@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.core.utils.ApplicationConfiguration;
 import ru.diaproject.vkplus.core.view.ModalDialog;
 
 public abstract class ParentActivity extends Activity {
@@ -26,7 +25,6 @@ public abstract class ParentActivity extends Activity {
     private LinearLayout userLayout;
     private Dialog progressDialog;
     private LayoutInflater inflater;
-    private ApplicationConfiguration config = ApplicationConfiguration.INSTANCE;
 
     private final int SHOW_TOP_BAR = 1;
     private final int HIDE_TOP_BAR = 2;
@@ -188,8 +186,6 @@ public abstract class ParentActivity extends Activity {
             this.progressDialog.dismiss();
         }
     }
-    protected ApplicationConfiguration getConfig(){
-        return config;
-    }
+
     protected abstract String getLogName();
 }

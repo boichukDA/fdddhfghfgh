@@ -19,8 +19,7 @@
             android:id="@+id/list"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/m_background_gray">
+            android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>

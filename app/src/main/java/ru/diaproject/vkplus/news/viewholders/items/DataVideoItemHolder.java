@@ -22,4 +22,5 @@ public class DataVideoItemHolder extends DataItemViewHolder{
     public void clear() {
         Glide.clear(imageView);
     }
+
 }

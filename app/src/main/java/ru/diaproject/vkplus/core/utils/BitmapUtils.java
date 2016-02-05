@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 
@@ -24,6 +25,16 @@ public class BitmapUtils {
         Canvas c = new Canvas(mutable);
         Paint p = new Paint();
         p.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, color), mode));
+        c.drawBitmap(mutable, 0.f, 0.f, p);
+        return mutable;
+    }
+
+    public static Bitmap appyColorFilter(Context context, int resourceId, @ColorInt int color,  PorterDuff.Mode mode ){
+        Bitmap immutable = BitmapFactory.decodeResource(context.getResources(), resourceId);
+        final Bitmap mutable = immutable.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas c = new Canvas(mutable);
+        Paint p = new Paint();
+        p.setColorFilter(new PorterDuffColorFilter(color, mode));
         c.drawBitmap(mutable, 0.f, 0.f, p);
         return mutable;
     }
