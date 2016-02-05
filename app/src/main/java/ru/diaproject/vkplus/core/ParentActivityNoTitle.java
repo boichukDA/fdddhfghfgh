@@ -76,29 +76,29 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                             impl = new DrawerImplementation();
 
                             final Bitmap icon = BitmapUtils.loadBitmap(result.getPhoto100(), ParentActivityNoTitle.this);
-                            impl.setFriendsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.drawer_friends_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setFriendsSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.drawer_friends_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setPhotoSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.news_photo_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setPhotoSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.news_photo_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setVideoSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.news_video_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setVideoSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.news_video_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setAudioSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.news_drawer_audios_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setAudioSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.news_drawer_audios_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setMessageSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.drawer_charts_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setMessageSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.drawer_charts_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setGroupSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.news_group_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setGroupSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.news_group_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setNewsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.news_group_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setNewsSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.news_group_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
-                            impl.setSettingsSelectedBitmap(BitmapUtils.appyColorFilterForResource(ParentActivityNoTitle.this,
-                                    R.drawable.drawer_settings_white, com.mikepenz.materialdrawer.R.color.material_drawer_selected_text, PorterDuff.Mode.MULTIPLY));
+                            impl.setSettingsSelectedBitmap(BitmapUtils.appyColorFilter(ParentActivityNoTitle.this,
+                                    R.drawable.drawer_settings_white, colorScheme.getTextColor(), PorterDuff.Mode.MULTIPLY));
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -147,6 +147,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
         profileDrawerItem.withEmail(result.getStatus());
         profileDrawerItem.withEnabled(false);
+        profileDrawerItem.withTextColor(colorScheme.getTitleColor());
 
         if (icon!= null)
             profileDrawerItem.withIcon(icon);
@@ -155,6 +156,7 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(new ColorDrawable(colorScheme.getMainColor()))
+                .withTextColor(colorScheme.getTitleColor())
                 .addProfiles(profileDrawerItem)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
@@ -167,66 +169,75 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
 
 
         PrimaryDrawerItem myFriendsItem = new PrimaryDrawerItem();
-        myFriendsItem.withIcon(R.drawable.drawer_friends_black);
-        myFriendsItem.withTextColorRes(R.color.md_black_1000);
+        myFriendsItem.withIcon(new BitmapDrawable(getResources(), impl.getFriendsSelectedBitmap()));
+        myFriendsItem.withTextColor(colorScheme.getTextColor());
         myFriendsItem.withName(R.string.drawer_item_my_friends)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getFriendsSelectedBitmap()))
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(1);
 
         PrimaryDrawerItem myPhotoItem = new PrimaryDrawerItem();
-        myPhotoItem.withIcon(R.drawable.news_photo_black);
-        myPhotoItem.withTextColorRes(R.color.md_black_1000);
+        myPhotoItem.withIcon(new BitmapDrawable(getResources(), impl.getPhotoSelectedBitmap()));
+        myPhotoItem.withTextColor(colorScheme.getTextColor());
         myPhotoItem.withName(R.string.drawer_item_my_photo)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getPhotoSelectedBitmap()))
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(2);
 
         PrimaryDrawerItem myVideoItem = new PrimaryDrawerItem();
-        myVideoItem.withIcon(R.drawable.news_video_black);
-        myVideoItem.withTextColorRes(R.color.md_black_1000);
+        myVideoItem.withIcon(new BitmapDrawable(getResources(), impl.getVideoSelectedBitmap()));
+        myVideoItem.withTextColor(colorScheme.getTextColor());
         myVideoItem.withName(R.string.drawer_item_my_video)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getVideoSelectedBitmap()))
-                .withIdentifier(2);
-
-        PrimaryDrawerItem myAudioItem = new PrimaryDrawerItem();
-        myAudioItem.withIcon(R.drawable.news_drawer_audios_black);
-        myAudioItem.withTextColorRes(R.color.md_black_1000);
-        myAudioItem.withName(R.string.drawer_item_my_audio)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getAudioSelectedBitmap()))
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(3);
 
-        PrimaryDrawerItem myMessageItem = new PrimaryDrawerItem();
-        myMessageItem.withIcon(R.drawable.drawer_charts_black);
-        myMessageItem.withTextColorRes(R.color.md_black_1000);
-        myMessageItem.withName(R.string.drawer_item_my_messages)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getMessageSelectedBitmap()))
+        PrimaryDrawerItem myAudioItem = new PrimaryDrawerItem();
+        myAudioItem.withIcon(new BitmapDrawable(getResources(), impl.getAudioSelectedBitmap()));
+        myAudioItem.withTextColor(colorScheme.getTextColor());
+        myAudioItem.withName(R.string.drawer_item_my_audio)
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(4);
 
-        PrimaryDrawerItem myGroupItem = new PrimaryDrawerItem();
-        myGroupItem.withIcon(R.drawable.news_group_black);
-        myGroupItem.withTextColorRes(R.color.md_black_1000);
-        myGroupItem.withName(R.string.drawer_item_my_group)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getGroupSelectedBitmap()))
+        PrimaryDrawerItem myMessageItem = new PrimaryDrawerItem();
+        myMessageItem.withIcon(new BitmapDrawable(getResources(), impl.getMessageSelectedBitmap()));
+        myMessageItem.withTextColor(colorScheme.getTextColor());
+        myMessageItem.withName(R.string.drawer_item_my_messages)
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(5);
 
-        PrimaryDrawerItem myNewsItem = new PrimaryDrawerItem();
-        myNewsItem.withIcon(R.drawable.drawer_news_black);
-        myNewsItem.withTextColorRes(R.color.md_black_1000);
-        myNewsItem.withName(R.string.drawer_item_my_news)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getNewsSelectedBitmap()))
+        PrimaryDrawerItem myGroupItem = new PrimaryDrawerItem();
+        myGroupItem.withIcon(new BitmapDrawable(getResources(), impl.getGroupSelectedBitmap()));
+        myGroupItem.withTextColor(colorScheme.getTextColor());
+        myGroupItem.withName(R.string.drawer_item_my_group)
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(6);
 
-        PrimaryDrawerItem mySettingsItem = new PrimaryDrawerItem();
-        mySettingsItem.withIcon(R.drawable.drawer_settings_black);
-        mySettingsItem.withTextColorRes(R.color.md_black_1000);
-        mySettingsItem.withName(R.string.drawer_item_settings)
-                .withSelectedIcon(new BitmapDrawable(getResources(), impl.getSettingsSelectedBitmap()))
+        PrimaryDrawerItem myNewsItem = new PrimaryDrawerItem();
+        myNewsItem.withIcon(new BitmapDrawable(getResources(), impl.getNewsSelectedBitmap()));
+        myNewsItem.withTextColor(colorScheme.getTextColor());
+        myNewsItem.withName(R.string.drawer_item_my_news)
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
                 .withIdentifier(7);
+
+        PrimaryDrawerItem mySettingsItem = new PrimaryDrawerItem();
+        mySettingsItem.withIcon(new BitmapDrawable(getResources(), impl.getSettingsSelectedBitmap()));
+        mySettingsItem.withTextColor(colorScheme.getTextColor());
+        mySettingsItem.withName(R.string.drawer_item_settings)
+                .withSelectedColor(colorScheme.getBackgroundColor())
+                .withSelectedTextColor(colorScheme.getTextColor())
+                .withIdentifier(8);
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggle(false)
                 .withStatusBarColor(colorScheme.getStatusBarColor())
+                .withSliderBackgroundColor(colorScheme.getCardColor())
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         myFriendsItem,
