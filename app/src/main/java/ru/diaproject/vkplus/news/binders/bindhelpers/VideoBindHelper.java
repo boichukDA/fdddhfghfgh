@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
+import ru.diaproject.vkplus.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataVideosViewHolder;
 
 public class VideoBindHelper {

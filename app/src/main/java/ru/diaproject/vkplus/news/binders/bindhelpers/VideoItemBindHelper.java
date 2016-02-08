@@ -6,8 +6,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
-import ru.diaproject.vkplus.core.utils.DateUtils;
-import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
+import ru.diaproject.vkplus.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataVideoItemHolder;
 
 public class VideoItemBindHelper {

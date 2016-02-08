@@ -6,8 +6,8 @@ import android.view.View;
 import java.util.List;
 
 import ru.diaproject.vkplus.R;
-import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
-import ru.diaproject.vkplus.news.model.attachments.doc.GifDocInfo;
+import ru.diaproject.vkplus.model.attachments.doc.DocInfo;
+import ru.diaproject.vkplus.model.attachments.doc.GifDocInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataGifsViewHolder;
 
 public class GifBindHelper {

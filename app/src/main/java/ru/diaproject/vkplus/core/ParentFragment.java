@@ -30,7 +30,7 @@ import ru.diaproject.vkplus.core.executor.SimpleTaskListener;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.users.IDataUser;
+import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;

@@ -32,7 +32,7 @@ import ru.diaproject.vkplus.core.executor.VKMainExecutor;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.users.IDataUser;
+import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
@@ -138,13 +138,12 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
     }
 
     protected  void initColorScheme(ColorScheme colorScheme){
-        getToolbar().setBackgroundColor(colorScheme.getMainColor());
 
     }
 
     private void initDrawer(IDataUser result, Bitmap icon) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem();
-        profileDrawerItem.withName(result.getFirstName()+" "+result.getLastName());
+        profileDrawerItem.withName(result.getFirstName() + " " + result.getLastName());
         profileDrawerItem.withEmail(result.getStatus());
         profileDrawerItem.withEnabled(false);
         profileDrawerItem.withTextColor(colorScheme.getTitleColor());
@@ -258,6 +257,11 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
                     }
                 })
                 .build();
+        setDrawerItemSelected(drawer);
+    }
+
+    public void setDrawerItemSelected(Drawer drawer) {
+
     }
 
     private VKQuery<IDataUser> createQuery(){
@@ -295,6 +299,10 @@ public abstract class ParentActivityNoTitle extends AppCompatActivity {
             drawer.closeDrawer();
         else
             super.onBackPressed();
+    }
+
+    public ColorScheme getColorScheme() {
+        return colorScheme;
     }
 
     public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor) {

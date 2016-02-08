@@ -7,10 +7,8 @@ import android.view.View;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
 import ru.diaproject.vkplus.core.databinders.DataBinder;
 import ru.diaproject.vkplus.news.binders.bindhelpers.PhotoBindHelper;
-import ru.diaproject.vkplus.news.model.NewsResponse;
-import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.NewsResponse;
+import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
 import ru.diaproject.vkplus.news.viewholders.DataPhotosViewHolder;
 
 public abstract class DataPhotosBinder<T extends DataPhotosViewHolder, V extends IDataMainItem> extends DataBinder<T,V>{

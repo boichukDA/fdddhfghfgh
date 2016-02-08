@@ -8,12 +8,12 @@ import android.view.View;
 import java.util.List;
 
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
-import ru.diaproject.vkplus.news.model.attachments.AudioInfo;
-import ru.diaproject.vkplus.news.model.attachments.VideoInfo;
-import ru.diaproject.vkplus.news.model.attachments.doc.DocInfo;
-import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
-import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.VideoInfo;
+import ru.diaproject.vkplus.model.attachments.doc.DocInfo;
+import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.items.Photos;
+import ru.diaproject.vkplus.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.items.CopyHistoryViewHolder;
 
 public class CopyHistoryBindHelper {

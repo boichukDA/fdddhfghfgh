@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
-import ru.diaproject.vkplus.news.model.attachments.doc.GifDocInfo;
+import ru.diaproject.vkplus.model.attachments.doc.GifDocInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataGifItemHolder;
 
 public class GifItemBindHelper {

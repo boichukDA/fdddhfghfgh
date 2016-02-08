@@ -11,13 +11,13 @@ import java.util.List;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.baseitems.DataPostItem;
-import ru.diaproject.vkplus.news.model.baseitems.FilterType;
-import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.groups.IDataGroup;
-import ru.diaproject.vkplus.news.model.items.CopyHistory;
-import ru.diaproject.vkplus.news.model.items.CopyHistoryInfo;
-import ru.diaproject.vkplus.news.model.users.IDataUser;
+import ru.diaproject.vkplus.model.baseitems.DataPostItem;
+import ru.diaproject.vkplus.model.baseitems.FilterType;
+import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.groups.IDataGroup;
+import ru.diaproject.vkplus.model.items.CopyHistory;
+import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 
 public class NewsVariantContainer {

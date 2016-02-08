@@ -4,7 +4,6 @@ package ru.diaproject.vkplus.photoviewer.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +12,7 @@ import android.widget.ProgressBar;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.imageloading.ImageLoader;
 import ru.diaproject.vkplus.imageloading.OnCompletedListener;
-import ru.diaproject.vkplus.news.model.items.Photos;
+import ru.diaproject.vkplus.model.items.Photos;
 
 public class PhotoViewerItemFragment extends Fragment {
     private ImageView view;

@@ -1,7 +1,7 @@
 package ru.diaproject.vkplus.vkcore.queries.customs;
 
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
 
 public class VKItem<T extends IDataObject> {

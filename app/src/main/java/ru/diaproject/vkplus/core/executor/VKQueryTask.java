@@ -7,8 +7,8 @@ import java.util.concurrent.CountDownLatch;
 
 import ru.diaproject.vkplus.core.utils.Utils;
 import ru.diaproject.vkplus.core.utils.json.VKJsonDataParser;
-import ru.diaproject.vkplus.news.model.IDataResult;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.IDataResult;
+import ru.diaproject.vkplus.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 
 public class VKQueryTask<T extends IDataObject> extends VKMainExecutor.VKTask implements Runnable {

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.diaproject.vkplus.VKPlusApplication;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 
 public enum VKMainExecutor {

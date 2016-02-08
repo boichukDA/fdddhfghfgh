@@ -2,7 +2,6 @@ package ru.diaproject.vkplus.news.fragments;
 
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -16,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
-
 import ru.diaproject.ptrrecyclerview.PagingListener;
 import ru.diaproject.ptrrecyclerview.PullToRefreshWrapper;
 import ru.diaproject.vkplus.R;
@@ -27,7 +24,7 @@ import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.news.NewsVariant;
 import ru.diaproject.vkplus.news.adapters.NewsMapBindAdapter;
-import ru.diaproject.vkplus.news.model.NewsResponse;
+import ru.diaproject.vkplus.model.NewsResponse;
 import ru.diaproject.vkplus.news.viewholders.FriendItemViewHolder;
 import ru.diaproject.vkplus.news.viewholders.PhotoItemViewHolder;
 import ru.diaproject.vkplus.news.viewholders.PhotoTagItemViewHolder;
@@ -115,6 +112,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     }
     protected void initColorScheme(ColorScheme colorScheme){
         listView.setBackgroundColor(colorScheme.getBackgroundColor());
+        refreshLayout.setProgressBackgroundColorSchemeColor(colorScheme.getBackgroundColor());
     }
     protected void initBackend(Bundle savedInstanceState) {
         if (savedInstanceState != null){

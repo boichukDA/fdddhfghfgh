@@ -1,8 +1,8 @@
 package ru.diaproject.vkplus.vkcore.queries.customs.items;
 
 
-import ru.diaproject.vkplus.news.model.items.Photos;
-import ru.diaproject.vkplus.news.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.items.Photos;
+import ru.diaproject.vkplus.model.items.PhotosInfo;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryBuilder;
 import ru.diaproject.vkplus.vkcore.queries.customs.PreparedItem;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;

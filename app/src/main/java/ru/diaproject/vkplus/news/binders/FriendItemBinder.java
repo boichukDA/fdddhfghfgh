@@ -1,33 +1,24 @@
 package ru.diaproject.vkplus.news.binders;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
 import ru.diaproject.vkplus.core.databinders.DataBinder;
-import ru.diaproject.vkplus.core.utils.ColorUtils;
-import ru.diaproject.vkplus.core.utils.DateUtils;
 import ru.diaproject.vkplus.database.model.ColorScheme;
-import ru.diaproject.vkplus.imageloading.ImageLoader;
 import ru.diaproject.vkplus.news.adapters.FriendSubItemAdapter;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
-import ru.diaproject.vkplus.news.model.NewsResponse;
-import ru.diaproject.vkplus.news.model.baseitems.DataFriendItem;
-import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.baseitems.IDataPostItem;
-import ru.diaproject.vkplus.news.model.items.Friends;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
-import ru.diaproject.vkplus.news.model.users.IDataUser;
-import ru.diaproject.vkplus.news.model.users.OwnerSex;
+import ru.diaproject.vkplus.model.NewsResponse;
+import ru.diaproject.vkplus.model.baseitems.DataFriendItem;
+import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.items.Friends;
+import ru.diaproject.vkplus.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.users.OwnerSex;
 import ru.diaproject.vkplus.news.viewholders.FriendItemViewHolder;
 
 public class FriendItemBinder extends DataBinder<FriendItemViewHolder, IDataMainItem> {

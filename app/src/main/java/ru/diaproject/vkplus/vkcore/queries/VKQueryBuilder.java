@@ -4,7 +4,7 @@ package ru.diaproject.vkplus.vkcore.queries;
 import java.util.HashMap;
 
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 
 public class VKQueryBuilder<T extends IDataObject> {
     private static final String VK_QUERY_VERSION = "5.44";

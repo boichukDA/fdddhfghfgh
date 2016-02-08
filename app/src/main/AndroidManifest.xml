@@ -13,6 +13,8 @@
             android:noHistory="true"/>
         <activity android:name=".news.NewsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".profiles.VKProfileDetailsActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".photoviewer.PhotoViewerActivity"
             android:screenOrientation="sensor"
             android:theme="@style/Transparent"

@@ -1,7 +1,7 @@
 package ru.diaproject.vkplus.vkcore.queries;
 
 
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 
 public class VKQuery<T extends IDataObject> {
     private StringBuilder builder;

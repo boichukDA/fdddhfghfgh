@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import ru.diaproject.vkplus.news.binders.bindhelpers.HeaderBindHelper;
-import ru.diaproject.vkplus.news.model.NewsResponse;
-import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.NewsResponse;
+import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.base.DataMainViewHolder;
 
 abstract public class DataBinder<T extends DataMainViewHolder, V extends IDataMainItem> {

@@ -10,11 +10,10 @@ import com.bumptech.glide.Glide;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.ColorScheme;
-import ru.diaproject.vkplus.news.binders.bindhelpers.HeaderBindHelper;
-import ru.diaproject.vkplus.news.model.baseitems.DataFriendItem;
-import ru.diaproject.vkplus.news.model.groups.IDataGroup;
-import ru.diaproject.vkplus.news.model.users.IDataOwner;
-import ru.diaproject.vkplus.news.model.users.IDataUser;
+import ru.diaproject.vkplus.model.baseitems.DataFriendItem;
+import ru.diaproject.vkplus.model.groups.IDataGroup;
+import ru.diaproject.vkplus.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.news.viewholders.FriendSubItemViewHolder;
 
 

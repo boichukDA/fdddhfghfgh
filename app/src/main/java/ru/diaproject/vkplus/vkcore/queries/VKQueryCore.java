@@ -4,7 +4,7 @@ package ru.diaproject.vkplus.vkcore.queries;
 import java.util.HashMap;
 
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 
 public abstract class VKQueryCore<T extends IDataObject> {
     private static final String VK_METHOD = "/method/method_name";

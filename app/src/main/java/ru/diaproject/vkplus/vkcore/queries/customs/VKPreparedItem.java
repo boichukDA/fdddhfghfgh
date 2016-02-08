@@ -1,7 +1,7 @@
 package ru.diaproject.vkplus.vkcore.queries.customs;
 
 
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.users.IDataObject;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 
 public interface VKPreparedItem <T extends IDataObject> {

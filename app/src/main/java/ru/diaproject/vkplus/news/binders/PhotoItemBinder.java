@@ -10,9 +10,9 @@ import ru.diaproject.vkplus.core.databinders.DataBindAdapter;
 import ru.diaproject.vkplus.core.utils.ColorUtils;
 import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
-import ru.diaproject.vkplus.news.model.NewsResponse;
-import ru.diaproject.vkplus.news.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.news.model.items.Photos;
+import ru.diaproject.vkplus.model.NewsResponse;
+import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.items.Photos;
 import ru.diaproject.vkplus.news.viewholders.PhotoItemViewHolder;
 
 public class PhotoItemBinder extends DataPhotosBinder<PhotoItemViewHolder, IDataMainItem> {

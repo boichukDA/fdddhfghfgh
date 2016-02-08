@@ -3,6 +3,7 @@ package ru.diaproject.vkplus.news;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+
+import com.mikepenz.materialdrawer.Drawer;
 
 import java.util.ArrayDeque;
 
@@ -43,6 +46,7 @@ public class NewsActivity extends ParentActivityNoTitle {
     @Override
     protected void initColorScheme(ColorScheme colorScheme) {
         super.initColorScheme(colorScheme);
+        getToolbar().setBackgroundColor(colorScheme.getMainColor());
         tabLayout.setBackgroundColor(colorScheme.getMainColor());
         tabLayout.setTabTextColors(colorScheme.getTitleColor(), colorScheme.getTitleColor());
         toolbar.setTitleTextColor(colorScheme.getTitleColor());
@@ -113,7 +117,17 @@ public class NewsActivity extends ParentActivityNoTitle {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        Bitmap bitmap = BitmapUtils.appyColorFilter(this, R.drawable.news_post_new_white,
+                getColorScheme().getTitleColor(), PorterDuff.Mode.MULTIPLY);
+
+        menu.findItem(R.id.action_news_post_comment).setIcon(new BitmapDrawable(getResources(), bitmap));
         return true;
     }
 
@@ -179,5 +193,11 @@ public class NewsActivity extends ParentActivityNoTitle {
         catch(Throwable e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setDrawerItemSelected(Drawer drawer) {
+        super.setDrawerItemSelected(drawer);
+        drawer.setSelection(7);
     }
 }

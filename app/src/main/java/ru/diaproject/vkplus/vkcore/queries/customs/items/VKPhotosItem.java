@@ -1,7 +1,7 @@
 package ru.diaproject.vkplus.vkcore.queries.customs.items;
 
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.news.model.items.Photos;
+import ru.diaproject.vkplus.model.items.Photos;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryType;

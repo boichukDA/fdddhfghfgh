@@ -2,9 +2,9 @@ package ru.diaproject.vkplus.core.utils.json;
 
 import org.json.JSONObject;
 import ru.diaproject.vkplus.core.utils.Utils;
-import ru.diaproject.vkplus.news.model.IDataResult;
-import ru.diaproject.vkplus.news.model.JsonResponseParser;
-import ru.diaproject.vkplus.news.model.users.IDataObject;
+import ru.diaproject.vkplus.model.IDataResult;
+import ru.diaproject.vkplus.model.JsonResponseParser;
+import ru.diaproject.vkplus.model.users.IDataObject;
 
 public class VKJsonDataParser<T extends IDataObject> {
     private String filePath;
