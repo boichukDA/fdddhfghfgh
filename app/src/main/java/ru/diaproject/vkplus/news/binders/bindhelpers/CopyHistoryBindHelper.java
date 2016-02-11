@@ -8,11 +8,11 @@ import android.view.View;
 import java.util.List;
 
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.model.attachments.doc.DocInfo;
-import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
-import ru.diaproject.vkplus.model.items.Photos;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
 import ru.diaproject.vkplus.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.items.CopyHistoryViewHolder;
 
@@ -41,7 +41,7 @@ public class CopyHistoryBindHelper {
     public void setData (CopyHistoryInfo firstHistory, CopyHistoryViewHolder holder, SparseBooleanArray mCollapsedStatus, int position){
         holder.itemView.setVisibility(View.VISIBLE);
         IDataOwner firstOwner = firstHistory.getItemOwner();
-        headerBindHelper.setHeader(firstOwner.getFullName(), firstOwner.getPhoto100(),
+        headerBindHelper.setHeader(firstOwner,
                 firstHistory.getDate(), holder);
 
         if (firstHistory.getText() == null || "".equals(firstHistory.getText()))

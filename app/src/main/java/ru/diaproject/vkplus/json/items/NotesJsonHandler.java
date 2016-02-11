@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.items.Notes;
-import ru.diaproject.vkplus.model.items.NotesInfo;
+import ru.diaproject.vkplus.model.attachments.notes.Notes;
+import ru.diaproject.vkplus.model.attachments.notes.NotesInfo;
 
 public class NotesJsonHandler {
 

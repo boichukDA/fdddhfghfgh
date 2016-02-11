@@ -1,7 +1,7 @@
 package ru.diaproject.vkplus.news.binders.bindhelpers;
 
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataAudioItemHolder;
 
 public class AudioItemBindHelper {

@@ -10,14 +10,14 @@ import java.util.List;
 import ru.diaproject.vkplus.model.attachments.Attachment;
 import ru.diaproject.vkplus.model.attachments.AttachmentType;
 import ru.diaproject.vkplus.model.attachments.Attachments;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.model.attachments.VideoInfo;
 import ru.diaproject.vkplus.model.attachments.doc.DocInfo;
 import ru.diaproject.vkplus.model.attachments.doc.DocType;
-import ru.diaproject.vkplus.model.baseitems.FilterType;
-import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
-import ru.diaproject.vkplus.model.items.Photos;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.newsitems.FilterType;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 import ru.diaproject.vkplus.json.attachments.AttachmentsJsonHandler;
 
 public class CopyHistoryInfoJsonHandler {

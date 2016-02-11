@@ -6,7 +6,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.attachments.PhotoListInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotoListInfo;
 
 public class PhotoListJsonHandler {
 

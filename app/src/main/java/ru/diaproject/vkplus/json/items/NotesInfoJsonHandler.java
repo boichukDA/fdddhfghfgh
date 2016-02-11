@@ -3,7 +3,7 @@ package ru.diaproject.vkplus.json.items;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.items.NotesInfo;
+import ru.diaproject.vkplus.model.attachments.notes.NotesInfo;
 
 public class NotesInfoJsonHandler {
     public NotesInfo parse(JSONObject photosJsonObject) throws JSONException {

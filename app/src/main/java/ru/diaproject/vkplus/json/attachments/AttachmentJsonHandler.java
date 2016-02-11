@@ -3,21 +3,21 @@ package ru.diaproject.vkplus.json.attachments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.attachments.AlbumInfo;
+import ru.diaproject.vkplus.model.attachments.photos.AlbumInfo;
 import ru.diaproject.vkplus.model.attachments.AppInfo;
-import ru.diaproject.vkplus.model.attachments.AttachNoteInfo;
+import ru.diaproject.vkplus.model.attachments.notes.AttachNoteInfo;
 import ru.diaproject.vkplus.model.attachments.Attachment;
 import ru.diaproject.vkplus.model.attachments.AttachmentType;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.model.attachments.doc.DocInfo;
 import ru.diaproject.vkplus.model.attachments.GraffitiInfo;
 import ru.diaproject.vkplus.model.attachments.LinkInfo;
 import ru.diaproject.vkplus.model.attachments.PageInfo;
-import ru.diaproject.vkplus.model.attachments.PhotoListInfo;
-import ru.diaproject.vkplus.model.attachments.PollInfo;
-import ru.diaproject.vkplus.model.attachments.PostedPhotoInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotoListInfo;
+import ru.diaproject.vkplus.model.attachments.polls.PollInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PostedPhotoInfo;
 import ru.diaproject.vkplus.model.attachments.VideoInfo;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 import ru.diaproject.vkplus.json.items.PhotosInfoJsonHandler;
 
 public class AttachmentJsonHandler {

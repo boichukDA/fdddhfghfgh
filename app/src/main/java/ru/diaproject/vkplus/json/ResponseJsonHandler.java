@@ -11,7 +11,7 @@ import java.util.List;
 
 import ru.diaproject.vkplus.core.utils.json.JsonHandler;
 import ru.diaproject.vkplus.model.NewsResponse;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.groups.IDataGroup;
 import ru.diaproject.vkplus.json.groups.GroupsJsonHandler;
 import ru.diaproject.vkplus.json.items.ItemsJsonHandler;

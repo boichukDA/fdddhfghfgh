@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import ru.diaproject.vkplus.news.binders.bindhelpers.HeaderBindHelper;
 import ru.diaproject.vkplus.model.NewsResponse;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.users.IDataOwner;
 import ru.diaproject.vkplus.news.viewholders.base.DataMainViewHolder;
 
@@ -28,7 +28,7 @@ abstract public class DataBinder<T extends DataMainViewHolder, V extends IDataMa
 
     public void setDataOwner(T holder, V currentEntity){
         IDataOwner owner = currentEntity.getItemOwner();
-        headerBindHelper.setHeader(owner.getFullName(), owner.getPhoto100(), currentEntity.getDate(),
+        headerBindHelper.setHeader(owner, currentEntity.getDate(),
                 holder);
     }
     public V getItem(int position){

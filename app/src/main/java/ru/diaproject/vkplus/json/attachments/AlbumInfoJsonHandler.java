@@ -3,8 +3,8 @@ package ru.diaproject.vkplus.json.attachments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.attachments.AlbumInfo;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.AlbumInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 import ru.diaproject.vkplus.json.items.PhotosInfoJsonHandler;
 
 public class AlbumInfoJsonHandler {

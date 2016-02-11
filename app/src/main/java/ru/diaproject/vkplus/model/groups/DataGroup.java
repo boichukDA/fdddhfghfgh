@@ -124,4 +124,8 @@ public class DataGroup extends DataOwner implements IDataGroup{
     public void setId(Integer id) {
         super.setId(id);
     }
+
+    public String getStringFullName(){
+        return name;
+    }
 }

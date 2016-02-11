@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.items.Photos;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 
 public class PhotosJsonHandler {
 

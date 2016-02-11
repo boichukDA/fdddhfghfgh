@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.attachments.PollAnswer;
-import ru.diaproject.vkplus.model.attachments.PollInfo;
+import ru.diaproject.vkplus.model.attachments.polls.PollAnswer;
+import ru.diaproject.vkplus.model.attachments.polls.PollInfo;
 
 public class PollInfoJsonHandler {
     public PollInfo parse(JSONObject jsonObject) throws JSONException {

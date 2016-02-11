@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.json.baseitems.BaseItemJsonHandler;
 
 public class ItemsJsonHandler {

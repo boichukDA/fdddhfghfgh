@@ -44,6 +44,10 @@
     <string name="drawer_item_my_news">My News</string>
     <string name="main_string_of">of</string>
     <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
+    <string name="profile_bdate">Birthday</string>
+    <string name="profile_city">City</string>
+    <string name="profile_school">Education</string>
+    <string name="profile_work">Work place</string>
 
     <string-array name="news_varians">
         <item>@string/all</item>

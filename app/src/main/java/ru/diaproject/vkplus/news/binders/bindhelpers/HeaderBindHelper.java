@@ -7,7 +7,10 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
+import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.core.utils.DateUtils;
+import ru.diaproject.vkplus.model.users.IDataOwner;
+import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.news.viewholders.base.DataMainViewHolder;
 import ru.diaproject.vkplus.profiles.VKProfileDetailsActivity;
 
@@ -18,18 +21,21 @@ public class HeaderBindHelper {
         this.context = context;
     }
 
-    public void setHeader(Spannable strName, String avatarUrl, Integer intDate, DataMainViewHolder holder){
-        Glide.with(context).load(avatarUrl).into(holder.avatar);
+    public void setHeader(final IDataOwner owner, Integer date, DataMainViewHolder holder){
+        Glide.with(context).load(owner.getPhoto100()).into(holder.avatar);
 
-        holder.name.setText(strName);
+        holder.name.setText(owner.getFullName());
 
-        holder.date.setText(DateUtils.newsDateFormat(intDate, context));
+        holder.date.setText(DateUtils.newsDateFormat(date, context));
 
         holder.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VKProfileDetailsActivity.class);
-                context.startActivity(intent);
+                if (owner instanceof IDataUser) {
+                    Intent intent = new Intent(context, VKProfileDetailsActivity.class);
+                    intent.putExtra(DataConstants.USER, owner);
+                    context.startActivity(intent);
+                }
             }
         });
     }

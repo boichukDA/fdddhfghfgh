@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import ru.diaproject.vkplus.news.IDataFilter;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.model.attachments.VideoInfo;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.groups.IDataGroup;
 import ru.diaproject.vkplus.json.ResponseJsonHandler;
 import ru.diaproject.vkplus.model.users.DataOwner;

@@ -1,6 +1,8 @@
 package ru.diaproject.vkplus.model.users;
 
 
+import android.text.Spannable;
+
 import ru.diaproject.vkplus.R;
 
 public class DataUserMan extends DataUser {

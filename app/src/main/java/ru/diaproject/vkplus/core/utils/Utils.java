@@ -183,6 +183,7 @@ public class Utils {
                 int status = connection.getResponseCode();
 
                 if(status >= HttpStatus.SC_BAD_REQUEST) {
+
                     connection.disconnect();
 
                     continue;

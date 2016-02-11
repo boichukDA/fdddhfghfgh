@@ -8,7 +8,7 @@ import java.util.List;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 import ru.diaproject.vkplus.news.viewholders.items.DataAudiosViewHolder;
 
 public class AudioBindHelper {

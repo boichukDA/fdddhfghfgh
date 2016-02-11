@@ -3,8 +3,8 @@ package ru.diaproject.vkplus.json.attachments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.attachments.AudioGenre;
-import ru.diaproject.vkplus.model.attachments.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioGenre;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
 
 public class AudioInfoJsonHandler {
     public AudioInfo parse(JSONObject jsonObject) throws JSONException {

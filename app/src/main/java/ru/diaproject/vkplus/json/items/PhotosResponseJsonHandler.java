@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.diaproject.vkplus.core.utils.json.JsonHandler;
-import ru.diaproject.vkplus.model.items.Photos;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 
 public class PhotosResponseJsonHandler implements JsonHandler, Serializable {
 

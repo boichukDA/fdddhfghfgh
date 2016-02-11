@@ -2,7 +2,7 @@ package ru.diaproject.vkplus.model.attachments;
 
 
 import ru.diaproject.vkplus.model.DataObject;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 
 public class LinkInfo extends DataObject {
     private String url;

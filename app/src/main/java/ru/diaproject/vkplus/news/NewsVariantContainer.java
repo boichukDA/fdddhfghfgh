@@ -11,12 +11,12 @@ import java.util.List;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.NewsConfiguration;
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.model.baseitems.DataPostItem;
-import ru.diaproject.vkplus.model.baseitems.FilterType;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.DataPostItem;
+import ru.diaproject.vkplus.model.newsitems.FilterType;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.groups.IDataGroup;
-import ru.diaproject.vkplus.model.items.CopyHistory;
-import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistory;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistoryInfo;
 import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 

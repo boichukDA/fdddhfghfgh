@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import ru.diaproject.vkplus.model.items.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
 import ru.diaproject.vkplus.photoviewer.fragments.PhotoViewerItemFragment;
 
 public class PhotoViewerAdapter extends FragmentPagerAdapter {

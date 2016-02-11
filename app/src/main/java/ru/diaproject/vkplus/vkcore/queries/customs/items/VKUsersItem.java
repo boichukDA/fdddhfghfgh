@@ -21,5 +21,4 @@ public class VKUsersItem extends VKItem<IDataUser> {
         getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
         return new PreparedItem<>(getQueryBuilder());
     }
-
 }

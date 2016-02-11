@@ -3,15 +3,15 @@ package ru.diaproject.vkplus.json.baseitems;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.baseitems.DataFriendItem;
-import ru.diaproject.vkplus.model.baseitems.DataMainItem;
-import ru.diaproject.vkplus.model.baseitems.DataNoteItem;
-import ru.diaproject.vkplus.model.baseitems.DataPhotoItem;
-import ru.diaproject.vkplus.model.baseitems.DataPhotoTagItem;
-import ru.diaproject.vkplus.model.baseitems.DataPostItem;
-import ru.diaproject.vkplus.model.baseitems.DataWallPhotoItem;
-import ru.diaproject.vkplus.model.baseitems.FilterType;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.DataFriendItem;
+import ru.diaproject.vkplus.model.newsitems.DataMainItem;
+import ru.diaproject.vkplus.model.newsitems.DataNoteItem;
+import ru.diaproject.vkplus.model.newsitems.DataPhotoItem;
+import ru.diaproject.vkplus.model.newsitems.DataPhotoTagItem;
+import ru.diaproject.vkplus.model.newsitems.DataPostItem;
+import ru.diaproject.vkplus.model.newsitems.DataWallPhotoItem;
+import ru.diaproject.vkplus.model.newsitems.FilterType;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 
 public class BaseItemJsonHandler {
 

@@ -3,9 +3,9 @@ package ru.diaproject.vkplus.json.baseitems;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.baseitems.DataMainItem;
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
-import ru.diaproject.vkplus.model.items.Notes;
+import ru.diaproject.vkplus.model.newsitems.DataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
+import ru.diaproject.vkplus.model.attachments.notes.Notes;
 import ru.diaproject.vkplus.json.items.NotesJsonHandler;
 
 public class NoteJsonHandler extends AttachmentJsonParser {

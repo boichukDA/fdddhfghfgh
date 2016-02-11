@@ -6,8 +6,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.items.CopyHistory;
-import ru.diaproject.vkplus.model.items.CopyHistoryInfo;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistory;
+import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistoryInfo;
 
 public class CopyHistoryJsonHandler {
 

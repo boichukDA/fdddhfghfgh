@@ -34,6 +34,10 @@
     <string name="drawer_item_my_news">Мои Новости</string>
     <string name="drawer_item_settings">Настройки</string>
     <string name="main_string_of">из</string>
+    <string name="profile_bdate">День рождения</string>
+    <string name="profile_city">Город</string>
+    <string name="profile_school">Образование</string>
+    <string name="profile_work">Место работы</string>
 
     <string-array name="news_varians">
         <item>@string/all</item>

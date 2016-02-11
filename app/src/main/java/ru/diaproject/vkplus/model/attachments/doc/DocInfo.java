@@ -1,6 +1,6 @@
 package ru.diaproject.vkplus.model.attachments.doc;
 
-import ru.diaproject.vkplus.model.baseitems.DataItem;
+import ru.diaproject.vkplus.model.newsitems.DataItem;
 
 public abstract  class DocInfo extends DataItem{
     private Integer date;

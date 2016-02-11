@@ -16,7 +16,7 @@ public abstract class DataOwner extends DataObject implements IDataOwner, IDataR
 
     @Override
     public final Spannable getFullName() {
-        return fullName;
+            return fullName;
     }
 
     @Override

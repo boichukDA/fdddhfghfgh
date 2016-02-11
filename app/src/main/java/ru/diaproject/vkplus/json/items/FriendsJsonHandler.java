@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.items.Friends;
+import ru.diaproject.vkplus.model.attachments.Friends;
 
 public class FriendsJsonHandler {
 

@@ -245,4 +245,8 @@ public abstract class VkStringUtils {
         spannableStringBuilder = addImages(spannableStringBuilder, context);
         return spannableStringBuilder;
     }
+
+    public static Spannable toSpannable(String string){
+        return spannableFactory.newSpannable(string);
+    }
 }

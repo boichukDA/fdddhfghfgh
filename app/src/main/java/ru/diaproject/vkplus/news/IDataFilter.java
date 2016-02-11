@@ -4,7 +4,7 @@ package ru.diaproject.vkplus.news;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import ru.diaproject.vkplus.model.baseitems.IDataMainItem;
+import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.groups.IDataGroup;
 import ru.diaproject.vkplus.model.users.IDataUser;
 

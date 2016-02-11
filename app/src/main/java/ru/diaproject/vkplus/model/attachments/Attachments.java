@@ -6,8 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.diaproject.vkplus.model.items.Photos;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.audios.AudioInfo;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 
 public class Attachments implements Serializable {
     private List<Attachment> attachments;

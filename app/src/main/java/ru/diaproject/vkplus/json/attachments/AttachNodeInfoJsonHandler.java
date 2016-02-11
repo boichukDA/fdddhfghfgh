@@ -3,7 +3,7 @@ package ru.diaproject.vkplus.json.attachments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.diaproject.vkplus.model.attachments.AttachNoteInfo;
+import ru.diaproject.vkplus.model.attachments.notes.AttachNoteInfo;
 
 public class AttachNodeInfoJsonHandler {
 

@@ -1,5 +1,7 @@
 package ru.diaproject.vkplus.model.users;
 
+import android.text.Spannable;
+
 import ru.diaproject.vkplus.VKPlusApplication;
 import ru.diaproject.vkplus.core.utils.VkStringUtils;
 
@@ -81,5 +83,8 @@ public abstract class  DataUser extends DataOwner implements IDataObject, IDataU
     @Override
     public void prepareItems() {
         setFullName(VkStringUtils.prepareTextToVkName(firstName + " " + lastName, VKPlusApplication.getStaticContext()));
+    }
+    public String getStringFullName(){
+        return firstName + " " + lastName;
     }
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import ru.diaproject.vkplus.model.users.IDataObject;
 
 public abstract class DataObject implements IDataObject,Serializable {
+    public static final String JSON_ID = "id";
     private Integer id;
 
     public DataObject(){

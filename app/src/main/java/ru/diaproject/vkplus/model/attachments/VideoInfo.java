@@ -3,7 +3,7 @@ package ru.diaproject.vkplus.model.attachments;
 
 import ru.diaproject.vkplus.core.utils.DateUtils;
 import ru.diaproject.vkplus.model.IDataResult;
-import ru.diaproject.vkplus.model.baseitems.DataItem;
+import ru.diaproject.vkplus.model.newsitems.DataItem;
 
 public class VideoInfo extends DataItem implements IDataResult{
     private String title;

@@ -12,7 +12,7 @@ import ru.diaproject.vkplus.news.binders.PostItemBinder;
 import ru.diaproject.vkplus.news.binders.WallPhotoItemBinder;
 import ru.diaproject.vkplus.news.fragments.NewsPagerCardFragment;
 import ru.diaproject.vkplus.model.NewsResponse;
-import ru.diaproject.vkplus.model.baseitems.FilterType;
+import ru.diaproject.vkplus.model.newsitems.FilterType;
 import ru.diaproject.vkplus.news.viewholders.base.DataMainViewHolder;
 
 public class NewsMapBindAdapter extends EnumMapBindAdapter<FilterType>{

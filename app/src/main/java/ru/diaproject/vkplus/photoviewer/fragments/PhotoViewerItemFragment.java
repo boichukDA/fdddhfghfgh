@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.imageloading.ImageLoader;
 import ru.diaproject.vkplus.imageloading.OnCompletedListener;
-import ru.diaproject.vkplus.model.items.Photos;
+import ru.diaproject.vkplus.model.attachments.photos.Photos;
 
 public class PhotoViewerItemFragment extends Fragment {
     private ImageView view;

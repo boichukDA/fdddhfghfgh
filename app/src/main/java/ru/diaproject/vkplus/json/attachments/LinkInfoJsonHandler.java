@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ru.diaproject.vkplus.model.attachments.LinkInfo;
-import ru.diaproject.vkplus.model.items.PhotosInfo;
+import ru.diaproject.vkplus.model.attachments.photos.PhotosInfo;
 import ru.diaproject.vkplus.json.items.PhotosInfoJsonHandler;
 
 

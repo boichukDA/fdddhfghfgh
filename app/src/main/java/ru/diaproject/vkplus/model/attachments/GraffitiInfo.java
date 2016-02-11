@@ -1,6 +1,6 @@
 package ru.diaproject.vkplus.model.attachments;
 
-import ru.diaproject.vkplus.model.baseitems.DataItem;
+import ru.diaproject.vkplus.model.newsitems.DataItem;
 
 public class GraffitiInfo extends DataItem {
     private String photo200;

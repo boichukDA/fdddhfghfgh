@@ -9,4 +9,5 @@ public interface IDataOwner extends IDataObject{
     Integer getPlaceholderResource();
     Integer getErrorResource();
     String getPhoto100();
+    String getStringFullName();
 }

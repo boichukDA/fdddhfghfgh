@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.database.model.ColorScheme;
-import ru.diaproject.vkplus.model.baseitems.DataFriendItem;
+import ru.diaproject.vkplus.model.newsitems.DataFriendItem;
 import ru.diaproject.vkplus.model.groups.IDataGroup;
 import ru.diaproject.vkplus.model.users.IDataOwner;
 import ru.diaproject.vkplus.model.users.IDataUser;

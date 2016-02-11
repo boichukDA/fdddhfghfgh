@@ -1,22 +1,33 @@
 package ru.diaproject.vkplus.core.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import ru.diaproject.vkplus.R;
 
 public abstract class DateUtils {
+    @SuppressLint("SimpleDateFormat")
     public static final SimpleDateFormat  dayPattern = new SimpleDateFormat("yyyyMMdd");
+    @SuppressLint("SimpleDateFormat")
     public static final SimpleDateFormat  timePattern = new SimpleDateFormat("HH:mm");
+    @SuppressLint("SimpleDateFormat")
     public static final SimpleDateFormat  yearPattern = new SimpleDateFormat("yyyy");
 
-    public static final String newsDateFormat(Integer date, Context context){
+    private static SimpleDateFormat newsDatePattern;
+    private static SimpleDateFormat newsDateYearPattern;
+    private static SimpleDateFormat bDateOutPattern = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+    private static SimpleDateFormat bDateInPattern = new SimpleDateFormat("d.M.yyyy", Locale.getDefault());
+
+    public static  String newsDateFormat(Integer date, Context context){
         Long vkDateInlocal = date*1000L;
         Long currentTime = System.currentTimeMillis();
-        int diff = new Long(Math.abs(currentTime - vkDateInlocal)).intValue()/1000;
+        int diff =  Long.valueOf(Math.abs(currentTime - vkDateInlocal)).intValue()/1000;
 
         if (diff < 60)
             return context.getResources().getString(R.string.just_now) ;
@@ -48,15 +59,22 @@ public abstract class DateUtils {
                 if (vkCompareInt.equals(currentTimeInt-1))
                     return context.getResources().getString(R.string.news_yesterday_at) + " " + timePattern.format(vkDateInlocal);
                 else
-                if (Integer.valueOf(yearPattern.format(vkDateInlocal)).equals(Integer.valueOf(yearPattern.format(currentTime))))
-                    return new SimpleDateFormat(context.getResources().getString(R.string.news_date_pattern)).format(vkDateInlocal);
-                else
-                    return new SimpleDateFormat(context.getResources().getString(R.string.news_date_year_pattern)).format(vkDateInlocal);
+                if (Integer.valueOf(yearPattern.format(vkDateInlocal)).equals(Integer.valueOf(yearPattern.format(currentTime)))){
+                    if (newsDatePattern == null)
+                        newsDatePattern = new SimpleDateFormat(context.getResources().getString(R.string.news_date_pattern), Locale.getDefault());
+                    return  newsDatePattern.format(vkDateInlocal);
+
+                }
+                else {
+                    if (newsDateYearPattern == null)
+                        newsDateYearPattern = new SimpleDateFormat(context.getResources().getString(R.string.news_date_year_pattern),Locale.getDefault());
+                    return newsDateYearPattern.format(vkDateInlocal);
+                }
             }
         }
     }
 
-    public static final String toVideoTimeFormat(Integer duration){
+    public static String toVideoTimeFormat(Integer duration){
         int seconds;
         int minutes;
         int hours;
@@ -80,5 +98,15 @@ public abstract class DateUtils {
         result.append(seconds);
 
         return result.toString();
+    }
+
+    public static String parseBDateString(String bDate) {
+        try {
+            Date date = bDateInPattern.parse(bDate);
+            return bDateOutPattern.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
