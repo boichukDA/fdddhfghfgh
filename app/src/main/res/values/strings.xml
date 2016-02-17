@@ -48,6 +48,77 @@
     <string name="profile_city">City</string>
     <string name="profile_school">Education</string>
     <string name="profile_work">Work place</string>
+    <string name="profile_relation">Relation</string>
+
+    <string name="relation_not_married_man">not married</string>
+    <string name="relation_not_married_woman">not married</string>
+
+    <string-array name="relation_not_married">
+        <item>@string/relation_not_married_man</item>
+        <item>@string/relation_not_married_woman</item>
+    </string-array>
+
+    <string name="relation_has_friend_man">girlfriend</string>
+    <string name="relation_has_friend_woman">boyfriend</string>
+
+    <string-array name="relation_has_friend">
+        <item>@string/relation_has_friend_man</item>
+        <item>@string/relation_has_friend_woman</item>
+    </string-array>
+
+    <string name="relation_engaged_man">engaged</string>
+    <string name="relation_engaged_woman">engaged</string>
+
+    <string-array name="relation_engaged">
+        <item>@string/relation_engaged_man</item>
+        <item>@string/relation_engaged_woman</item>
+    </string-array>
+
+    <string name="relation_married_man">married</string>
+    <string name="relation_married_woman">married</string>
+
+    <string-array name="relation_married">
+        <item>@string/relation_married_man</item>
+        <item>@string/relation_married_woman</item>
+    </string-array>
+
+    <string name="relation_complicated_man">it\'s complicated</string>
+    <string name="relation_complicated_woman">it\'s complicated</string>
+
+    <string-array name="relation_complicated">
+        <item>@string/relation_complicated_man</item>
+        <item>@string/relation_complicated_woman</item>
+    </string-array>
+
+    <string name="relation_act_looking_man">Actively looking</string>
+    <string name="relation_act_looking_woman">Actively looking</string>
+
+    <string-array name="relation_act_looking">
+        <item>@string/relation_act_looking_man</item>
+        <item>@string/relation_act_looking_woman</item>
+    </string-array>
+
+    <string name="relation_love_man">love</string>
+    <string name="relation_love_woman">love</string>
+    <string name="profile_relation_on">with</string>
+    <string name="profile_relation_with">with</string>
+    <string name="profile_relation_in">with</string>
+    <string name="case_type_ins">nom</string>
+    <string name="case_type_dat">nom</string>
+    <string name="case_type_acc">nom</string>
+
+    <string name="case_type_dat_man">nom</string>
+    <string name="case_type_dat_woman">nom</string>
+
+    <string-array name="case_type_dat_arr">
+        <item>@string/case_type_dat_man</item>
+        <item>@string/case_type_dat_woman</item>
+    </string-array>
+
+    <string-array name="relation_love">
+        <item>@string/relation_love_man</item>
+        <item>@string/relation_love_woman</item>
+    </string-array>
 
     <string-array name="news_varians">
         <item>@string/all</item>
@@ -131,4 +202,12 @@
         <item quantity="many">add to friends %d persons</item>
         <item quantity="other">add to friends %d persons</item>
     </plurals>
+
+    <string name="profile_relation_married_on_man">with</string>
+    <string name="profile_relation_married_on_woman">with</string>
+
+    <string-array name="profile_relation_married_on">
+        <item>@string/profile_relation_married_on_man</item>
+        <item>@string/profile_relation_married_on_woman</item>
+    </string-array>
 </resources>

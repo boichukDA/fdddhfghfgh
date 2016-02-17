@@ -163,43 +163,44 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
     }
 
     private void initRecyclerView(){
-    listView.setAdapter(adapter);
-    pagingSubscription = PullToRefreshWrapper
-        .paging(listView, new PagingListener<NewsResponse>() {
-            @Override
-            public Observable<NewsResponse> onNextPage(int offset) {
-                VKQuery<NewsResponse>  query = createQueryFrom(response.getNextFrom());
-                return Observable.from(VKMainExecutor.request( query));
-            }
-        }, LIMIT).map(new Func1<NewsResponse, NewsResponse>() {
-                @Override
-                public NewsResponse call(NewsResponse response) {
-                    if (variant.getFilter() != null)
-                        return response.applyFilter(variant.getFilter());
-
-                    return response;
-                }
-            }).subscribeOn(Schedulers.from(VKMainExecutor.getExecutor()))
-            .subscribe(new Action1<NewsResponse>() {
-                @Override
-                public void call(NewsResponse totalResult) {
-
-                    final int oldDataCount = response.getListItems().size();
-                    final int newDataCount = totalResult.getListItems().size();
-                    response.addNewPartData(totalResult);
-
-                    adapter.setData(response);
-                    ((Activity) getContext()).runOnUiThread(new Runnable() {
+        listView.setAdapter(adapter);
+        if (!"".equals(response.getNextFrom()))
+            pagingSubscription = PullToRefreshWrapper
+                .paging(listView, new PagingListener<NewsResponse>() {
+                    @Override
+                    public Observable<NewsResponse> onNextPage(int offset) {
+                        VKQuery<NewsResponse>  query = createQueryFrom(response.getNextFrom());
+                        return Observable.from(VKMainExecutor.request( query));
+                    }
+                }, LIMIT).map(new Func1<NewsResponse, NewsResponse>() {
                         @Override
-                        public void run() {
-                            adapter.notifyItemRangeInserted(oldDataCount, newDataCount);
+                        public NewsResponse call(NewsResponse response) {
+                            if (variant.getFilter() != null)
+                                return response.applyFilter(variant.getFilter());
+
+                            return response;
+                        }
+                    }).subscribeOn(Schedulers.from(VKMainExecutor.getExecutor()))
+                    .subscribe(new Action1<NewsResponse>() {
+                        @Override
+                        public void call(NewsResponse totalResult) {
+
+                            final int oldDataCount = response.getListItems().size();
+                            final int newDataCount = totalResult.getListItems().size();
+                            response.addNewPartData(totalResult);
+
+                            adapter.setData(response);
+                            ((Activity) getContext()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.notifyItemRangeInserted(oldDataCount, newDataCount);
+                                }
+                            });
+
+                            if ("".equals(response.getNextFrom()))
+                                pagingSubscription.unsubscribe();
                         }
                     });
-
-                    if ("".equals(response.getNextFrom()))
-                        pagingSubscription.unsubscribe();
-                }
-            });
 
         refreshLayout.setRefreshing(false);
     }

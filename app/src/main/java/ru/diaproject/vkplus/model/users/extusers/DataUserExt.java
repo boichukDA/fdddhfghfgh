@@ -15,6 +15,7 @@ import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.model.users.NetworkStatus;
 import ru.diaproject.vkplus.model.users.OwnerSex;
 import ru.diaproject.vkplus.model.users.extusers.counters.Counters;
+import ru.diaproject.vkplus.model.users.extusers.cropphoto.CropPhoto;
 import ru.diaproject.vkplus.model.users.extusers.occupations.Occupation;
 import ru.diaproject.vkplus.model.users.extusers.relations.RelationPartner;
 import ru.diaproject.vkplus.model.users.extusers.relatives.RelativiesItem;
@@ -29,6 +30,7 @@ public class DataUserExt implements IDataUserExt{
     public static final String JSON_PHOTO_MAX = "photo_max";
     public static final String JSON_PHOTO_MAX_ORIG = "photo_max_orig";
     public static final String JSON_PHOTO_ID = "photo_id";
+    public static final String JSON_CROP_PHOTO = "crop_photo";
 
     public static final String JSON_HAS_PHOTO = "has_photo";
     public static final String JSON_IS_FRIEND = "is_friend";
@@ -203,6 +205,11 @@ public class DataUserExt implements IDataUserExt{
             JSONObject counters = object.optJSONObject(JSON_COUNTERS);
             if (counters != null)
                 user.setCounters(Counters.parseObject(counters));
+
+            JSONObject cropPhoto = object.optJSONObject(JSON_CROP_PHOTO);
+            if (cropPhoto != null)
+                user.setCropPhoto(CropPhoto.parseObject(cropPhoto));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -271,6 +278,7 @@ public class DataUserExt implements IDataUserExt{
     private List<Military> militaries;
     private Counters counters;
     private Occupation occupation;
+    private CropPhoto cropPhoto;
     @Override
     public String getFirstName() {
         return user.getFirstName();
@@ -706,5 +714,13 @@ public class DataUserExt implements IDataUserExt{
 
     public void setOccupation(Occupation occupation) {
         this.occupation = occupation;
+    }
+
+    public CropPhoto getCropPhoto() {
+        return cropPhoto;
+    }
+
+    public void setCropPhoto(CropPhoto cropPhoto) {
+        this.cropPhoto = cropPhoto;
     }
 }

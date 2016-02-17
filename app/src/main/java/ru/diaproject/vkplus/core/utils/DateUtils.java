@@ -21,8 +21,10 @@ public abstract class DateUtils {
 
     private static SimpleDateFormat newsDatePattern;
     private static SimpleDateFormat newsDateYearPattern;
-    private static SimpleDateFormat bDateOutPattern = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
-    private static SimpleDateFormat bDateInPattern = new SimpleDateFormat("d.M.yyyy", Locale.getDefault());
+    private static SimpleDateFormat bDateFullOutPattern = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+    private static SimpleDateFormat bDateShortOutPattern = new SimpleDateFormat("d MMMM", Locale.getDefault());
+    private static SimpleDateFormat bDateFullInPattern = new SimpleDateFormat("d.M.yyyy", Locale.getDefault());
+    private static SimpleDateFormat bDateShortInPattern = new SimpleDateFormat("d.M", Locale.getDefault());
 
     public static  String newsDateFormat(Integer date, Context context){
         Long vkDateInlocal = date*1000L;
@@ -101,9 +103,25 @@ public abstract class DateUtils {
     }
 
     public static String parseBDateString(String bDate) {
+        if (bDate.length()<=6)
+            return parseDateShort(bDate);
+       else
+            return parseDateFull(bDate);
+    }
+    private static String parseDateShort(String bDate){
         try {
-            Date date = bDateInPattern.parse(bDate);
-            return bDateOutPattern.format(date);
+            Date date = bDateShortInPattern.parse(bDate);
+            return bDateShortOutPattern.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private static String parseDateFull(String bDate){
+        try {
+            Date date = bDateFullInPattern.parse(bDate);
+            return bDateFullOutPattern.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }

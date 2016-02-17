@@ -8,6 +8,7 @@ import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
 import ru.diaproject.vkplus.vkcore.queries.customs.PreparedItem;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKItem;
+import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKPreparedItem;
 
 public class VKUsersExtItem extends VKItem<DataUserExt>{
@@ -22,4 +23,5 @@ public class VKUsersExtItem extends VKItem<DataUserExt>{
         getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
         return new PreparedItem<>(getQueryBuilder());
     }
+
 }

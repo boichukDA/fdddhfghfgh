@@ -50,4 +50,24 @@ public class BitmapUtils {
         }
         return bitmap;
     }
+    public static Bitmap getScaledBitmap(Bitmap b, int reqWidth, int reqHeight) {
+        int bWidth = b.getWidth();
+        int bHeight = b.getHeight();
+
+        int nWidth = bWidth;
+        int nHeight = bHeight;
+
+        float coeff;
+        if (nWidth > nHeight){
+            coeff = (float)nWidth/nHeight;
+            nHeight = reqHeight;
+            nWidth = (int) (nHeight*coeff);
+        }else {
+            coeff = (float)nHeight/nWidth;
+            nWidth = reqWidth;
+            nHeight = (int) (nWidth*coeff);
+        }
+
+        return Bitmap.createScaledBitmap(b, nWidth, nHeight, true);
+    }
 }

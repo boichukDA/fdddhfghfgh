@@ -2,7 +2,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:RobotoTextView="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -23,25 +22,19 @@
             android:orientation="vertical"
             android:paddingTop="8dp">
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_black_1000"
-                android:textSize="16sp"
-                RobotoTextView:fontFamily="roboto"
-                RobotoTextView:textWeight="light"
-                RobotoTextView:typeface="roboto_regular" />
+                android:textSize="16sp" />
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
-                android:textSize="14sp"
-                RobotoTextView:fontFamily="roboto"
-                RobotoTextView:textWeight="light"
-                RobotoTextView:typeface="roboto_regular" />
+                android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
 </merge>

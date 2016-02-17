@@ -17,7 +17,7 @@ public class InfoItem<T> {
         this.item = item;
     }
 
-     T getItem(){
+     public T getItem(){
          return item;
      }
 }

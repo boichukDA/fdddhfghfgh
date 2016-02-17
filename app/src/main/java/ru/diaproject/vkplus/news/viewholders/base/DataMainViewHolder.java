@@ -2,6 +2,7 @@ package ru.diaproject.vkplus.news.viewholders.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.devspark.robototextview.widget.RobotoTextView;
@@ -12,15 +13,15 @@ import ru.diaproject.vkplus.core.utils.ColorUtils;
 import ru.diaproject.vkplus.database.model.ColorScheme;
 
 public class DataMainViewHolder extends RecyclerView.ViewHolder {
-    public RobotoTextView name;
-    public RobotoTextView date;
+    public TextView name;
+    public TextView date;
     public CircularImageView avatar;
 
     public DataMainViewHolder(View itemView) {
         super(itemView);
 
-        name = (RobotoTextView) itemView.findViewById(R.id.name);
-        date = (RobotoTextView) itemView.findViewById(R.id.date);
+        name = (TextView) itemView.findViewById(R.id.name);
+        date = (TextView) itemView.findViewById(R.id.date);
         avatar = (CircularImageView) itemView.findViewById(R.id.avatar);
     }
 

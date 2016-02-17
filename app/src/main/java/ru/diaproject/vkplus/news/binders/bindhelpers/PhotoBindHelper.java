@@ -6,13 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.core.utils.EnumUtils;
+import ru.diaproject.vkplus.core.utils.LoadUtils;
 import ru.diaproject.vkplus.model.newsitems.FilterType;
 import ru.diaproject.vkplus.model.newsitems.IDataMainItem;
 import ru.diaproject.vkplus.model.newsitems.copyhistory.CopyHistoryInfo;
@@ -43,8 +42,7 @@ public class PhotoBindHelper {
         if (size == 1) {
             holder.photoSubContainer.setVisibility(View.GONE);
             calculateOneImageView(mainPhoto, holder.mainImage);
-            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
-
+            LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 400, 400);
         } else if (size == 2) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
             holder.firstImage.setVisibility(View.VISIBLE);
@@ -53,13 +51,16 @@ public class PhotoBindHelper {
             holder.fourthImage.setVisibility(View.GONE);
 
             PhotosInfo firstPhoto = photos.getPhotos().get(1);
-            if (!(isRectangularHorizontal(firstPhoto) && isRectangularHorizontal(mainPhoto)))
+            if (!(isRectangularHorizontal(firstPhoto) && isRectangularHorizontal(mainPhoto))) {
                 calculateTwoHorizontalImageViews(mainPhoto, firstPhoto, holder.mainImage, holder.photoSubContainer, holder.firstImage);
-            else
-                calculateTwoVerticalImageViews(mainPhoto, firstPhoto, holder.mainImage,holder. photoSubContainer, holder.firstImage);
-
-            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
+                LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 300, 300);
+                LoadUtils.loadBitmapIntoBigView(holder.firstImage, firstPhoto, 300, 300);
+            }
+            else {
+                calculateTwoVerticalImageViews(mainPhoto, firstPhoto, holder.mainImage, holder.photoSubContainer, holder.firstImage);
+                LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 400, 400);
+                LoadUtils.loadBitmapIntoBigView(holder.firstImage, firstPhoto, 400, 400);
+            }
 
         } else if (size == 3) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
@@ -76,9 +77,9 @@ public class PhotoBindHelper {
             else
                 calculateRightSubViews(mainPhoto, firstPhoto, secondPhoto, holder.mainImage, holder.photoSubContainer, holder.firstImage, holder.secondImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
+            LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 400, 400);
+            LoadUtils.loadBitmapIntoLittleView(holder.firstImage, firstPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.secondImage, secondPhoto);
 
         } else if (size == 4) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
@@ -98,10 +99,10 @@ public class PhotoBindHelper {
                 calculateRightSubThreeViews(mainPhoto, firstPhoto, secondPhoto, thirdPhoto, holder.mainImage,
                         holder.photoSubContainer, holder.firstImage, holder.secondImage, holder.thirdImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
-            Glide.with(context).load(thirdPhoto.getPhoto604()).dontAnimate().into(holder.thirdImage);
+            LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 400, 400);
+            LoadUtils.loadBitmapIntoLittleView(holder.firstImage, firstPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.secondImage, secondPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.thirdImage, thirdPhoto);
         } else if (size >= 5) {
             holder.photoSubContainer.setVisibility(View.VISIBLE);
             holder.firstImage.setVisibility(View.VISIBLE);
@@ -121,12 +122,11 @@ public class PhotoBindHelper {
                 calculateRightSubFourViews(mainPhoto, firstPhoto, secondPhoto, thirdPhoto, fourthPhoto,
                         holder.mainImage, holder.photoSubContainer, holder.firstImage, holder.secondImage, holder.thirdImage, holder.fourthImage);
 
-            Glide.with(context).load(mainPhoto.getPhoto604()).dontAnimate().into(holder.mainImage);
-            Glide.with(context).load(firstPhoto.getPhoto604()).dontAnimate().into(holder.firstImage);
-            Glide.with(context).load(secondPhoto.getPhoto604()).dontAnimate().into(holder.secondImage);
-            Glide.with(context).load(thirdPhoto.getPhoto604()).dontAnimate().into(holder.thirdImage);
-            Glide.with(context).load(fourthPhoto.getPhoto604()).dontAnimate().into(holder.fourthImage);
-
+            LoadUtils.loadBitmapIntoBigView(holder.mainImage, mainPhoto, 400, 400);
+            LoadUtils.loadBitmapIntoLittleView(holder.firstImage, firstPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.secondImage, secondPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.thirdImage, thirdPhoto);
+            LoadUtils.loadBitmapIntoLittleView(holder.fourthImage, fourthPhoto);
         }
 
         holder.mainImage.setOnClickListener(new View.OnClickListener() {
@@ -507,23 +507,25 @@ public class PhotoBindHelper {
         mainParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         mainImage.setLayoutParams(mainParams);
 
-        RelativeLayout.LayoutParams subContainerParams = new RelativeLayout.LayoutParams(newMainWidth,
+        RelativeLayout.LayoutParams subContainerParams = new RelativeLayout.LayoutParams(photoContainerWidth - newMainWidth,
                 newMainHeight);
-        subContainerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        subContainerParams.setMargins(TWO_IMAGE_MIDDLE_OFFSET, 0, TWO_IMAGE_MIDDLE_OFFSET, 0);
+        subContainerParams.addRule(RelativeLayout.RIGHT_OF, R.id.news_photos_main_image);
+        subContainerParams.setMargins(TWO_IMAGE_MIDDLE_OFFSET, 0, 0, 0);
         photoSubContainer.setLayoutParams(subContainerParams);
 
+        int totalHeight = (newMainHeight - (newFirstHeight + newSecondHeight + newThirdHeight))/2;
         RelativeLayout.LayoutParams firstParams = new RelativeLayout.LayoutParams(newFirstWidth, newFirstHeight);
         firstParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         firstImage.setLayoutParams(firstParams);
 
         RelativeLayout.LayoutParams secondParams = new RelativeLayout.LayoutParams(newSecondWidth, newSecondHeight);
         secondParams.addRule(RelativeLayout.BELOW, R.id.news_photos_first_image);
-        secondParams.setMargins(0, TWO_IMAGE_MIDDLE_OFFSET, 0, 0);
+        secondParams.setMargins(0,totalHeight,0,0);
         secondImage.setLayoutParams(secondParams);
 
         RelativeLayout.LayoutParams thirdParams = new RelativeLayout.LayoutParams(newThirdWidth, newThirdHeight);
         thirdParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        thirdParams.setMargins(0, totalHeight, 0, 0);
         thirdImage.setLayoutParams(thirdParams);
     }
 

@@ -38,6 +38,79 @@
     <string name="profile_city">Город</string>
     <string name="profile_school">Образование</string>
     <string name="profile_work">Место работы</string>
+    <string name="profile_relation">Семейное положение</string>
+
+    <string name="relation_not_married_man">не женат</string>
+    <string name="relation_not_married_woman">не замужем</string>
+
+    <string-array name="relation_not_maried">
+        <item>@string/relation_not_married_man</item>
+        <item>@string/relation_not_married_woman</item>
+    </string-array>
+
+    <string name="relation_has_friend_man">есть подруга</string>
+    <string name="relation_has_friend_woman">есть друг</string>
+
+    <string-array name="relation_has_friend">
+        <item>@string/relation_has_friend_man</item>
+        <item>@string/relation_has_friend_woman</item>
+    </string-array>
+
+    <string name="relation_engaged_man">помолвлен</string>
+    <string name="relation_engaged_woman">помолвлен</string>
+
+    <string-array name="relation_engaged">
+        <item>@string/relation_engaged_man</item>
+        <item>@string/relation_engaged_woman</item>
+    </string-array>
+
+    <string name="relation_married_man">женат</string>
+    <string name="relation_married_woman">замужем</string>
+
+    <string-array name="relation_married">
+        <item>@string/relation_married_man</item>
+        <item>@string/relation_married_woman</item>
+    </string-array>
+
+    <string name="relation_complicated_man">все сложно</string>
+    <string name="relation_complicated_woman">все сложно</string>
+
+    <string-array name="relation_complicated">
+        <item>@string/relation_complicated_man</item>
+        <item>@string/relation_complicated_woman</item>
+    </string-array>
+
+    <string name="relation_act_looking_man">В активном поиске</string>
+    <string name="relation_act_looking_woman">В активном поиске</string>
+
+    <string-array name="relation_act_looking">
+        <item>@string/relation_act_looking_man</item>
+        <item>@string/relation_act_looking_woman</item>
+    </string-array>
+
+    <string name="relation_love_man">влюблен</string>
+    <string name="relation_love_woman">влюблена</string>
+
+    <string name="profile_relation_on">на</string>
+    <string name="profile_relation_with">с</string>
+    <string name="profile_relation_in">в</string>
+
+    <string name="case_type_ins">ins</string>
+    <string name="case_type_dat">dat</string>
+    <string name="case_type_acc">acc</string>
+
+    <string name="case_type_dat_man">dat</string>
+    <string name="case_type_dat_woman">ins</string>
+
+    <string-array name="case_type_dat_arr">
+        <item>@string/case_type_dat_man</item>
+        <item>@string/case_type_dat_woman</item>
+    </string-array>
+
+    <string-array name="relation_love">
+        <item>@string/relation_love_man</item>
+        <item>@string/relation_love_woman</item>
+    </string-array>
 
     <string-array name="news_varians">
         <item>@string/all</item>
@@ -52,7 +125,7 @@
 
     <plurals name="news_minutes_variants">
         <item quantity="zero">%d минут назад</item>
-        <item quantity="one">минуту назад</item>
+        <item quantity="one">%d минуту назад</item>
         <item quantity="few">%d минуты назад</item>
         <item quantity="many">%d минут назад</item>
         <item quantity="other">%d минут назад</item>
@@ -68,7 +141,7 @@
 
     <plurals name="news_photo_count_variants">
         <item quantity="zero">еще %d фотографий</item>
-        <item quantity="one">еще одна фотография</item>
+        <item quantity="one">еще %d фотография</item>
         <item quantity="few">еще %d фотографии</item>
         <item quantity="many">еще %d фотографий</item>
         <item quantity="other">еще %d фотографий</item>
@@ -76,7 +149,7 @@
 
     <plurals name="news_video_count_variants">
         <item quantity="zero">еще %d видео</item>
-        <item quantity="one">еще одно видео</item>
+        <item quantity="one">еще %d видео</item>
         <item quantity="few">еще %d видео</item>
         <item quantity="many">еще %d видео</item>
         <item quantity="other">еще %d видео</item>
@@ -100,7 +173,7 @@
 
     <plurals name="news_friend_add_variant_woman">
         <item quantity="zero">добавила в друзья одного человека</item>
-        <item quantity="one">добавила в друзья одного человека</item>
+        <item quantity="one">добавила в друзья %d человека</item>
         <item quantity="few">добавила в друзья %d человека</item>
         <item quantity="many">добавила в друзья %d человек</item>
         <item quantity="other">добавила в друзья %d человек</item>
@@ -108,9 +181,17 @@
 
     <plurals name="news_friend_add_variant_man">
         <item quantity="zero">добавил в друзья одного человека</item>
-        <item quantity="one">добавил в друзья одного человека</item>
+        <item quantity="one">добавил в друзья %d человека</item>
         <item quantity="few">добавил в друзья %d человека</item>
         <item quantity="many">добавил в друзья %d человек</item>
         <item quantity="other">добавил в друзья %d человек</item>
     </plurals>
+
+    <string name="profile_relation_married_on_man">на</string>
+    <string name="profile_relation_married_on_woman">за</string>
+
+    <string-array name="profile_relation_married_on">
+        <item>@string/profile_relation_married_on_man</item>
+        <item>@string/profile_relation_married_on_woman</item>
+    </string-array>
 </resources>

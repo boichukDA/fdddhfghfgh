@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
@@ -26,7 +27,9 @@ import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.model.users.extusers.DataUserExt;
-import ru.diaproject.vkplus.profiles.adapters.TestAdapter;
+import ru.diaproject.vkplus.model.users.extusers.cropphoto.CropPhoto;
+import ru.diaproject.vkplus.model.users.extusers.cropphoto.Rect;
+import ru.diaproject.vkplus.profiles.adapters.UserDataAdapter;
 import ru.diaproject.vkplus.profiles.model.UserDataContainer;
 import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
@@ -40,7 +43,7 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
             "contacts,site,universities,schools,status,occupation," +
             "common_count,nickname,relatives,relation,personal,wall_comments," +
             "activities,interests,music,movies,tv,books,games,about,quotes,can_post,can_see_all_posts,can_see_audio," +
-            "can_write_private_message,can_send_friend_request,maiden_name,is_friend,friend_status,career,military,counters";
+            "can_write_private_message,can_send_friend_request,maiden_name,is_friend,friend_status,career,military,counters,crop_photo";
 
     private IDataUser owner;
 
@@ -68,19 +71,49 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
                             public void call(DataUserExt dataUserExt) {
                                 dataUserExt.setUser(owner);
                                 UserDataContainer container = new UserDataContainer(dataUserExt, VKProfileDetailsActivity.this);
-                                postInitUI(dataUserExt, savedInstanceState);
+                                postInitUI(container, dataUserExt, savedInstanceState);
                             }
                         });
             }
         });
 
     }
-    private void postInitUI(final DataUserExt userExt, Bundle savedInstanceState){
+    private void postInitUI(final UserDataContainer container, final DataUserExt userExt, Bundle savedInstanceState){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Glide.with(VKProfileDetailsActivity.this).load(userExt.getPhotoMaxOrig()).into(mainImage);
-                TestAdapter adapter = new TestAdapter(VKProfileDetailsActivity.this);
+                if (userExt.isHasPhoto()) {
+                    CropPhoto photo = userExt.getCropPhoto();
+                    if (photo != null) {
+                        String urlPhoto = "".equals(photo.getPhoto().getPhoto807())
+                                ?photo.getPhoto().getPhoto604()
+                                :photo.getPhoto().getPhoto807();
+
+                        Glide.with(VKProfileDetailsActivity.this).load(urlPhoto).asBitmap().into(new BitmapImageViewTarget(mainImage) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                Rect rect = userExt.getCropPhoto().getRect();
+
+                                int width = resource.getWidth();
+                                int height = resource.getHeight();
+
+                                float x1 = (float) ((width * rect.getX()) / 100);
+                                float x2 = width - (float) ((width * rect.getX2()) / 100);
+                                x2 = width - (x1 + x2);
+
+                                float y1 = (float) ((height * rect.getY()) / 100);
+                                float y2 = height - (float) ((height * rect.getY2()) / 100);
+                                y2 = height - (y1 + y2);
+
+                                Bitmap cropped = Bitmap.createBitmap(resource, (int) x1, (int) y1, (int) x2, (int) y2);
+                                super.setResource(cropped);
+                            }
+                        });
+                    } else
+                        Glide.with(VKProfileDetailsActivity.this).load(userExt.getPhotoMaxOrig()).into(mainImage);
+                }
+
+                UserDataAdapter adapter = new UserDataAdapter(VKProfileDetailsActivity.this, container, getColorScheme());
                 dataList.setAdapter(adapter);
             }
         });
@@ -111,7 +144,7 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
             }
         });
         mainImage = (ImageView) findViewById(R.id.profile_main_image);
-
+        mainImage.setImageResource(owner.getPlaceholderResource());
         dataList = (RecyclerView) findViewById(R.id.profile_main_data_list);
         dataList.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -128,7 +161,6 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
         collapsingToolbar.setStatusBarScrimColor(colorScheme.getMainColor());
         collapsingToolbar.setCollapsedTitleTextColor(colorScheme.getTitleColor());
         collapsingToolbar.setExpandedTitleColor(colorScheme.getTitleColor());
-
         mainLayout.setBackgroundColor(colorScheme.getBackgroundColor());
     }
 

@@ -10,6 +10,10 @@ public class KeyValueItem {
     private Spannable spanKey;
     private Spannable spanValue;
 
+    public KeyValueItem(){
+
+    }
+
     public KeyValueItem(String key, String value) {
         this.key = key;
         this.value = value;

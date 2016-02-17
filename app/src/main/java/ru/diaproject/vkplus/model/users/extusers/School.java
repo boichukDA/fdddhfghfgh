@@ -25,7 +25,7 @@ public class School extends DataObject{
 
             school.setYearFrom(object.getInt(JSON_YEAR_FROM));
             school.setYearTo(object.getInt(JSON_YEAR_TO));
-            school.setYearGraduated(object.getInt(JSON_YEAR_GRADUATED));
+            school.setYearGraduated(object.optInt(JSON_YEAR_GRADUATED));
             school.setClss(object.getString(JSON_CLASS));
         } catch (JSONException e) {
             e.printStackTrace();
