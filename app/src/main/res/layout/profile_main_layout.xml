@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Display1">
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Headline">
 
             <ru.diaproject.vkplus.profiles.views.ProfileImageView
                 android:id="@+id/profile_main_image"

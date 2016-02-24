@@ -207,7 +207,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
 
     private VKQuery<NewsResponse> createQuery(){
         VKPreparedItem<NewsResponse> result;
-        if (variant.getSubMethod().equals(VKQuerySubMethod.DEFAULT))
+        if (variant.getSubMethod().equals(VKQuerySubMethod.GET))
             result = VKApi.news(user).get();
         else result = VKApi.news(user).recommended();
 
@@ -217,7 +217,7 @@ public class NewsPagerCardFragment extends Fragment implements ILoggable{
 
     private VKQuery<NewsResponse> createQueryFrom(String from){
         VKPreparedItem<NewsResponse> result;
-        if (variant.getSubMethod().equals(VKQuerySubMethod.DEFAULT))
+        if (variant.getSubMethod().equals(VKQuerySubMethod.GET))
             result = VKApi.news(user).get();
         else result = VKApi.news(user).recommended();
 

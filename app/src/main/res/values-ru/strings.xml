@@ -57,7 +57,7 @@
     </string-array>
 
     <string name="relation_engaged_man">помолвлен</string>
-    <string name="relation_engaged_woman">помолвлен</string>
+    <string name="relation_engaged_woman">помолвленa</string>
 
     <string-array name="relation_engaged">
         <item>@string/relation_engaged_man</item>
@@ -193,5 +193,19 @@
     <string-array name="profile_relation_married_on">
         <item>@string/profile_relation_married_on_man</item>
         <item>@string/profile_relation_married_on_woman</item>
+    </string-array>
+
+    <string name="relative_names_sibling">братья/сестры</string>
+    <string name="relative_names_parent">родители</string>
+    <string name="relative_names_child">дети</string>
+    <string name="relative_names_grandparent">бабушки/дедушки</string>
+    <string name="relative_names_grandchild">внуки</string>
+
+    <string-array name="relative_names_array">
+        <item>@string/relative_names_sibling</item>
+        <item>@string/relative_names_parent</item>
+        <item>@string/relative_names_child</item>
+        <item>@string/relative_names_grandparent</item>
+        <item>@string/relative_names_grandchild</item>
     </string-array>
 </resources>

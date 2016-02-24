@@ -14,10 +14,13 @@ import ru.diaproject.vkplus.model.users.extusers.DataUserExt;
 import ru.diaproject.vkplus.model.users.extusers.occupations.Occupation;
 import ru.diaproject.vkplus.model.users.extusers.occupations.OccupationType;
 import ru.diaproject.vkplus.model.users.extusers.relations.RelationPartner;
+import ru.diaproject.vkplus.model.users.extusers.relatives.Relative;
+import ru.diaproject.vkplus.model.users.extusers.relatives.RelativiesType;
 import ru.diaproject.vkplus.profiles.model.items.CaseType;
 import ru.diaproject.vkplus.profiles.model.items.InfoItem;
 import ru.diaproject.vkplus.profiles.model.items.KeyValueItem;
 import ru.diaproject.vkplus.profiles.model.items.RelationItem;
+import ru.diaproject.vkplus.profiles.model.items.RelativeItem;
 
 /**
  * *Enum ProfileItemType determines view holder type
@@ -44,6 +47,35 @@ public class ShortInfoContainer {
 
         if (relation!= 0)
             items.add(createRelation(relation, dataUserExt, dataUserExt.getSex(), context));
+
+        List<Relative> relativiesItems = dataUserExt.getRelativies();
+        if (!(relativiesItems == null || relativiesItems.isEmpty())){
+            for (RelativiesType type: RelativiesType.values()) {
+                List<Relative> grandparents = getRelativiesItemsByType(relativiesItems, type);
+                if (!grandparents.isEmpty())
+                    items.add(createRelatvityItem(grandparents,type, context));
+            }
+        }
+    }
+
+    private InfoItem createRelatvityItem(List<Relative> grandparents, RelativiesType grandparent, Context context) {
+        InfoItem<RelativeItem> infoItem = new InfoItem<>(ProfileItemType.RELATIVE);
+        RelativeItem item = new RelativeItem();
+
+        String key = context.getResources().getStringArray(R.array.relative_names_array)[grandparent.ordinal()];
+        item.setSpanKey(VkStringUtils.toSpannable(key));
+        item.setItems(grandparents);
+        infoItem.setItem(item);
+        return infoItem;
+    }
+
+    private List<Relative> getRelativiesItemsByType(List<Relative> relativiesItems, RelativiesType type) {
+        List<Relative> result = new ArrayList<>();
+
+        for (Relative item:relativiesItems)
+        if (item.getType().equals(type))
+            result.add(item);
+        return result;
     }
 
     private InfoItem createRelation(Integer relation, DataUserExt user, OwnerSex sex, Context context) {

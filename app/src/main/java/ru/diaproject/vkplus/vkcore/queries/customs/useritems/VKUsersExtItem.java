@@ -1,4 +1,6 @@
-package ru.diaproject.vkplus.vkcore.queries.customs.items;
+package ru.diaproject.vkplus.vkcore.queries.customs.useritems;
+
+
 
 
 import ru.diaproject.vkplus.database.model.User;
@@ -19,9 +21,9 @@ public class VKUsersExtItem extends VKItem<DataUserExt>{
         getQueryBuilder().setVKResultType(DataUserExt.class);
     }
 
-    public VKPreparedItem<DataUserExt> get(){
-        getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
+    public VKPreparedItem<DataUserExt> get(Integer userId){
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET);
+        getQueryBuilder().addCondition(VKParameter.USER_IDS.getValue(), userId);
         return new PreparedItem<>(getQueryBuilder());
     }
-
 }

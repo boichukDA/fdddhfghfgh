@@ -46,13 +46,13 @@ public class NewsVariantContainer {
 
         String[] resourcesStrings = context.getResources().getStringArray(R.array.news_varians);
         variants.add(new NewsVariant(1,ContextCompat.getDrawable(context, R.drawable.news_all_white),
-                resourcesStrings[0], true, "post,photo_tag,note", VKQuerySubMethod.DEFAULT, null ));
+                resourcesStrings[0], true, "post,photo_tag,note", VKQuerySubMethod.GET, null ));
 
         variants.add(new NewsVariant(2, ContextCompat.getDrawable(context, R.drawable.news_recom_white),
                 resourcesStrings[1], true,"", VKQuerySubMethod.RECOMENDED, null ));
 
         variants.add(new NewsVariant(3, ContextCompat.getDrawable(context, R.drawable.news_photo_white),
-                resourcesStrings[2], true, "photo,photo_tag,wall_photo", VKQuerySubMethod.DEFAULT, new IDataFilter() {
+                resourcesStrings[2], true, "photo,photo_tag,wall_photo", VKQuerySubMethod.GET, new IDataFilter() {
             @Override
             public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.PHOTO)
@@ -69,7 +69,7 @@ public class NewsVariantContainer {
         }));
 
         variants.add(new NewsVariant(4, ContextCompat.getDrawable(context, R.drawable.news_video_white),
-                resourcesStrings[3], true, "post", VKQuerySubMethod.DEFAULT, new IDataFilter() {
+                resourcesStrings[3], true, "post", VKQuerySubMethod.GET, new IDataFilter() {
             @Override
             public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.POST))
@@ -81,10 +81,10 @@ public class NewsVariantContainer {
         }));
 
         variants.add(new NewsVariant(5, ContextCompat.getDrawable(context, R.drawable.news_group_white),
-                resourcesStrings[4], true,"friend", VKQuerySubMethod.DEFAULT, null ));
+                resourcesStrings[4], true,"friend", VKQuerySubMethod.GET, null ));
 
         variants.add(new NewsVariant(6, ContextCompat.getDrawable(context, R.drawable.news_search_white),
-                resourcesStrings[5], true, "post", VKQuerySubMethod.DEFAULT, new IDataFilter() {
+                resourcesStrings[5], true, "post", VKQuerySubMethod.GET, new IDataFilter() {
             @Override
             public boolean apply(IDataMainItem item, HashMap<Integer, IDataUser> profiles, HashMap<Integer, IDataGroup> groups) {
                 if (item.getType().equals(FilterType.POST))
@@ -103,7 +103,7 @@ public class NewsVariantContainer {
         }));
 
         variants.add(new NewsVariant(8, ContextCompat.getDrawable(context, R.drawable.news_likes_white),
-                resourcesStrings[7], true,"post", VKQuerySubMethod.DEFAULT, null ));
+                resourcesStrings[7], true,"post", VKQuerySubMethod.GET, null ));
     }
 
     private void init() {

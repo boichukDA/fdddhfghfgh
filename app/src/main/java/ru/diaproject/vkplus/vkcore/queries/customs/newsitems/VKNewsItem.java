@@ -1,4 +1,4 @@
-package ru.diaproject.vkplus.vkcore.queries.customs.items;
+package ru.diaproject.vkplus.vkcore.queries.customs.newsitems;
 
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.model.NewsResponse;
@@ -19,7 +19,7 @@ public  class VKNewsItem extends VKItem<NewsResponse> {
     }
 
     public VKPreparedItem<NewsResponse> get(){
-        getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET);
         return new PreparedItem<>(getQueryBuilder());
     }
 

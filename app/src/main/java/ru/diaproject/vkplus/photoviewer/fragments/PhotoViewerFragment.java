@@ -225,7 +225,7 @@ public class PhotoViewerFragment extends ParentFragment{
         VKQuery query = null;
         VKQueryBuilder<Photos> builder = new VKQueryBuilder<>(getUser());
         builder.setVKQueryType(VKQueryType.PHOTO);
-        builder.setVKMethod(VKQuerySubMethod.DEFAULT);
+        builder.setVKMethod(VKQuerySubMethod.GET);
         builder.setResultFormatType(VKQueryResponseTypes.JSON);
         builder.setVKResultType(Photos.class);
         builder.addCondition("owner_id", sourceId);

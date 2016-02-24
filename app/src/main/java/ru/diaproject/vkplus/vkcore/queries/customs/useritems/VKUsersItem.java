@@ -1,8 +1,7 @@
-package ru.diaproject.vkplus.vkcore.queries.customs.items;
+package ru.diaproject.vkplus.vkcore.queries.customs.useritems;
 
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.model.users.IDataUser;
-import ru.diaproject.vkplus.model.users.extusers.DataUserExt;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryResponseTypes;
 import ru.diaproject.vkplus.vkcore.queries.VKQuerySubMethod;
 import ru.diaproject.vkplus.vkcore.queries.VKQueryType;
@@ -20,11 +19,11 @@ public class VKUsersItem extends VKItem<IDataUser> {
     }
 
     public VKPreparedItem<IDataUser> get(){
-        getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET);
         return new PreparedItem<>(getQueryBuilder());
     }
     public VKPreparedItem<IDataUser> getById(Integer id){
-        getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET);
         getQueryBuilder().addCondition(VKParameter.USER_IDS.getValue(), id);
         return new PreparedItem<>(getQueryBuilder());
     }

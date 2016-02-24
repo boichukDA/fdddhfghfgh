@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.diaproject.vkplus.json.users.UserJsonHandler;
 import ru.diaproject.vkplus.model.users.DeactivatedType;
 import ru.diaproject.vkplus.model.users.IDataUser;
 import ru.diaproject.vkplus.model.users.NetworkStatus;
@@ -18,7 +19,7 @@ import ru.diaproject.vkplus.model.users.extusers.counters.Counters;
 import ru.diaproject.vkplus.model.users.extusers.cropphoto.CropPhoto;
 import ru.diaproject.vkplus.model.users.extusers.occupations.Occupation;
 import ru.diaproject.vkplus.model.users.extusers.relations.RelationPartner;
-import ru.diaproject.vkplus.model.users.extusers.relatives.RelativiesItem;
+import ru.diaproject.vkplus.model.users.extusers.relatives.Relative;
 
 public class DataUserExt implements IDataUserExt{
     public static final String JSON_BDATE = "bdate";
@@ -88,10 +89,14 @@ public class DataUserExt implements IDataUserExt{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-         //UserJsonHandler handler = new UserJsonHandler();
+         UserJsonHandler handler = new UserJsonHandler();
         try {
-           // IDataUser dataUser = handler.parse(object);
-            //user.setUser(dataUser);
+            try{
+                IDataUser dataUser = handler.parse(object);
+                user.setUser(dataUser);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             user.setBdate(object.optString(JSON_BDATE));
             JSONObject city = object.optJSONObject(JSON_CITY);
@@ -144,9 +149,9 @@ public class DataUserExt implements IDataUserExt{
 
             JSONArray relativies = object.optJSONArray(JSON_RELATIVIES);
             if (relativies != null) {
-                List<RelativiesItem> items = new ArrayList<>();
+                List<Relative> items = new ArrayList<>();
                 for (int index = 0; index < relativies.length(); index++)
-                    items.add(RelativiesItem.parseObject(relativies.getJSONObject(index)));
+                    items.add(Relative.parseObject(relativies.getJSONObject(index)));
 
                 user.setRelativies(items);
             }
@@ -246,7 +251,7 @@ public class DataUserExt implements IDataUserExt{
     private Integer commonCount;
     private String nickname;
 
-    private List<RelativiesItem> relativies;
+    private List<Relative> relativies;
 
     private Integer relation;
     private RelationPartner relationPartner;
@@ -512,11 +517,11 @@ public class DataUserExt implements IDataUserExt{
         this.nickname = nickname;
     }
 
-    public List<RelativiesItem> getRelativies() {
+    public List<Relative> getRelativies() {
         return relativies;
     }
 
-    public void setRelativies(List<RelativiesItem> relativies) {
+    public void setRelativies(List<Relative> relativies) {
         this.relativies = relativies;
     }
 

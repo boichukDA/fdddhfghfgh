@@ -256,7 +256,7 @@ public abstract class ParentFragment extends Fragment implements ILoggable{
         try {
             builder = new VKQueryBuilder<>(user);
             builder.setVKQueryType(VKQueryType.USERS);
-            builder.setVKMethod(VKQuerySubMethod.DEFAULT);
+            builder.setVKMethod(VKQuerySubMethod.GET);
             builder.setResultFormatType(VKQueryResponseTypes.JSON);
             builder.setVKResultType(IDataUser.class);
             builder.addCondition("fields", "city,verified,status,photo_100");

@@ -1,12 +1,10 @@
 package ru.diaproject.vkplus.profiles.binders;
 
 
-import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import ru.diaproject.vkplus.core.utils.StringUtils;
 import ru.diaproject.vkplus.core.utils.VkStringUtils;
 import ru.diaproject.vkplus.database.model.ColorScheme;
 import ru.diaproject.vkplus.model.users.IDataUser;
-import ru.diaproject.vkplus.model.users.extusers.DataUserExt;
 import ru.diaproject.vkplus.profiles.VKProfileDetailsActivity;
 import ru.diaproject.vkplus.profiles.model.UserDataContainer;
 import ru.diaproject.vkplus.profiles.model.items.RelationItem;
@@ -50,7 +47,7 @@ public class RelationBinder extends ItemDataBinder<KeyValueViewHolder> {
     public void bindViewHolder(final KeyValueViewHolder holder, int position) {
         final RelationItem item = (RelationItem) getContainer().get(position).getItem();
 
-        holder.keyText.setText(item.getKey());
+        holder.keyText.setText(item.getSpanKey());
         holder.valueText.setMovementMethod(LinkMovementMethod.getInstance());
 
         final Spannable spannable = item.getSpanValue();

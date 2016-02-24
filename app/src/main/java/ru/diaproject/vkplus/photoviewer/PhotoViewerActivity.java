@@ -556,6 +556,7 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
         Glide.with(PhotoViewerActivity.this).load(oldPhotos.getPhotos().get(itemPosition).getPhoto604()).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                isEndAnimStarted = false;
                 return false;
             }
 
@@ -577,8 +578,6 @@ public class PhotoViewerActivity extends ParentActivityNoTitle {
                 return false;
             }
         }).into(animationImage);
-
-
     }
 
     private void runExitAnimation() {

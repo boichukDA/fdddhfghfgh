@@ -1,4 +1,4 @@
-package ru.diaproject.vkplus.vkcore.queries.customs.items;
+package ru.diaproject.vkplus.vkcore.queries.customs.photoitems;
 
 import ru.diaproject.vkplus.database.model.User;
 import ru.diaproject.vkplus.model.attachments.photos.Photos;
@@ -20,7 +20,7 @@ public class VKPhotosItem extends VKItem<Photos> {
     }
 
     public VKPreparedItem<Photos> get(){
-        getQueryBuilder().setVKMethod(VKQuerySubMethod.DEFAULT);
+        getQueryBuilder().setVKMethod(VKQuerySubMethod.GET);
         return new PreparedItem<>(getQueryBuilder());
     }
 

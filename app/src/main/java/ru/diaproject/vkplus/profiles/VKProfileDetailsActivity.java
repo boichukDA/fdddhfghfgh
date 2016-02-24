@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import ru.diaproject.vkplus.R;
 import ru.diaproject.vkplus.core.ParentActivityNoTitle;
 import ru.diaproject.vkplus.core.executor.VKMainExecutor;
+import ru.diaproject.vkplus.core.rx.SimpleSubscriber;
 import ru.diaproject.vkplus.core.utils.BitmapUtils;
 import ru.diaproject.vkplus.core.utils.DataConstants;
 import ru.diaproject.vkplus.database.model.ColorScheme;
@@ -35,7 +36,7 @@ import ru.diaproject.vkplus.vkcore.queries.VKQuery;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKApi;
 import ru.diaproject.vkplus.vkcore.queries.customs.VKParameter;
 import rx.Observable;
-import rx.functions.Action1;
+import rx.Subscriber;
 
 public class VKProfileDetailsActivity extends ParentActivityNoTitle{
     private static final String USER_FIELDS = "photo_id,verified,sex,bdate,city,country,home_town,has_photo," +
@@ -53,7 +54,7 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
     private ImageView mainImage;
     private RecyclerView dataList;
     private View mainLayout;
-
+    private Subscriber<DataUserExt> subscriber;
     @Override
     protected void initContent(Bundle savedInstanceState, Intent intent) {
         owner = (IDataUser) intent.getSerializableExtra(DataConstants.USER);
@@ -61,19 +62,22 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
 
     @Override
     protected void initBackend(final Bundle savedInstanceState) {
+        subscriber = new SimpleSubscriber<DataUserExt>() {
+
+            @Override
+            public void onNext(DataUserExt dataUserExt) {
+                dataUserExt.setUser(owner);
+                UserDataContainer container = new UserDataContainer(dataUserExt, VKProfileDetailsActivity.this);
+                postInitUI(container, dataUserExt, savedInstanceState);
+            }
+        };
+
         VKMainExecutor.executeRunnable(new Runnable() {
             @Override
             public void run() {
-                VKQuery<DataUserExt> query = VKApi.userInfo(getUser()).get().with(VKParameter.USER_IDS, owner.getId()).and(VKParameter.FIELDS, USER_FIELDS).build();
+                VKQuery<DataUserExt> query = VKApi.users(getUser()).getInfo(owner.getId()).with(VKParameter.FIELDS, USER_FIELDS).build();
                 Observable.from(VKMainExecutor.request(query))
-                        .subscribe(new Action1<DataUserExt>() {
-                            @Override
-                            public void call(DataUserExt dataUserExt) {
-                                dataUserExt.setUser(owner);
-                                UserDataContainer container = new UserDataContainer(dataUserExt, VKProfileDetailsActivity.this);
-                                postInitUI(container, dataUserExt, savedInstanceState);
-                            }
-                        });
+                        .subscribe(subscriber);
             }
         });
 
@@ -86,10 +90,10 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
                     CropPhoto photo = userExt.getCropPhoto();
                     if (photo != null) {
                         String urlPhoto = "".equals(photo.getPhoto().getPhoto807())
-                                ?photo.getPhoto().getPhoto604()
-                                :photo.getPhoto().getPhoto807();
+                                ? photo.getPhoto().getPhoto604()
+                                : photo.getPhoto().getPhoto807();
 
-                        Glide.with(VKProfileDetailsActivity.this).load(urlPhoto).asBitmap().into(new BitmapImageViewTarget(mainImage) {
+                        Glide.with(VKProfileDetailsActivity.this.getApplicationContext()).load(urlPhoto).asBitmap().into(new BitmapImageViewTarget(mainImage) {
                             @Override
                             protected void setResource(Bitmap resource) {
                                 Rect rect = userExt.getCropPhoto().getRect();
@@ -127,7 +131,8 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar()!= null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
@@ -192,5 +197,18 @@ public class VKProfileDetailsActivity extends ParentActivityNoTitle{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_menu, menu);
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscriber!=null)
+            subscriber.unsubscribe();
     }
 }

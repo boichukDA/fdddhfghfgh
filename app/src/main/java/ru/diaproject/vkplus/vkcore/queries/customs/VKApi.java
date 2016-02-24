@@ -1,10 +1,9 @@
 package ru.diaproject.vkplus.vkcore.queries.customs;
 
 import ru.diaproject.vkplus.database.model.User;
-import ru.diaproject.vkplus.vkcore.queries.customs.items.VKNewsItem;
-import ru.diaproject.vkplus.vkcore.queries.customs.items.VKPhotosItem;
-import ru.diaproject.vkplus.vkcore.queries.customs.items.VKUsersExtItem;
-import ru.diaproject.vkplus.vkcore.queries.customs.items.VKUsersItem;
+import ru.diaproject.vkplus.vkcore.queries.customs.newsitems.VKNewsItem;
+import ru.diaproject.vkplus.vkcore.queries.customs.photoitems.VKPhotosItem;
+import ru.diaproject.vkplus.vkcore.queries.customs.useritems.UserManager;
 
 public abstract class VKApi {
 
@@ -12,13 +11,10 @@ public abstract class VKApi {
         return new VKNewsItem(user);
     }
 
-    public static VKUsersItem users(User user){
-        return new VKUsersItem(user);
+    public static UserManager users(User user){
+        return new UserManager(user);
     }
 
-    public static VKUsersExtItem userInfo(User user){
-        return new VKUsersExtItem(user);
-    }
 
     public static VKPhotosItem photos(User user){
         return new VKPhotosItem(user);

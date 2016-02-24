@@ -1,4 +1,4 @@
-package ru.diaproject.vkplus.vkcore.queries.customs.items;
+package ru.diaproject.vkplus.vkcore.queries.customs.photoitems;
 
 
 import ru.diaproject.vkplus.model.attachments.photos.Photos;

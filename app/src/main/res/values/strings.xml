@@ -210,4 +210,18 @@
         <item>@string/profile_relation_married_on_man</item>
         <item>@string/profile_relation_married_on_woman</item>
     </string-array>
+
+    <string name="relative_names_sibling">siblings</string>
+    <string name="relative_names_parent">parents</string>
+    <string name="relative_names_child">children</string>
+    <string name="relative_names_grandparent">grandparents</string>
+    <string name="relative_names_grandchild">grandchildren</string>
+
+    <string-array name="relative_names_array">
+        <item>@string/relative_names_sibling</item>
+        <item>@string/relative_names_parent</item>
+        <item>@string/relative_names_child</item>
+        <item>@string/relative_names_grandparent</item>
+        <item>@string/relative_names_grandchild</item>
+    </string-array>
 </resources>

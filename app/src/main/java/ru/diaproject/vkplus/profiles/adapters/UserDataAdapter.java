@@ -10,6 +10,7 @@ import ru.diaproject.vkplus.profiles.VKProfileDetailsActivity;
 import ru.diaproject.vkplus.profiles.binders.ItemDataBinder;
 import ru.diaproject.vkplus.profiles.binders.KeyValueBinder;
 import ru.diaproject.vkplus.profiles.binders.RelationBinder;
+import ru.diaproject.vkplus.profiles.binders.RelativeBinder;
 import ru.diaproject.vkplus.profiles.model.ProfileItemType;
 import ru.diaproject.vkplus.profiles.model.UserDataContainer;
 
@@ -27,6 +28,7 @@ public class UserDataAdapter<T extends RecyclerView.ViewHolder> extends Recycler
         binders = new HashMap<>();
         binders.put(ProfileItemType.KEY_VALUE, new KeyValueBinder(this.context, container, colorScheme));
         binders.put(ProfileItemType.RELATION, new RelationBinder(this.context, container, colorScheme));
+        binders.put(ProfileItemType.RELATIVE, new RelativeBinder(this.context, container, colorScheme));
     }
 
     @Override
